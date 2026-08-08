@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact SENA</title>
-    <link rel="stylesheet" href="../../CSS/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
 </head>
 
 <body id="body-container">
@@ -26,7 +26,7 @@
 
         <div class="sidebar-nav">
             <p class="sidebar-title">MÓDULOS OPERATIVOS</p>
-            <a href="#" class="sidebar-link active">
+            <a href="contactos.html" class="sidebar-link active">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.01-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.34.03.74-.25 1.02l-2.2 2.2z" />
@@ -184,7 +184,7 @@
 
 
             <div class="modal-body">
-                <form class="operational-form" onsubmit="event.preventDefault();">
+                <form class="operational-form">
                     <div class="client-info-card">
                         <div class="col-left">
                             <div class="info-field"><span class="label">Documento de Identidad</span><span
@@ -317,7 +317,7 @@
                     <p>Vista previa de tu foto de perfil</p>
                 </div>
 
-                <form class="dark-form" onsubmit="event.preventDefault();">
+                <form class="dark-form">
                     <div class="form-group full-width">
                         <label>Foto de Perfil</label>
                         <div class="input-icon-group">
@@ -448,123 +448,9 @@
     </div>
 
 
-    <!-- SCRIPTS DE COMPORTAMIENTO INTERACTIVO COMPLETO -->
-    <script>
-        const modalNuevoContacto = document.getElementById('modal-nuevo-contacto');
-        const modalActualizarDatos = document.getElementById('modal-actualizar-datos');
-        const userTrigger = document.getElementById('sidebar-user-trigger');
-        const userPopover = document.getElementById('user-popover-menu');
+    <!-- Los comportamientos se cargan desde js/app.js y js/modules/contactos.js. -->
 
 
-        // Elementos del Menú Lateral Móvil
-        const btnHamburger = document.getElementById('btn-hamburger');
-        const mainSidebar = document.getElementById('main-sidebar');
-        const sidebarOverlay = document.getElementById('sidebar-overlay');
-
-        // Lógica de apertura/cierre de la Hamburguesa Móvil
-        btnHamburger.addEventListener('click', () => {
-            mainSidebar.classList.add('show');
-            sidebarOverlay.classList.add('show');
-        });
-
-        sidebarOverlay.addEventListener('click', () => {
-            mainSidebar.classList.remove('show');
-            sidebarOverlay.classList.remove('show');
-        });
-
-        // Nuevo Contacto
-        document.getElementById('btn-nuevo-contacto').addEventListener('click', () => modalNuevoContacto.classList.add('show'));
-        document.getElementById('close-contacto-x').addEventListener('click', () => modalNuevoContacto.classList.remove('show'));
-        document.getElementById('btn-descartar-contacto').addEventListener('click', () => modalNuevoContacto.classList.remove('show'));
-
-        // Menú flotante de Perfil (Esquina inferior)
-        userTrigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            userTrigger.classList.toggle('active');
-            userPopover.classList.toggle('show');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!userPopover.contains(e.target) && !userTrigger.contains(e.target)) {
-                userTrigger.classList.remove('active');
-                userPopover.classList.remove('show');
-            }
-        });
-
-        // Abrir Modal de Actualizar Datos y cerrar el menú móvil y popover simultáneamente
-        document.getElementById('item-actualizar-datos').addEventListener('click', () => {
-            userPopover.classList.remove('show');
-            userTrigger.classList.remove('active');
-            mainSidebar.classList.remove('show');
-            sidebarOverlay.classList.remove('show');
-            modalActualizarDatos.classList.add('show');
-        });
-
-        // Cerrar Modal de Actualizar Datos
-        document.getElementById('close-actualizar').addEventListener('click', () => modalActualizarDatos.classList.remove('show'));
-        document.getElementById('btn-cancelar-actualizar').addEventListener('click', () => modalActualizarDatos.classList.remove('show'));
-
-
-
-
-
-
-
-
-
-
-        // Seleccionamos el select y la caja del ticket
-        const selectCierre = document.getElementById('select-cierre-caso');
-        const boxTicket = document.getElementById('box-ticket-seguimiento');
-
-        // Creamos una función reutilizable para evaluar el estado
-        function evaluarEstadoCierre() {
-            if (!selectCierre || !boxTicket) return;
-
-            // Obtenemos el texto de la opción seleccionada
-            const estadoSeleccionado = selectCierre.options[selectCierre.selectedIndex].text.toLowerCase().trim();
-
-            // Si es "cerrado" o "escalado", mostramos el cuadro
-            if (estadoSeleccionado === 'abierto' || estadoSeleccionado === 'escalado') {
-                boxTicket.classList.remove('d-none');
-            } else {
-                // Si es "abierto", lo ocultamos
-                boxTicket.classList.add('d-none');
-            }
-        }
-
-        // 1. Escuchamos los cambios manuales del usuario
-        selectCierre.addEventListener('change', evaluarEstadoCierre);
-
-        // 2. Ejecutamos la función inmediatamente al cargar la página
-        // Esto hace que funcione con "Cerrado" desde el primer instante sin esperar un clic
-        evaluarEstadoCierre();
-
-
-
-
-
-        // Función automática para pintar los estados según el texto de la celda
-        function automatizarEstadosTabla() {
-            const etiquetas = document.querySelectorAll('.col-estado');
-
-            etiquetas.forEach(etiqueta => {
-                const estadoReal = etiqueta.textContent.trim().toLowerCase();
-
-                if (estadoReal === 'abierto' || estadoReal === 'escalado') {
-                    etiqueta.classList.add('estado-pendiente');
-                    etiqueta.classList.remove('estado-resuelto');
-                } else if (estadoReal === 'resuelto') {
-                    etiqueta.classList.add('estado-resuelto');
-                    etiqueta.classList.remove('estado-pendiente');
-                }
-            });
-        }
-
-        // Ejecutar la función inmediatamente al cargar la página
-        automatizarEstadosTabla();
-
-    </script>
 
 
 
@@ -572,5 +458,8 @@
 
 
 </body>
+<script src="../../js/app.js" defer></script>
+<script src="../../js/validaciones.js" defer></script>
+<script src="../../js/modules/contactos.js" defer></script>
 
 </html>

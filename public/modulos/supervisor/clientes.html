@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact SENA</title>
-    <link rel="stylesheet" href="../../CSS/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
 </head>
 
 <body id="body-container">
@@ -27,48 +27,48 @@
         <!-- Módulos Operativos Actualizados -->
         <div class="sidebar-nav">
             <p class="sidebar-title">MÓDULOS OPERATIVOS</p>
-            <a href="#" class="sidebar-link">
+            <a href="panelSupervisor.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H10v-2h4v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
                 </svg>
                 Panel Supervisor
             </a>
-            <a href="#" class="sidebar-link active">
+            <a href="asesores.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
                 </svg>
                 Asesores
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="clientes.html" class="sidebar-link active">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z" />
                 </svg>
                 Clientes
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="campañas.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z" />
                 </svg>
                 Campañas
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="indicadores.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z" />
                 </svg>
                 Indicadores
             </a>
-            <a href="tiempoAgente.html" class="sidebar-link">
+            <a href="tiempoSupervisor.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
                 </svg>
                 Registro de Tiempos
             </a>
-            <a href="historialAgente.html" class="sidebar-link">
+            <a href="historialSupervisor.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" />
@@ -130,83 +130,38 @@
             </button>
         </div>
 
-        <!-- Contenedor del Módulo -->
-        <!-- Contenedor del módulo con pestañas -->
         <div class="module-container">
 
-            <!-- PESTAÑAS DE CONTROL -->
-            <div class="module-tabs">
-                <button class="module-tab-btn active" onclick="switchModuleTab('tab-directorio')">Directorio de
-                    Agentes</button>
-                <button class="module-tab-btn" onclick="switchModuleTab('tab-campanas')">Asignación de Campañas</button>
-            </div>
 
-            <!-- ========================================== -->
-            <!-- VISTA 1: DIRECTORIO DE AGENTES (FOTO 1)    -->
-            <!-- ========================================== -->
-            <div id="tab-directorio" class="module-section active">
-                <!-- Buscador e inicio -->
-                <div class="search-action-bar">
-                    <div class="search-wrapper-full">
+            
+            <div class="top-module-actions">
+                <!-- FILA SUPERIOR CON LOS 3 BOTONES -->
+                <div class="actions-row-top">
+                    <button class="btn-action btn-outline">
                         <svg viewBox="0 0 24 24">
-                            <path
-                                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
                         </svg>
-                        <input type="text" placeholder="Buscar...">
-                    </div>
-                    <button class="btn-add-green">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <span>Descargar Plantilla CSV</span>
+                    </button>
+
+                    <button class="btn-action btn-success" id="btn-carga-csv" type="button">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" />
                         </svg>
-                        Nuevo Agente
+                        <span>Carga Masiva CSV</span>
+                    </button>
+
+                    <button class="btn-action btn-primary" id="btn-nuevo-cliente" type="button">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                        </svg>
+                        <span>Nuevo Cliente</span>
                     </button>
                 </div>
-
-                <!-- Tabla del Directorio -->
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tipo Doc</th>
-                                <th>Identificación</th>
-                                <th>Agente</th>
-                                <th>Correo</th>
-                                <th>Teléfono</th>
-                                <th>Dirección</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Cédula de Ciudadanía</strong></td>
-                                <td><strong class="col-codigo">1102345678</strong></td>
-                                <td>
-                                    <div><span class="col-canal">Juan Porras</span></div>
-                                </td>
-                                <td>juanporras1810@gmail.com</td>
-                                <td>3001234567 <span class="phone-subtext">(3119998877)</span></td>
-                                <td>Carrera 27 # 45-12</td>
-                                <td>
-                                    <button class="btn-edit-action">
-                                        <svg viewBox="0 0 24 24">
-                                            <path
-                                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                                        </svg>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
+            <div class="module-section active" id="sec-asesores">
 
-            <!-- ========================================== -->
-            <!-- VISTA 2: ASIGNACIÓN DE CAMPAÑAS (FOTO 2)  -->
-            <!-- ========================================== -->
-            <div id="tab-campanas" class="module-section">
-                <!-- Buscador, Selector de Campañas y Botón -->
+                <!-- BARRA DE BÚSQUEDA Y FILTRO -->
                 <div class="search-action-bar">
                     <div class="search-wrapper-full">
                         <svg viewBox="0 0 24 24">
@@ -216,6 +171,7 @@
                         <input type="text" placeholder="Buscar...">
                     </div>
 
+                    <!-- CAJA SELECT CORRECTAMENTE CERRADA -->
                     <div class="caja-select-camp">
                         <select class="select-camp-opciones">
                             <option value="">Todas las campañas</option>
@@ -227,35 +183,34 @@
                             <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
                         </svg>
                     </div>
+                </div> <!-- /search-action-bar -->
 
-
-                    <button class="btn-add-green">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
-                        Asignar Campaña
-                    </button>
-                </div>
-
+                <!-- TABLA SEPARADA -->
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
-                                <th>#</th>
-
-                                <th>Agente</th>
-                                <th>Campaña Asignada</th>
+                                <th>Campaña</th>
+                                <th>Teléfono</th>
+                                <th>Nombre Completo</th>
+                                <th>Correo</th>
+                                <th>Dirección</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>1</td>
-
-                                <td><span class="col-canal">Juan Porras</span></td>
-                                <td><span class="col-campana">Retención de Clientes 2026</span></td>
+                                <td><span class="col-campana">Retención de Clientes ...</span></td>
+                                <td>
+                                    3004444444
+                                    <div class="phone-subtext">OPCIONAL: 6076333333</div>
+                                </td>
+                                <td><strong>Carlos Ruiz García</strong></td>
+                                <td>carlos.ruiz@gmail.com</td>
+                                <td>
+                                    Calle 45 # 12-89, Cabecera
+                                    <div class="dir-subtext">Cabecera - Bucaramanga (Santander)</div>
+                                </td>
                                 <td>
                                     <button class="btn-edit-action">
                                         <svg viewBox="0 0 24 24">
@@ -269,12 +224,45 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
 
-        </div>
+            </div> <!-- /module-section -->
+        </div> <!-- /module-container -->
     </main>
 
 
+
+    <!-- MODAL: REGISTRAR NUEVO CLIENTE -->
+    <div class="client-modal-overlay" id="modal-nuevo-cliente" role="dialog" aria-modal="true" aria-labelledby="nuevo-cliente-title" hidden>
+        <div class="client-modal client-modal-large">
+            <div class="client-modal-header"><div class="client-modal-title"><span aria-hidden="true">▣</span><h2 id="nuevo-cliente-title">Registrar Nuevo Cliente en Base de Datos</h2></div><button class="client-modal-close" type="button" data-close-client-modal aria-label="Cerrar">×</button></div>
+            <form id="nuevo-cliente-form">
+                <div class="client-modal-body client-form-grid">
+                    <div class="client-form-field"><label for="cliente-campana">Campaña vinculada</label><select id="cliente-campana" required><option>Retención de Clientes 2026</option><option>Ventas Cruzadas Servicio Premium</option><option>Soporte Técnico Especializado</option></select></div>
+                    <div class="client-form-field"><label for="cliente-tipo-documento">Tipo documento</label><select id="cliente-tipo-documento" required><option>Cédula de Ciudadanía</option><option>Tarjeta de Identidad</option><option>Cédula de Extranjería</option></select></div>
+                    <div class="client-form-field"><label for="cliente-documento">Número documento *</label><input id="cliente-documento" type="text" placeholder="Ej. 1098765432" required></div>
+                    <div class="client-form-field"><label for="cliente-nombre">Nombre completo *</label><input id="cliente-nombre" type="text" placeholder="Nombres y Apellidos" required></div>
+                    <div class="client-form-field"><label for="cliente-correo">Correo electrónico</label><input id="cliente-correo" type="email" placeholder="correo@ejemplo.com"></div>
+                    <div class="client-form-field"><label for="cliente-telefono">Teléfono celular *</label><input id="cliente-telefono" type="tel" placeholder="3001112233" required></div>
+                    <div class="client-form-field"><label for="cliente-telefono-alt">Teléfono alternativo</label><input id="cliente-telefono-alt" type="tel" placeholder="6076667788"></div>
+                    <div class="client-form-field"><label for="cliente-direccion">Dirección física</label><input id="cliente-direccion" type="text" placeholder="Calle 10 # 20-30"></div>
+                    <div class="client-form-field"><label for="cliente-departamento">Departamento</label><select id="cliente-departamento"><option>Santander</option><option>Antioquia</option><option>Cundinamarca</option></select></div>
+                    <div class="client-form-field"><label for="cliente-municipio">Municipio</label><select id="cliente-municipio"><option>Bucaramanga</option><option>Floridablanca</option><option>Girón</option></select></div>
+                    <div class="client-form-field"><label for="cliente-barrio">Barrio</label><select id="cliente-barrio"><option>Cabecera</option><option>Provenza</option><option>Mejoras Públicas</option></select></div>
+                    <div class="client-form-field client-form-full"><label for="cliente-observaciones">Observaciones</label><textarea id="cliente-observaciones" placeholder="Detalles o historial previo del cliente..."></textarea></div>
+                </div>
+                <div class="client-modal-footer"><button class="client-cancel-button" type="button" data-close-client-modal>Cancelar</button><button class="client-save-button" type="submit">✓ Guardar Cliente</button></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: CARGA MASIVA CSV -->
+    <div class="client-modal-overlay" id="modal-carga-csv" role="dialog" aria-modal="true" aria-labelledby="carga-csv-title" hidden>
+        <div class="client-modal client-csv-modal">
+            <div class="client-modal-header"><div class="client-modal-title client-csv-title"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5M5 14v5h14v-5"/></svg></span><h2 id="carga-csv-title">Carga Masiva de Clientes (CSV)</h2></div><button class="client-modal-close" type="button" data-close-client-modal aria-label="Cerrar">×</button></div>
+            <div class="client-csv-body"><p>Sube tu base de datos de clientes en formato <strong>.csv</strong>. Asegúrate de que contenga las columnas correctas según nuestra plantilla.</p><label class="client-csv-dropzone" for="csv-file"><span class="client-upload-icon"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5M5 14v5h14v-5"/></svg></span><strong>Arrastra tu archivo CSV aquí o haz clic para buscar</strong><small>Formatos soportados: .csv</small><input id="csv-file" type="file" accept=".csv,text/csv"></label><a href="#" class="client-template-link" id="download-csv-template">¿No tienes un archivo? Carga datos de ejemplo estructurados</a></div>
+            <div class="client-modal-footer"><button class="client-cancel-button" type="button" data-close-client-modal>Cancelar</button><button class="client-process-button" id="process-csv" type="button" disabled>✓ Procesar e Importar</button></div>
+        </div>
+    </div>
 
     <!-- MODAL 2: ACTUALIZAR DATOS-->
     <div class="modal-overlay" id="modal-actualizar-datos">
@@ -296,7 +284,7 @@
                     <p>Vista previa de tu foto de perfil</p>
                 </div>
 
-                <form class="dark-form" onsubmit="event.preventDefault();">
+                <form class="dark-form">
                     <div class="form-group full-width">
                         <label>Foto de Perfil</label>
                         <div class="input-icon-group">
@@ -427,100 +415,10 @@
     </div>
 
 
-    <!-- SCRIPTS DE COMPORTAMIENTO INTERACTIVO COMPLETO -->
-    <script>
-        // ==========================================
-        // 1. Control de Pestañas
-        // ==========================================
-        function switchModuleTab(tabId) {
-            document.querySelectorAll('.module-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.querySelectorAll('.module-tab-btn').forEach(button => {
-                button.classList.remove('active');
-            });
-
-            const targetSection = document.getElementById(tabId);
-            if (targetSection) targetSection.classList.add('active');
-
-            const activeBtn = Array.from(document.querySelectorAll('.module-tab-btn')).find(btn =>
-                btn.getAttribute('onclick').includes(tabId)
-            );
-            if (activeBtn) activeBtn.classList.add('active');
-        }
-
-        // ==========================================
-        // 2. Menú Hamburguesa en Móviles
-        // ==========================================
-        const btnHamburger = document.getElementById('btn-hamburger');
-        const mainSidebar = document.getElementById('main-sidebar');
-        const sidebarOverlay = document.getElementById('sidebar-overlay');
-
-        if (btnHamburger && mainSidebar && sidebarOverlay) {
-            btnHamburger.addEventListener('click', () => {
-                mainSidebar.classList.add('show');
-                sidebarOverlay.classList.add('show');
-            });
-            sidebarOverlay.addEventListener('click', () => {
-                mainSidebar.classList.remove('show');
-                sidebarOverlay.classList.remove('show');
-            });
-        }
-
-        // ==========================================
-        // 3. Popover del Menú de Usuario (Sidebar)
-        // ==========================================
-        const userTrigger = document.getElementById('sidebar-user-trigger');
-        const userPopover = document.getElementById('user-popover-menu');
-
-        if (userTrigger && userPopover) {
-            userTrigger.addEventListener('click', (e) => {
-                e.stopPropagation(); // Evita que se cierre inmediatamente por el evento del document
-                userPopover.classList.toggle('show');
-            });
-
-            // Cerrar popover si se hace clic en cualquier otro lado
-            document.addEventListener('click', (e) => {
-                if (!userTrigger.contains(e.target) && !userPopover.contains(e.target)) {
-                    userPopover.classList.remove('show');
-                }
-            });
-        }
-
-        // ==========================================
-        // 4. Modal de Actualizar Datos
-        // ==========================================
-        const btnActualizarDatos = document.getElementById('item-actualizar-datos');
-        const modalActualizar = document.getElementById('modal-actualizar-datos');
-        const btnCloseActualizar = document.getElementById('close-actualizar');
-        const btnCancelActualizar = document.getElementById('btn-cancelar-actualizar');
-
-        // Función para abrir modal
-        if (btnActualizarDatos && modalActualizar) {
-            btnActualizarDatos.addEventListener('click', () => {
-                modalActualizar.classList.add('show');
-                if (userPopover) userPopover.classList.remove('show'); // Ocultar popover al abrir modal
-            });
-        }
-
-        // Funciones para cerrar modal
-        const closeModal = () => {
-            if (modalActualizar) modalActualizar.classList.remove('show');
-        };
-
-        if (btnCloseActualizar) btnCloseActualizar.addEventListener('click', closeModal);
-        if (btnCancelActualizar) btnCancelActualizar.addEventListener('click', closeModal);
-
-        // Cerrar haciendo clic en el overlay del modal
-        if (modalActualizar) {
-            modalActualizar.addEventListener('click', (e) => {
-                if (e.target === modalActualizar) {
-                    closeModal();
-                }
-            });
-        }
-    </script>
-
 </body>
+<script src="../../js/app.js" defer></script>
+<script src="../../js/validaciones.js" defer></script>
+<script src="../../js/modules/tabs.js" defer></script>
+<script src="../../js/modules/clientes.js" defer></script>
 
 </html>
