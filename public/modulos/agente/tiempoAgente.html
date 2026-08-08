@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact SENA</title>
-    <link rel="stylesheet" href="../../CSS/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
 </head>
 
 <body id="body-container">
@@ -206,7 +206,7 @@
                     <p>Vista previa de tu foto de perfil</p>
                 </div>
 
-                <form class="dark-form" onsubmit="event.preventDefault();">
+                <form class="dark-form">
                     <div class="form-group full-width">
                         <label>Foto de Perfil</label>
                         <div class="input-icon-group">
@@ -336,66 +336,6 @@
     </div>
 
 
-    <!-- SCRIPTS DE COMPORTAMIENTO INTERACTIVO COMPLETO -->
-    <script>
-        // Elementos del Modal
-        const modalActualizarDatos = document.getElementById('modal-actualizar-datos');
-        const userTrigger = document.getElementById('sidebar-user-trigger');
-        const userPopover = document.getElementById('user-popover-menu');
-
-        // Elementos del Menú Lateral Móvil (Hamburguesa)
-        const btnHamburger = document.getElementById('btn-hamburger');
-        const mainSidebar = document.getElementById('main-sidebar');
-        const sidebarOverlay = document.getElementById('sidebar-overlay');
-
-        // Lógica de apertura/cierre de la Hamburguesa Móvil
-        btnHamburger.addEventListener('click', () => {
-            mainSidebar.classList.add('show');
-            sidebarOverlay.classList.add('show');
-        });
-
-        sidebarOverlay.addEventListener('click', () => {
-            mainSidebar.classList.remove('show');
-            sidebarOverlay.classList.remove('show');
-        });
-
-        // Menú flotante de Perfil (Esquina inferior)
-        userTrigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            userTrigger.classList.toggle('active');
-            userPopover.classList.toggle('show');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!userPopover.contains(e.target) && !userTrigger.contains(e.target)) {
-                userTrigger.classList.remove('active');
-                userPopover.classList.remove('show');
-            }
-        });
-
-        // Abrir Modal de Actualizar Datos y cerrar menús simultáneamente
-        document.getElementById('item-actualizar-datos').addEventListener('click', () => {
-            userPopover.classList.remove('show');
-            userTrigger.classList.remove('active');
-            mainSidebar.classList.remove('show');
-            sidebarOverlay.classList.remove('show');
-            modalActualizarDatos.classList.add('show');
-        });
-
-        // Cerrar Modal de Actualizar Datos
-        document.getElementById('close-actualizar').addEventListener('click', () => modalActualizarDatos.classList.remove('show'));
-        document.getElementById('btn-cancelar-actualizar').addEventListener('click', () => modalActualizarDatos.classList.remove('show'));
-
-        // Soporte para inputs de fecha (showPicker)
-        document.querySelectorAll('.input-date-wrapper').forEach(wrapper => {
-            const inputFecha = wrapper.querySelector('input[type="date"]');
-            wrapper.addEventListener('click', () => {
-                if (typeof inputFecha.showPicker === 'function') {
-                    inputFecha.showPicker();
-                }
-            });
-        });
-    </script>
 
 
 
@@ -403,5 +343,7 @@
 
 
 </body>
+<script src="../../js/app.js" defer></script>
+<script src="../../js/validaciones.js" defer></script>
 
 </html>

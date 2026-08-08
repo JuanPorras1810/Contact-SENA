@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact SENA</title>
-    <link rel="stylesheet" href="../../CSS/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
 </head>
 
 <body id="body-container">
@@ -27,48 +27,48 @@
         <!-- Módulos Operativos Actualizados -->
         <div class="sidebar-nav">
             <p class="sidebar-title">MÓDULOS OPERATIVOS</p>
-            <a href="#" class="sidebar-link active">
+            <a href="panelSupervisor.html" class="sidebar-link active">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H10v-2h4v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
                 </svg>
                 Panel Supervisor
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="asesores.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
                 </svg>
                 Asesores
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="clientes.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z" />
                 </svg>
                 Clientes
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="campañas.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z" />
                 </svg>
                 Campañas
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="indicadores.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z" />
                 </svg>
                 Indicadores
             </a>
-            <a href="tiempoAgente.html" class="sidebar-link">
+            <a href="tiempoSupervisor.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
                 </svg>
                 Registro de Tiempos
             </a>
-            <a href="historialAgente.html" class="sidebar-link">
+            <a href="historialSupervisor.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" />
@@ -339,7 +339,7 @@
                     <p>Vista previa de tu foto de perfil</p>
                 </div>
 
-                <form class="dark-form" onsubmit="event.preventDefault();">
+                <form class="dark-form">
                     <div class="form-group full-width">
                         <label>Foto de Perfil</label>
                         <div class="input-icon-group">
@@ -470,154 +470,11 @@
     </div>
 
 
-    <!-- SCRIPTS DE COMPORTAMIENTO INTERACTIVO COMPLETO -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-
-            // --- 1. CONFIGURACIÓN DE TARJETAS Y TABLAS (DIFERENTES PESTAÑAS) ---
-            const cardColors = {
-                'card-agentes': 'highlight-blue',
-                'card-casos': 'highlight-amber',
-                'card-actividades': 'highlight-purple'
-            };
-
-            const cardIds = Object.keys(cardColors);
-            // Agregamos tanto 'seccion-tabla-actividades' como 'seccion-tabla-bitacora' para prevenir cualquier error de ID
-            const sectionIds = ['seccion-tabla-agentes', 'seccion-tabla-casos', 'seccion-tabla-actividades', 'seccion-tabla-bitacora'];
-
-            // Función para ocultar todas las tablas y mostrar únicamente la seleccionada
-            function showSection(targetId) {
-                sectionIds.forEach(sid => {
-                    const section = document.getElementById(sid);
-                    if (section) {
-                        section.classList.remove('active-section');
-                        section.style.setProperty('display', 'none', 'important'); // Oculta de verdad
-                    }
-                });
-
-                const targetSection = document.getElementById(targetId);
-                if (targetSection) {
-                    targetSection.classList.add('active-section');
-                    targetSection.style.setProperty('display', 'block', 'important'); // Muestra de verdad
-                }
-            }
-
-            // Asignación de eventos de clic a las tarjetas
-            cardIds.forEach(id => {
-                const card = document.getElementById(id);
-                if (card) {
-                    card.addEventListener('click', () => {
-                        // Quitar todos los posibles colores de resaltado de todas las tarjetas
-                        cardIds.forEach(cid => {
-                            const c = document.getElementById(cid);
-                            if (c) {
-                                c.classList.remove('highlight-blue', 'highlight-amber', 'highlight-purple');
-                                c.classList.remove('active-card-init'); // Limpia clase inicial
-                            }
-                        });
-
-                        // Resaltar la tarjeta clickeada con su color correspondiente
-                        const colorClass = cardColors[id];
-                        card.classList.add(colorClass);
-
-                        // Obtener la sección destino mediante el data-target y mostrarla
-                        const targetId = card.getAttribute('data-target');
-                        if (targetId) {
-                            showSection(targetId);
-                        }
-                    });
-                }
-            });
-
-            // --- ESTADO INICIAL AL CARGAR LA PÁGINA ---
-            // Buscamos cuál tarjeta viene pre-activada (por defecto "Seguimiento de Casos")
-            const activeCardInit = document.querySelector('.active-card-init') || document.getElementById('card-casos') || document.getElementById('card-agentes');
-            if (activeCardInit) {
-                // Asigna el color de borde correcto de acuerdo a su ID de tarjeta
-                const defaultColorClass = cardColors[activeCardInit.id];
-                if (defaultColorClass) {
-                    activeCardInit.classList.add(defaultColorClass);
-                }
-
-                const initialTarget = activeCardInit.getAttribute('data-target');
-                if (initialTarget) {
-                    showSection(initialTarget);
-                }
-            }
-
-
-            // --- 2. LÓGICA DE MENÚ HAMBURGUESA (SIDEBAR mobile) ---
-            const btnHamburger = document.getElementById('btn-hamburger');
-            const mainSidebar = document.getElementById('main-sidebar');
-            const sidebarOverlay = document.getElementById('sidebar-overlay');
-
-            if (btnHamburger && mainSidebar && sidebarOverlay) {
-                btnHamburger.addEventListener('click', () => {
-                    mainSidebar.classList.add('show');
-                    sidebarOverlay.classList.add('show');
-                });
-                sidebarOverlay.addEventListener('click', () => {
-                    mainSidebar.classList.remove('show');
-                    sidebarOverlay.classList.remove('show');
-                });
-            }
-
-
-            // --- 3. LÓGICA DE PERFIL USUARIO (POPOVER) ---
-            const userTrigger = document.getElementById('sidebar-user-trigger');
-            const userPopover = document.getElementById('user-popover-menu');
-
-            if (userTrigger && userPopover) {
-                userTrigger.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    userTrigger.classList.toggle('active');
-                    userPopover.classList.toggle('show');
-                });
-
-                // Cerrar el popover automáticamente si se hace clic en cualquier otra parte de la pantalla
-                document.addEventListener('click', (e) => {
-                    if (!userTrigger.contains(e.target) && !userPopover.contains(e.target)) {
-                        userTrigger.classList.remove('active');
-                        userPopover.classList.remove('show');
-                    }
-                });
-            }
-
-
-            // --- 4. LÓGICA DE MODAL ACTUALIZAR DATOS ---
-            const modalActualizarDatos = document.getElementById('modal-actualizar-datos');
-            const btnItemActualizar = document.getElementById('item-actualizar-datos');
-            const btnCloseActualizar = document.getElementById('close-actualizar');
-            const btnCancelarActualizar = document.getElementById('btn-cancelar-actualizar');
-
-            if (btnItemActualizar && modalActualizarDatos) {
-                btnItemActualizar.addEventListener('click', () => {
-                    modalActualizarDatos.classList.add('show');
-                });
-            }
-            if (btnCloseActualizar && modalActualizarDatos) {
-                btnCloseActualizar.addEventListener('click', () => modalActualizarDatos.classList.remove('show'));
-            }
-            if (btnCancelarActualizar && modalActualizarDatos) {
-                btnCancelarActualizar.addEventListener('click', () => modalActualizarDatos.classList.remove('show'));
-            }
-
-
-            // --- 5. SOPORTE PARA INPUTS DE FECHA (Mobile Friendly) ---
-            document.querySelectorAll('.input-date-wrapper').forEach(wrapper => {
-                const inputFecha = wrapper.querySelector('input[type="date"]');
-                if (inputFecha) {
-                    wrapper.addEventListener('click', () => {
-                        if (typeof inputFecha.showPicker === 'function') {
-                            inputFecha.showPicker();
-                        }
-                    });
-                }
-            });
-        });
-    </script>
 
 
 </body>
+<script src="../../js/app.js" defer></script>
+<script src="../../js/validaciones.js" defer></script>
+<script src="../../js/modules/panel.js" defer></script>
 
 </html>
