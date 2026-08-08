@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact SENA</title>
+    <script>
+        try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}
+    </script>
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 
@@ -84,22 +87,23 @@
                 </div>
             </div>
 
-            <div class="sidebar-user" id="sidebar-user-trigger">
+            <div class="sidebar-user" id="sidebar-user-trigger" role="button" tabindex="0" aria-expanded="false">
                 <div class="avatar-container">
-                    <img src="https://cdn-icons-png.flaticon.com/256/12225/12225881.png" class="user-avatar">
+                    <img src="https://cdn-icons-png.flaticon.com/256/12225/12225881.png" class="user-avatar" alt="Avatar del usuario">
                     <div class="status-dot"></div>
                 </div>
                 <div class="user-info">
                     <p>USUARIO ACTUAL</p>
                     <h4>(Nombre usuario)</h4>
                 </div>
+                <svg class="arrow-user-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m7.41 8.59 4.59 4.58 4.59-4.58L18 10l-6 6-6-6z"/></svg>
             </div>
         </div>
     </aside>
 
 
     <main>
-        <div class="header-container">
+        <header class="header-container">
             <div class="text-box">
                 <div class="module-title">
                     <h2>Mi Tiempo</h2>
@@ -114,7 +118,7 @@
                     <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                 </svg>
             </button>
-        </div>
+        </header>
 
         <div class="module-container">
             <div class="filters-container">
@@ -155,7 +159,7 @@
             <div class="table-container">
 
                 <div class="table-container">
-                    <table>
+                    <table class="time-table-agent">
                         <thead>
                             <tr>
                                 <th>FECHA</th>
@@ -168,7 +172,7 @@
                         <tbody>
                             <tr>
                                 <td class="col-codigo"> 01/06/2026</td>
-                                <td class="col-cliente">Juan Porras</td>
+                                 <td class="col-cliente">Juan Porras</td>
                                 <td>
                                     <svg viewBox="0 0 24 24"
                                         style="width: 14px; height: 14px; fill: #0ca678; vertical-align: middle; margin-right: 4px;">
@@ -177,7 +181,7 @@
                                     </svg>
                                     08:23 p. m.
                                 </td>
-                                <td><span class="col-estado estado-resuelto">En sesión</span></td>
+                                 <td><span class="col-estado estado-resuelto session-status">En sesión</span></td>
                                 <td>En curso...</td>
                             </tr>
                         </tbody>
