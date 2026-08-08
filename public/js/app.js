@@ -17,8 +17,30 @@
         const overlay = $('#sidebar-overlay');
         const hamburger = $('#btn-hamburger');
         if (hamburger && sidebar && overlay) {
-            hamburger.addEventListener('click', () => { sidebar.classList.add('show'); overlay.classList.add('show'); });
-            overlay.addEventListener('click', () => { sidebar.classList.remove('show'); overlay.classList.remove('show'); });
+            const sidebarStateKey = 'contact-sena-sidebar-open';
+            const isMobile = () => window.matchMedia('(max-width: 992px)').matches;
+            const readSidebarState = () => { try { return sessionStorage.getItem(sidebarStateKey); } catch { return null; } };
+            const writeSidebarState = open => { try { if (open) sessionStorage.setItem(sidebarStateKey, 'true'); else sessionStorage.removeItem(sidebarStateKey); } catch { /* Storage can be unavailable in restricted browsers. */ } };
+            const setSidebarState = open => {
+                sidebar.classList.toggle('show', open);
+                overlay.classList.toggle('show', open);
+                document.documentElement.classList.toggle('sidebar-should-open', open);
+                hamburger.setAttribute('aria-expanded', String(open));
+                if (open && isMobile()) writeSidebarState(true);
+                if (!open) writeSidebarState(false);
+            };
+
+            if (isMobile() && readSidebarState() === 'true') {
+                sidebar.classList.add('sidebar-restored');
+                setSidebarState(true);
+                requestAnimationFrame(() => sidebar.classList.remove('sidebar-restored'));
+            }
+            hamburger.setAttribute('aria-expanded', String(sidebar.classList.contains('show')));
+            hamburger.addEventListener('click', () => setSidebarState(!sidebar.classList.contains('show')));
+            overlay.addEventListener('click', () => setSidebarState(false));
+            $$('.sidebar-link', sidebar).forEach(link => link.addEventListener('click', () => {
+                if (isMobile()) writeSidebarState(true);
+            }));
         }
 
         const user = $('#sidebar-user-trigger');
@@ -56,11 +78,29 @@
         if (logout) logout.addEventListener('click', () => { window.location.href = '../../Index.html'; });
     };
 
+    const initDateFields = () => {
+        const calendarPath = 'M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z';
+        $$('input[type="date"]').forEach(input => {
+            if (input.closest('.input-date-wrapper')) return;
+            const wrapper = document.createElement('div');
+            wrapper.className = 'input-date-wrapper';
+            input.parentNode.insertBefore(wrapper, input);
+            wrapper.appendChild(input);
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('viewBox', '0 0 24 24');
+            svg.setAttribute('aria-hidden', 'true');
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', calendarPath);
+            svg.appendChild(path);
+            wrapper.appendChild(svg);
+        });
+    };
+
     const initDatePickers = () => $$('.input-date-wrapper').forEach(wrapper => wrapper.addEventListener('click', () => {
         const input = $('input[type="date"]', wrapper);
         if (input && typeof input.showPicker === 'function') input.showPicker();
     }));
 
     window.ContactSena = { $, $$, closeVisibleModals };
-    document.addEventListener('DOMContentLoaded', () => { initNavigation(); initModalControls(); initUserModal(); initDatePickers(); });
+    document.addEventListener('DOMContentLoaded', () => { initNavigation(); initModalControls(); initUserModal(); initDateFields(); initDatePickers(); });
 })();
