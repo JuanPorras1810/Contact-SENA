@@ -757,6 +757,19 @@ td {
     overflow-y: auto;
 }
 
+/* These values are recorded automatically and are not agent-facing fields. */
+.contact-time-grid {
+    display: none !important;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.table-container table {
+    min-width: 920px;
+}
+
 .modal-overlay.show {
     display: flex;
 }
@@ -1082,6 +1095,18 @@ td {
 
 .d-none {
     display: none;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .modal-container-dark {
@@ -2214,8 +2239,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     fill: currentColor;
 }
 
-.time-table th:nth-child(3),
-.time-table td:nth-child(3) {
+.time-table:not(.is-loaded) th:nth-child(3),
+.time-table:not(.is-loaded) td:nth-child(3) {
     display: none;
 }
 
@@ -2228,6 +2253,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: table-cell;
     color: #121c2c !important;
     font-weight: 700;
+    text-align: center;
+}
+
+.time-table .person-content {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.time-table .supervisor-person {
+    vertical-align: middle;
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .time-table .supervisor-person i {
@@ -2262,6 +2300,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .time-table .logout-time svg {
     fill: #ef4444;
+}
+
+.time-entry svg,
+.time-table-agent .time-entry svg {
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+    vertical-align: -2px;
+    fill: currentColor;
+}
+
+.time-entry .login-icon {
+    fill: #0ca678 !important;
+}
+
+.time-entry .logout-icon {
+    fill: #ef4444 !important;
 }
 
 .time-table td:last-child,
@@ -2317,6 +2372,64 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .modal-body-dark {
     scrollbar-color: #2c3d59 #131b29;
+}
+
+/* Solo el modal de gestión usa esta escala de captura. */
+#modal-nuevo-contacto .modal-container {
+    max-width: 620px;
+    max-height: calc(100vh - 40px);
+}
+
+#modal-nuevo-contacto .modal-body {
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+#modal-nuevo-contacto .operational-form .form-group label,
+#modal-nuevo-contacto .operational-selectors-card .form-group label {
+    font-size: 11px;
+    line-height: 1.25;
+}
+
+#modal-nuevo-contacto .operational-form .form-control,
+#modal-nuevo-contacto .operational-selectors-card select {
+    min-height: 42px;
+    height: 42px;
+    box-sizing: border-box;
+    font-size: 13px;
+}
+
+#modal-nuevo-contacto .operational-form textarea.form-control {
+    min-height: 88px;
+    height: 88px;
+}
+
+#modal-nuevo-contacto .operational-footer button {
+    min-height: 42px;
+}
+
+#modal-nuevo-contacto .contact-pdf-controls {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+}
+
+#modal-nuevo-contacto .contact-pdf-controls select {
+    flex: 1;
+}
+
+#modal-nuevo-contacto .contact-pdf-controls button {
+    min-height: 42px;
+    padding: 0 16px;
+}
+
+.empty-assigned-clients {
+    padding: 34px 20px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
 }
 
 /* Escala común para todos los formularios modales. */

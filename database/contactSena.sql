@@ -236,8 +236,8 @@ values('0003', '2026-04-02 08:30:00', '2026-04-02 17:30:00', '09:00:00'),
 
 -- Asignaciones de Llamadas
 insert into asignacionLlamada(conAseAsi, conCliAsi, fecAsi, conAteAsi)
-values(1, 1, '2026-04-01', 1),
-(2, 2, '2026-04-08', 1);
+values(1, 1, '2026-04-01', 0),
+ (2, 2, '2026-04-08', 0);
 
 -- Tipificaciones
 insert into tipificacion(codCamTip, nomTip)
