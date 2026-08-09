@@ -147,7 +147,7 @@
                             <th>Estado</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="assigned-clients-rows">
                         <tr>
 
                             <td class="col-cliente">Gabriel Gómez Vargas</td>
@@ -188,31 +188,38 @@
 
 
             <div class="modal-body">
-                <form class="operational-form">
+                <form class="operational-form" id="contact-form">
                     <div class="client-info-card">
                         <div class="col-left">
                             <div class="info-field"><span class="label">Documento de Identidad</span><span
-                                    class="value"> 1000000003</span></div>
+                                    class="value" id="contact-client-document">-</span></div>
                             <div class="info-field"><span class="label">Nombre del Cliente</span><span
-                                    class="value">Gabriel Gómez Vargas</span></div>
+                                    class="value" id="contact-client-name">-</span></div>
                             <div class="info-field"><span class="label">Teléfono de Contacto</span><span
-                                    class="value">3112223344</span></div>
+                                    class="value" id="contact-client-phone">-</span></div>
                         </div>
                         <div class="col-right">
                             <div class="info-field"><span class="label">Teléfono Alternativo</span><span
-                                    class="value">No registrado</span></div>
+                                    class="value" id="contact-client-phone-alt">No registrado</span></div>
                             <div class="info-field"><span class="label">Correo Electrónico</span><span
-                                    class="value">ggomez@vargas.co</span></div>
+                                    class="value" id="contact-client-email">-</span></div>
                             <div class="info-field"><span class="label">Dirección Residencial</span><span
-                                    class="value">Calle 67 # 9-14, Chapinero</span></div>
+                                    class="value" id="contact-client-address">-</span></div>
                         </div>
                         <div class="observation-highlight-box">
                             <div class="info-field"><span class="label">Observación del Cliente</span></div>
-                            <div class="observation-highlight">Potencial cliente corporativo para fibra simétrica.</div>
+                            <div class="observation-highlight" id="contact-client-observation">Sin observaciones registradas.</div>
                         </div>
                     </div>
-                    <div class="form-group full-width"><label>Motivo del Contacto</label><input type="text"
+                    <div class="form-group full-width"><label>Motivo del Contacto</label><input id="contact-reason" type="text"
                             class="form-control" value="Ventas Cruzadas"></div>
+
+                    <div class="contact-time-grid">
+                        <div class="form-group"><label for="contact-start-date">Fecha de inicio</label><input id="contact-start-date" type="date" readonly></div>
+                        <div class="form-group"><label for="contact-start-time">Hora de inicio</label><input id="contact-start-time" type="time" readonly></div>
+                        <div class="form-group"><label for="contact-end-date">Fecha de cierre</label><input id="contact-end-date" type="date" readonly></div>
+                        <div class="form-group"><label for="contact-end-time">Hora de cierre</label><input id="contact-end-time" type="time" readonly></div>
+                    </div>
 
 
 
@@ -221,7 +228,7 @@
                         <div class="form-group">
                             <label>Canal de Contacto</label>
                             <div class="select-wrapper">
-                                <select class="form-control">
+                                    <select id="contact-channel" class="form-control" required>
                                     <option>Seleccione...</option>
                                 </select>
                                 <svg class="select-icon" viewBox="0 0 24 24">
@@ -233,7 +240,7 @@
                         <div class="form-group">
                             <label>Tipificación Operativa</label>
                             <div class="select-wrapper">
-                                <select class="form-control">
+                                    <select id="contact-typification" class="form-control" required>
                                     <option>Seleccione...</option>
                                 </select>
                                 <svg class="select-icon" viewBox="0 0 24 24">
@@ -262,8 +269,17 @@
 
 
 
-                    <div class="form-group full-width"><label>Observaciones de la Gestión</label><textarea
-                            class="form-control" placeholder="Escriba aquí el resumen detallado..."></textarea>
+                    <div class="form-group full-width"><label for="contact-observation">Observaciones de la Gestión</label><textarea id="contact-observation"
+                            class="form-control" placeholder="Escriba aquí el resumen detallado..." required></textarea>
+                    </div>
+                    <div class="form-group full-width contact-campaign-pdf-field">
+                        <label for="contact-campaign-pdf">PDF de la campaña</label>
+                        <div class="contact-pdf-controls">
+                            <select id="contact-campaign-pdf" class="form-control" disabled>
+                                <option value="">No hay PDF asociado</option>
+                            </select>
+                            <button type="button" id="open-contact-campaign-pdf" class="btn-action" disabled>Ver PDF</button>
+                        </div>
                     </div>
                     <div id="box-ticket-seguimiento" class="ticket-followup-card d-none">
                         <div class="ticket-card-header">
@@ -282,8 +298,8 @@
                             bitácora
                             inicial del Ticket en la plataforma operativa.</p>
                         <div class="form-group">
-                            <label>COMENTARIOS DEL CASO</label>
-                            <textarea class="form-control"
+                            <label for="contact-case-comment">COMENTARIOS DEL CASO</label>
+                            <textarea id="contact-case-comment" class="form-control"
                                 placeholder="Escriba detalladamente los comentarios del caso, requerimientos técnicos, justificación o los detalles específicos del escalamiento..."></textarea>
                         </div>
                     </div>

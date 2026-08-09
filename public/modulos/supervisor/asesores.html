@@ -182,7 +182,7 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="advisors-rows">
                             <tr>
                                 <td><strong>Cédula de Ciudadanía</strong></td>
                                 <td><strong class="col-codigo">1102345678</strong></td>
@@ -254,7 +254,7 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="assignments-rows">
                             <tr>
                                 <td>1</td>
 
@@ -286,7 +286,7 @@
             <div class="client-modal-header"><div class="client-modal-title advisor-modal-title"><span aria-hidden="true">◎</span><h2 id="nuevo-agente-title">Registrar Nuevo Agente / Aprendiz</h2></div><button class="client-modal-close" type="button" data-close-advisor-modal aria-label="Cerrar">×</button></div>
             <form id="nuevo-agente-form">
                 <div class="client-modal-body client-form-grid advisor-form-grid">
-                    <div class="client-form-field"><label for="agente-tipo-documento">Tipo de documento *</label><select id="agente-tipo-documento" required><option>Cédula de Ciudadanía</option><option>Tarjeta de Identidad</option><option>Cédula de Extranjería</option></select></div>
+                    <div class="client-form-field"><label for="agente-tipo-documento">Tipo de documento *</label><select id="agente-tipo-documento" required><option value="1">Cedula de Ciudadania</option><option value="2">Cedula de Extranjeria</option><option value="3">Pasaporte</option></select></div>
                     <div class="client-form-field"><label for="agente-documento">Número de identificación *</label><input id="agente-documento" type="text" placeholder="Ej. 1102345678" required></div>
                     <div class="client-form-field advisor-form-full"><label for="agente-nombre">Nombre completo *</label><input id="agente-nombre" type="text" placeholder="Nombre y Apellidos del Aprendiz" required></div>
                     <div class="client-form-field"><label for="agente-correo">Correo electrónico *</label><input id="agente-correo" type="email" placeholder="ejemplo@correo.com" required></div>
@@ -294,9 +294,9 @@
                     <div class="client-form-field"><label for="agente-telefono">Teléfono principal *</label><input id="agente-telefono" type="tel" placeholder="3001234567" required></div>
                     <div class="client-form-field"><label for="agente-telefono-alt">Teléfono alternativo</label><input id="agente-telefono-alt" type="tel" placeholder="Opcional"></div>
                     <div class="client-form-field advisor-form-full"><label for="agente-direccion">Dirección *</label><input id="agente-direccion" type="text" placeholder="Calle, Carrera, Barrio" required></div>
-                    <div class="client-form-field"><label for="agente-departamento">Departamento *</label><select id="agente-departamento" required><option>Santander</option><option>Antioquia</option><option>Cundinamarca</option></select></div>
-                    <div class="client-form-field"><label for="agente-municipio">Municipio *</label><select id="agente-municipio" required><option>Bucaramanga</option><option>Floridablanca</option><option>Girón</option></select></div>
-                    <div class="client-form-field"><label for="agente-barrio">Barrio *</label><select id="agente-barrio" required><option>Cabecera</option><option>Provenza</option><option>Mejoras Públicas</option></select></div>
+                    <div class="client-form-field"><label for="agente-departamento">Departamento *</label><select id="agente-departamento" required><option value="1">Santander</option><option value="2">Antioquia</option></select></div>
+                    <div class="client-form-field"><label for="agente-municipio">Municipio *</label><select id="agente-municipio" required><option value="1">Municipio A</option><option value="2">Municipio B</option></select></div>
+                    <div class="client-form-field"><label for="agente-barrio">Barrio *</label><select id="agente-barrio" required><option value="1">Barrio A</option><option value="2">Barrio B</option></select></div>
                     <div class="client-form-field advisor-form-full"><label for="agente-avatar">URL de foto de perfil (avatar)</label><input id="agente-avatar" type="url" placeholder="https://images.unsplash.com/... (Opcional)"></div>
                 </div>
                 <div class="client-modal-footer"><button class="client-cancel-button" type="button" data-close-advisor-modal>Cancelar</button><button class="advisor-save-button" type="submit">✓ Registrar Agente</button></div>
