@@ -1,5 +1,11 @@
-const { getIndicators } = require('../models/indicatorModel');
+const { obtenerIndicadores } = require('../models/indicatorModel');
 
-const getIndicatorData = async (req, res) => res.json({ data: await getIndicators(req.query) });
+const obtenerDatosIndicadores = async (req, res) => {
+    const start = req.query.start || new Date().toISOString().slice(0, 10);
+    const end = req.query.end || start;
+    if (start > end) return res.status(400).json({ error: 'El rango de fechas no es válido' });
+    const resultado = await obtenerIndicadores({ start, end });
+    res.json({ data: resultado.rows, summary: resultado.summary });
+};
 
-module.exports = { getIndicatorData };
+module.exports = { obtenerDatosIndicadores };

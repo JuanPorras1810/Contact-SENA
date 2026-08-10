@@ -63,7 +63,7 @@ emaSup varchar(100) NOT NULL,
 dirSup varchar(60) NOT NULL,
 telSup varchar(10) NOT NULL,
 telAltSup varchar(10),
-conSup varchar(60) NOT NULL,
+conSup varchar(200) NOT NULL,
 fotSup varchar(500),
 primary key(idSup),
 foreign key(idTipDocSup) references tipoDocumento(idTipDoc),
@@ -79,7 +79,7 @@ emaAge varchar(100) NOT NULL,
 dirAge varchar(60) NOT NULL,
 telAge varchar(10) NOT NULL,
 telAltAge varchar(10),
-conAge varchar(60) NOT NULL,
+conAge varchar(200) NOT NULL,
 fotAge varchar(500),
 primary key(idAge),
 foreign key(idTipDocAge) references tipoDocumento(idTipDoc),
@@ -116,15 +116,16 @@ nomCam varchar(500) NOT NULL,
 fecIniCam date NOT NULL,
 fecFinCam date NOT NULL,
 proCam varchar(250),
+estadoCam boolean NOT NULL DEFAULT TRUE,
 primary key(codCam)
 );
 
 create table baseDatosCliente(
 conCli int auto_increment,
-idTipDoCli int NOT NULL, 
+idTipDoCli int,
 idBarCli int,
 codCamCli int NOT NULL,
-idCli varchar(11) NOT NULL,
+idCli varchar(11),
 nomCli varchar(60),
 emaCli varchar(100),
 dirCli varchar(60),
@@ -132,7 +133,6 @@ telCli varchar(10) NOT NULL,
 telAltCli varchar(10),
 obsCli varchar(300),
 primary key(conCli),
-unique(idCli),
 foreign key(idTipDoCli) references tipoDocumento(idTipDoc),
 foreign key(idBarCli) references barrio(idBar),
 foreign key(codCamCli) references campana(codCam)
@@ -201,7 +201,7 @@ foreign key(codIntCas) references interaccion(codInt)
 
 -- Supervisores
 insert into supervisor(idSup, idTipDocSup, idBarSup, nomSup, emaSup, dirSup, telSup, telAltSup, conSup, fotSup)
-values('0001', 1, 1, 'Juan Porras', 'juan@gmail.com', 'Calle 1', '3001111111', '3002222222', 'juan123', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUOyqodwhEv9W2Kg1vliivMwE_62tckk9uhTA10Ckl4Q&s=10'),
+values('0001', 1, 1, 'Juan Porras', 'juan@gmail.com', 'Calle 1', '3001111111', '3002222222', 'juan123', 'https://imagenes.elpais.com/resizer/v2/PMSYXYJT4XIGY53XW26FHWMUHY.jpg?auth=b6de54a423cc9a8a8d521519573d8eeb001b045cb275a3118f9200c9cb2c1866&width=980&height=980&smart=true'),
 ('0002', 1, 2, 'Carlos Mendoza', 'carlos.m@gmail.com', 'Av 5', '3159998888', NULL, 'carlos123', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5Oc5BWka_gHSA1ylo22zPPRnmKWuTBR1VkFL5AhO5xw&s=10');
 
 -- Agentes

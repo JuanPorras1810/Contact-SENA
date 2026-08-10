@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact SENA</title>
-    <script>
-        try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}
-    </script>
+    <script>try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}</script>
+    <title>Contactos | Contact SENA</title>
     <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../js/storage.js" defer></script>
+    <script src="../../js/app.js" defer></script>
+    <script src="../../js/validaciones.js" defer></script>
+    <script src="../../js/modules/contactos.js" defer></script>
 </head>
 
 <body id="body-container">
@@ -211,8 +213,8 @@
                             <div class="observation-highlight" id="contact-client-observation">Sin observaciones registradas.</div>
                         </div>
                     </div>
-                    <div class="form-group full-width"><label>Motivo del Contacto</label><input id="contact-reason" type="text"
-                            class="form-control" value="Ventas Cruzadas"></div>
+                    <div class="form-group full-width"><label for="contact-reason">Motivo del Contacto</label><input id="contact-reason" type="text"
+                            class="form-control" value="" readonly aria-readonly="true"></div>
 
                     <div class="contact-time-grid">
                         <div class="form-group"><label for="contact-start-date">Fecha de inicio</label><input id="contact-start-date" type="date" readonly></div>
@@ -229,7 +231,7 @@
                             <label>Canal de Contacto</label>
                             <div class="select-wrapper">
                                     <select id="contact-channel" class="form-control" required>
-                                    <option>Seleccione...</option>
+                                    <option value="">Seleccione...</option>
                                 </select>
                                 <svg class="select-icon" viewBox="0 0 24 24">
                                     <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
@@ -241,7 +243,7 @@
                             <label>Tipificación Operativa</label>
                             <div class="select-wrapper">
                                     <select id="contact-typification" class="form-control" required>
-                                    <option>Seleccione...</option>
+                                    <option value="">Seleccione...</option>
                                 </select>
                                 <svg class="select-icon" viewBox="0 0 24 24">
                                     <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
@@ -253,10 +255,8 @@
                         <div class="form-group">
                             <label>Cierre del Caso</label>
                             <div class="select-wrapper">
-                                <select id="select-cierre-caso" class="form-control select-dinamico-status">
-                                    <option>Cerrado</option>
-                                    <option>Abierto</option>
-                                    <option>Escalado</option>
+                                <select id="select-cierre-caso" class="form-control select-dinamico-status" required>
+                                    <option value="">Seleccione...</option>
                                 </select>
                                 <svg class="select-icon" viewBox="0 0 24 24">
                                     <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
@@ -273,12 +273,9 @@
                             class="form-control" placeholder="Escriba aquí el resumen detallado..." required></textarea>
                     </div>
                     <div class="form-group full-width contact-campaign-pdf-field">
-                        <label for="contact-campaign-pdf">PDF de la campaña</label>
+                        <label for="open-contact-campaign-pdf">Protocolo</label>
                         <div class="contact-pdf-controls">
-                            <select id="contact-campaign-pdf" class="form-control" disabled>
-                                <option value="">No hay PDF asociado</option>
-                            </select>
-                            <button type="button" id="open-contact-campaign-pdf" class="btn-action" disabled>Ver PDF</button>
+                            <button type="button" id="open-contact-campaign-pdf" class="btn-action" disabled>Abrir PDF</button>
                         </div>
                     </div>
                     <div id="box-ticket-seguimiento" class="ticket-followup-card d-none">
@@ -478,8 +475,5 @@
 
 
 </body>
-<script src="../../js/app.js" defer></script>
-<script src="../../js/validaciones.js" defer></script>
-<script src="../../js/modules/contactos.js" defer></script>
 
 </html>

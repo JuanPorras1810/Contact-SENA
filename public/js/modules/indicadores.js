@@ -1,38 +1,67 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const rowsBody = document.getElementById('indicator-rows');
-    const agent = document.getElementById('indicator-agent');
-    const search = document.getElementById('indicator-search-input');
-    const result = document.getElementById('indicator-results');
-    if (!rowsBody || !agent || !search) return;
+    const cuerpoFilas = document.getElementById('indicator-rows');
+    const agente = document.getElementById('indicator-agent');
+    const busqueda = document.getElementById('indicator-search-input');
+    const resultado = document.getElementById('indicator-results');
+    if (!cuerpoFilas || !agente || !busqueda) return;
+    const hoy = new Date(); const fechaLocal = valor => `${valor.getFullYear()}-${String(valor.getMonth() + 1).padStart(2, '0')}-${String(valor.getDate()).padStart(2, '0')}`;
+    const indicatorStart = document.getElementById('indicator-start'); const indicatorEnd = document.getElementById('indicator-end');
+    if (indicatorStart) indicatorStart.value = fechaLocal(hoy); if (indicatorEnd) indicatorEnd.value = fechaLocal(hoy);
 
-    const key = value => String(value || '').trim().split(/\s+/)[0].toLowerCase();
-    const date = value => value ? new Date(`${String(value).slice(0, 10)}T00:00:00`).toLocaleDateString('es-CO') : '';
-    const emptyMetrics = () => ['metric-contacts', 'metric-resolved', 'metric-time', 'metric-tickets'].forEach(id => { const element = document.getElementById(id); if (element) element.textContent = '0'; });
-    const render = data => {
-        rowsBody.replaceChildren();
-        let calls = 0; let resolved = 0; let process = 0; let unmanaged = 0;
-        data.forEach(item => {
-            calls += Number(item.interactions || 0); resolved += Number(item.resolved || 0); process += Number(item.inProgress || 0); unmanaged += Number(item.unmanaged || 0);
-            const row = document.createElement('tr');
-            row.dataset.agent = key(item.agent);
-            row.dataset.search = `${item.agent} ${item.date} ${item.agentId}`.toLowerCase();
-            row.innerHTML = `<td>${date(item.date)}</td><td><div class="indicator-agent-name"><i></i><div><strong>${item.agent || ''}</strong><em>ID: ${item.agentId || ''}</em></div></div></td><td class="indicator-number">${item.interactions || 0}</td><td>0m 00s</td><td><span class="indicator-badge badge-resolved">${item.resolved || 0} Resueltos</span></td><td><span class="indicator-badge badge-process">${item.inProgress || 0} En proceso</span></td><td><span class="indicator-badge badge-unmanaged">${item.unmanaged || 0} Sin gestión</span></td><td>0m 00s</td>`;
-            rowsBody.appendChild(row);
+    const formatearFecha = valor => valor ? new Date(`${String(valor).slice(0, 10)}T00:00:00`).toLocaleDateString('es-CO') : '';
+    const configurarTarjetas = () => {
+        const contenedor = document.querySelector('.indicator-metrics');
+        const tarjetas = [...document.querySelectorAll('.indicator-metric')];
+        if (contenedor && tarjetas.length < 4) contenedor.appendChild(tarjetas[2].cloneNode(true));
+        const tarjetasFinales = [...document.querySelectorAll('.indicator-metric')];
+        tarjetasFinales[2]?.classList.remove('metric-purple'); tarjetasFinales[2]?.classList.add('metric-orange');
+        [['CANTIDAD DE CONTACTOS', 'metric-contacts', 'Interacción con el cliente'], ['CASOS RESUELTOS', 'metric-resolved', 'Cerrado'], ['CASOS EN PROCESO', 'metric-open', 'Abierto'], ['CASOS SIN GESTIÓN', 'metric-escalated', 'Escalado']].forEach(([titulo, id, detalle], indice) => {
+            const tarjeta = tarjetasFinales[indice];
+            if (!tarjeta) return;
+            tarjeta.querySelector('span').textContent = titulo;
+            tarjeta.querySelector('strong').id = id;
+            tarjeta.querySelector('small').textContent = detalle;
         });
-        const metrics = { 'metric-contacts': calls, 'metric-resolved': resolved, 'metric-time': '0m 00s', 'metric-tickets': process + unmanaged };
-        Object.entries(metrics).forEach(([id, value]) => { const element = document.getElementById(id); if (element) element.textContent = value; });
     };
-    const filter = () => { let count = 0; [...rowsBody.querySelectorAll('tr')].forEach(row => { const visible = (agent.value === 'all' || row.dataset.agent === agent.value) && (!search.value.trim() || row.dataset.search.includes(search.value.trim().toLowerCase())); row.hidden = !visible; if (visible) count++; }); if (result) result.textContent = `${count} ${count === 1 ? 'resultado' : 'resultados'}`; };
-    const load = async () => {
-        rowsBody.replaceChildren();
-        emptyMetrics();
+    const limpiarMetricas = () => ['metric-contacts', 'metric-resolved', 'metric-open', 'metric-escalated'].forEach(identificador => { const elemento = document.getElementById(identificador); if (elemento) elemento.textContent = '0'; });
+    const renderizar = datos => {
+        cuerpoFilas.replaceChildren();
+        let llamadas = 0; let resueltos = 0; let enProceso = 0; let sinGestion = 0;
+        datos.forEach(elemento => {
+            llamadas += Number(elemento.interactions || 0); resueltos += Number(elemento.resolved || 0); enProceso += Number(elemento.inProgress || 0); sinGestion += Number(elemento.unmanaged || 0);
+            const fila = document.createElement('tr');
+            fila.dataset.agent = String(elemento.agentId || '');
+            fila.dataset.search = `${elemento.agent} ${elemento.date} ${elemento.agentId}`.toLowerCase();
+            const formatearDuracion = segundos => { const total = Math.max(0, Math.floor(Number(segundos || 0))); const horas = Math.floor(total / 3600); const minutos = Math.floor((total % 3600) / 60); const segundosRestantes = total % 60; return `${String(horas).padStart(2, '0')}h ${String(minutos).padStart(2, '0')}m ${String(segundosRestantes).padStart(2, '0')}s`; };
+            fila.innerHTML = `<td>${formatearFecha(elemento.date)}</td><td><div class="indicator-agent-name"><i></i><div><strong>${elemento.agent || ''}</strong><em>ID: ${elemento.agentId || ''}</em></div></div></td><td class="indicator-number">${elemento.interactions || 0}</td><td>${formatearDuracion(elemento.connectionSeconds)}</td><td><span class="indicator-badge badge-resolved">${elemento.resolved || 0} Cerrado</span></td><td><span class="indicator-badge badge-process">${elemento.inProgress || 0} Abierto</span></td><td><span class="indicator-badge badge-unmanaged">${elemento.unmanaged || 0} Escalado</span></td><td>${formatearDuracion(elemento.averageSeconds)}</td>`;
+            cuerpoFilas.appendChild(fila);
+        });
+        const metricas = { 'metric-contacts': llamadas, 'metric-resolved': resueltos, 'metric-open': enProceso, 'metric-escalated': sinGestion };
+        Object.entries(metricas).forEach(([identificador, valor]) => { const elemento = document.getElementById(identificador); if (elemento) elemento.textContent = valor; });
+        if (!datos.length) cuerpoFilas.innerHTML = '<tr><td colspan="8" class="empty-table-state">No hay indicadores para mostrar.</td></tr>';
+    };
+    const filtrar = () => { let conteo = 0; [...cuerpoFilas.querySelectorAll('tr')].forEach(fila => { const visible = (agente.value === 'all' || fila.dataset.agent === agente.value) && (!busqueda.value.trim() || fila.dataset.search.includes(busqueda.value.trim().toLowerCase())); fila.hidden = !visible; if (visible) conteo++; }); if (resultado) resultado.textContent = `${conteo} ${conteo === 1 ? 'resultado' : 'resultados'}`; };
+    const cargar = async () => {
+        cuerpoFilas.replaceChildren();
+        limpiarMetricas();
         try {
-            const response = await fetch('/api/indicadores');
-            if (!response.ok) throw new Error('No se pudieron cargar los indicadores');
-            const payload = await response.json();
-            render(payload.data || []);
-            filter();
-        } catch (error) { console.error(error); filter(); }
+            const start = document.getElementById('indicator-start')?.value;
+            const end = document.getElementById('indicator-end')?.value;
+            const params = new URLSearchParams(); if (start) params.set('start', start); if (end) params.set('end', end);
+            const respuesta = await fetch(`/api/indicadores?${params}`);
+            if (!respuesta.ok) throw new Error('No se pudieron cargar los indicadores');
+            const datosRespuesta = await respuesta.json();
+            renderizar(datosRespuesta.data || []);
+            filtrar();
+        } catch (error) { console.error(error); filtrar(); }
     };
-    agent.addEventListener('change', filter); search.addEventListener('input', filter); load();
+    const cargarAgentes = async () => {
+        const respuesta = await fetch('/api/asesores');
+        if (!respuesta.ok) throw new Error('No se pudieron cargar los agentes');
+        const datos = await respuesta.json();
+        const agentes = [...new Map((datos.data || []).map(item => [String(item.id), item])).values()];
+        agente.replaceChildren(new Option('-- Todos los Agentes --', 'all'), ...agentes.map(item => new Option(item.name, item.id)));
+    };
+    configurarTarjetas(); document.getElementById('indicator-start')?.addEventListener('change', cargar); document.getElementById('indicator-end')?.addEventListener('change', cargar); agente.addEventListener('change', filtrar); busqueda.addEventListener('input', filtrar); cargar();
+    cargarAgentes().catch(error => console.error(error));
 });

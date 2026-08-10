@@ -1,8 +1,8 @@
 const express = require('express');
-const { getIndicatorData } = require('../controllers/indicatorController');
-const { asyncHandler } = require('../utils/http');
-const { authenticate, requireRole } = require('../middleware/auth');
+const { obtenerDatosIndicadores } = require('../controllers/indicatorController');
+const { manejadorAsincrono } = require('../utils/http');
+const { autenticar, requerirRol } = require('../middleware/auth');
 
 const router = express.Router();
-router.get('/', authenticate, requireRole('supervisor'), asyncHandler(getIndicatorData));
+router.get('/', autenticar, requerirRol('supervisor'), manejadorAsincrono(obtenerDatosIndicadores));
 module.exports = router;

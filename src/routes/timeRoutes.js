@@ -1,9 +1,9 @@
 const express = require('express');
-const { listSupervisorTimes, listAgentTimes } = require('../controllers/timeController');
-const { asyncHandler } = require('../utils/http');
-const { authenticate, requireRole } = require('../middleware/auth');
+const { listarTiemposSupervisor, listarTiemposAgente } = require('../controllers/timeController');
+const { manejadorAsincrono } = require('../utils/http');
+const { autenticar, requerirRol } = require('../middleware/auth');
 
 const router = express.Router();
-router.get('/supervisor', authenticate, requireRole('supervisor'), asyncHandler(listSupervisorTimes));
-router.get('/agente', authenticate, requireRole('agente'), asyncHandler(listAgentTimes));
+router.get('/supervisor', autenticar, requerirRol('supervisor'), manejadorAsincrono(listarTiemposSupervisor));
+router.get('/agente', autenticar, requerirRol('agente'), manejadorAsincrono(listarTiemposAgente));
 module.exports = router;

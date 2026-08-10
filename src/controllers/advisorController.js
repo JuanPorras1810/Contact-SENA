@@ -1,5 +1,5 @@
-const { listAdvisors } = require('../models/advisorModel');
+const { listarAsesores } = require('../models/advisorModel');
 
-const getAdvisors = async (req, res) => res.json({ data: await listAdvisors() });
+const obtenerAsesores = async (req, res) => res.json({ data: await listarAsesores() });
 
-module.exports = { getAdvisors };
+module.exports = { obtenerAsesores };

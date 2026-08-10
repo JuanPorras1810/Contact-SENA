@@ -1,58 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const grid = document.querySelector('.campaigns-grid');
-    const count = document.querySelector('.campaign-count');
-    const modal = document.getElementById('campaign-modal');
-    const form = document.getElementById('campaign-form');
-    const open = document.getElementById('open-campaign-modal');
+    const grid = document.querySelector('.campaigns-grid'); const count = document.querySelector('.campaign-count'); const modal = document.getElementById('campaign-modal'); const form = document.getElementById('campaign-form'); const open = document.getElementById('open-campaign-modal');
     if (!modal || !form || !open) return;
-
-    const title = document.getElementById('campaign-modal-title');
-    const save = form.querySelector('.campaign-save');
-    const file = document.getElementById('campaign-file');
-    let editingCard = null;
-    const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
-    const formatDate = value => value ? new Date(`${value}T00:00:00`).toLocaleDateString('es-CO') : '';
-
-    const bindCards = () => document.querySelectorAll('.campaign-more').forEach(button => button.addEventListener('click', () => edit(button.closest('.campaign-card'))));
-    const loadCampaigns = async () => {
-        if (!grid) return;
-        try {
-            const response = await fetch('/api/campanas');
-            if (!response.ok) throw new Error('No se pudieron cargar las campañas');
-            const { data } = await response.json();
-            grid.replaceChildren();
-            data.forEach(campaign => {
-                const card = document.createElement('article');
-                const start = String(campaign.startDate).slice(0, 10);
-                const end = String(campaign.endDate).slice(0, 10);
-                const scheduled = new Date(`${start}T00:00:00`) > new Date();
-                card.className = 'campaign-card';
-                card.dataset.start = start;
-                card.dataset.end = end;
-                card.innerHTML = `<div class="campaign-card-top"><span class="campaign-status ${scheduled ? 'scheduled-status' : 'active-status'}"><i></i>${scheduled ? 'Programada' : 'Activa'}</span><button class="campaign-more" type="button" aria-label="Configurar campaña">•••</button></div><h4>${escapeHtml(campaign.name)}</h4><div class="campaign-date">${formatDate(start)} <b>→</b> ${formatDate(end)}</div><div class="campaign-card-footer"><span><strong>${campaign.typificationCount || 0}</strong> tipificaciones</span><span class="campaign-pdf">${campaign.fileUrl ? 'PDF' : ''}</span></div>`;
-                grid.appendChild(card);
-            });
-            if (count) count.textContent = `${data.length} campañas`;
-            bindCards();
-        } catch (error) {
-            grid.replaceChildren();
-            if (count) count.textContent = '0 campañas';
-            console.error(error);
-        }
+    const title = document.getElementById('campaign-modal-title'); const save = form.querySelector('.campaign-save'); const file = document.getElementById('campaign-file'); let editingId = null;
+    const defaults = ['Contesto - Interesado', 'Contesto - No Interesado', 'Agendado / Agendar Rellamada', 'Tercero / No Titular', 'No Contesta', 'Ocupado', 'Buzón de Voz', 'Número Equivocado', 'Llamada Cortada'];
+    const escaparHtml = valor => String(valor ?? '').replace(/[&<>"']/g, caracter => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[caracter]));
+    const formatearFecha = valor => valor ? new Date(`${String(valor).slice(0, 10)}T00:00:00`).toLocaleDateString('es-CO') : '';
+    const progresoCampana = (inicio, fin) => { const ahora = new Date(); const fechaInicio = new Date(`${inicio}T00:00:00`); const fechaFin = new Date(`${fin}T23:59:59`); if (ahora <= fechaInicio) return 0; if (ahora >= fechaFin) return 100; return Math.round(((ahora - fechaInicio) / (fechaFin - fechaInicio)) * 100); };
+    const fechaActual = () => { const valor = new Date(); return `${valor.getFullYear()}-${String(valor.getMonth() + 1).padStart(2, '0')}-${String(valor.getDate()).padStart(2, '0')}`; };
+    const limpiarTipificacionesPersonalizadas = () => document.querySelectorAll('.typification[data-custom="true"]').forEach(elemento => elemento.remove());
+    const crearTipificacion = nombre => { const etiqueta = document.createElement('label'); etiqueta.className = 'typification selected'; etiqueta.dataset.custom = 'true'; const entrada = document.createElement('input'); entrada.type = 'checkbox'; entrada.value = nombre; entrada.checked = true; etiqueta.append(entrada, `✓ ${nombre}`); entrada.addEventListener('change', event => event.target.closest('.typification').classList.toggle('selected', event.target.checked)); document.querySelector('.typification-list')?.appendChild(etiqueta); };
+    const establecerTipificaciones = nombres => { limpiarTipificacionesPersonalizadas(); const seleccionadas = new Set(nombres); const predeterminadas = new Set([...document.querySelectorAll('.typification input')].map(entrada => entrada.value)); [...seleccionadas].filter(nombre => !predeterminadas.has(nombre)).forEach(crearTipificacion); document.querySelectorAll('.typification input').forEach(entrada => { entrada.checked = seleccionadas.has(entrada.value); entrada.closest('.typification').classList.toggle('selected', entrada.checked); }); };
+    const tipificacionesSeleccionadas = () => [...document.querySelectorAll('.typification input:checked')].map(entrada => entrada.value);
+    const enlazarTarjetas = () => document.querySelectorAll('.campaign-more').forEach(boton => boton.addEventListener('click', () => editar(boton.closest('.campaign-card'))));
+    const cargarCampanas = async () => {
+        const response = await fetch('/api/campanas'); if (!response.ok) throw new Error('No se pudieron cargar las campañas'); const { data } = await response.json(); grid?.replaceChildren();
+        (data || []).forEach(campana => { const tarjeta = document.createElement('article'); const inicio = String(campana.startDate).slice(0, 10); const fin = String(campana.endDate).slice(0, 10); const estado = campana.active ? 'Activa' : 'Pausada'; const progreso = progresoCampana(inicio, fin); tarjeta.className = 'campaign-card'; tarjeta.dataset.id = campana.id; tarjeta.dataset.start = inicio; tarjeta.dataset.end = fin; tarjeta.dataset.status = estado; tarjeta.dataset.file = campana.fileUrl || ''; tarjeta.innerHTML = `<div class="campaign-card-top"><span class="campaign-status ${estado === 'Activa' ? 'active-status' : 'scheduled-status'}"><i></i>${escaparHtml(estado)}</span><button class="campaign-more" type="button" aria-label="Editar campaña">✎</button></div><span class="campaign-eyebrow">Campaña operativa</span><h4>${escaparHtml(campana.name)}</h4><div class="campaign-date"><span class="campaign-date-icon" aria-hidden="true">▣</span><time>${formatearFecha(inicio)}</time><b>→</b><time>${formatearFecha(fin)}</time></div><div class="campaign-progress" role="progressbar" aria-label="Progreso de la campaña" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progreso}"><span style="width: ${progreso}%"></span></div><div class="campaign-progress-meta"><span>Avance del periodo</span><strong>${progreso}%</strong></div><div class="campaign-card-footer"><span><strong>${campana.typificationCount || 0}</strong> tipificaciones</span>${campana.fileUrl ? `<a class="campaign-pdf" href="${escaparHtml(campana.fileUrl)}" target="_blank" rel="noopener">PDF ↗</a>` : '<span class="campaign-no-pdf">Sin PDF</span>'}</div>`; grid?.appendChild(tarjeta); }); if (count) count.textContent = `${(data || []).length} campañas`; enlazarTarjetas();
     };
-
-    const close = () => { modal.hidden = true; document.body.classList.remove('modal-open'); open.focus(); };
-    const reset = () => { editingCard = null; form.reset(); title.textContent = 'Crear Nueva Campaña Operativa'; save.textContent = '✓ Guardar Campaña'; file.required = true; document.getElementById('file-label').textContent = 'Arrastra y suelta tu archivo PDF aquí'; document.getElementById('created-typifications').hidden = true; };
-    const show = () => { reset(); modal.hidden = false; document.body.classList.add('modal-open'); document.getElementById('campaign-name').focus(); };
-    const edit = card => { editingCard = card; document.getElementById('campaign-name').value = card.querySelector('h4').textContent; document.getElementById('campaign-start').value = card.dataset.start; document.getElementById('campaign-end').value = card.dataset.end; title.textContent = 'Configurar Campaña Existente'; file.required = false; document.getElementById('created-typifications').hidden = false; modal.hidden = false; document.body.classList.add('modal-open'); };
-
-    open.addEventListener('click', show);
-    document.getElementById('close-campaign-modal').addEventListener('click', close);
-    document.getElementById('cancel-campaign').addEventListener('click', close);
-    modal.addEventListener('click', event => { if (event.target === modal) close(); });
-    document.querySelectorAll('.typification input').forEach(input => input.addEventListener('change', event => event.target.closest('.typification').classList.toggle('selected', event.target.checked)));
-    document.getElementById('add-typification').addEventListener('click', () => { const input = document.getElementById('custom-typification-input'); const value = input.value.trim(); if (!value) return; const label = document.createElement('label'); label.className = 'typification selected'; label.innerHTML = `<input type="checkbox" value="${escapeHtml(value)}" checked>✓ ${escapeHtml(value)}`; document.querySelector('.typification-list').appendChild(label); input.value = ''; });
-    file.addEventListener('change', event => { if (event.target.files[0]) document.getElementById('file-label').textContent = event.target.files[0].name; });
-    form.addEventListener('submit', async event => { event.preventDefault(); const name = document.getElementById('campaign-name').value.trim(); const start = document.getElementById('campaign-start').value; const end = document.getElementById('campaign-end').value; if (!Validaciones.validateDateRange(start, end)) return; if (editingCard) { editingCard.dataset.start = start; editingCard.dataset.end = end; editingCard.querySelector('h4').textContent = name; editingCard.querySelector('.campaign-date').innerHTML = `${formatDate(start)} <b>→</b> ${formatDate(end)}`; close(); return; } try { const formData = new FormData(); formData.append('name', name); formData.append('startDate', start); formData.append('endDate', end); if (file.files[0]) formData.append('file', file.files[0]); const response = await fetch('/api/campanas', { method: 'POST', body: formData }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'No se pudo guardar la campaña'); close(); await loadCampaigns(); } catch (error) { alert(error.message); } });
-    loadCampaigns();
+    const close = () => { modal.hidden = true; document.body.classList.remove('modal-open'); };
+    const reiniciar = () => { editingId = null; form.reset(); limpiarTipificacionesPersonalizadas(); document.getElementById('campaign-start').min = fechaActual(); document.getElementById('campaign-start').value = fechaActual(); document.getElementById('campaign-status').value = 'Activa'; establecerTipificaciones(defaults); title.textContent = 'Crear Nueva Campaña Operativa'; save.textContent = '✓ Guardar Campaña'; file.required = false; document.getElementById('created-typifications').hidden = true; };
+    const editar = async tarjeta => { editingId = tarjeta.dataset.id; document.getElementById('campaign-name').value = tarjeta.querySelector('h4').textContent; document.getElementById('campaign-start').value = tarjeta.dataset.start; document.getElementById('campaign-start').min = fechaActual(); document.getElementById('campaign-end').value = tarjeta.dataset.end; document.getElementById('campaign-status').value = tarjeta.dataset.status === 'Pausada' ? 'Pausada' : 'Activa'; file.required = false; document.getElementById('created-typifications').hidden = false; try { const response = await fetch(`/api/campanas/${editingId}/tipificaciones`); const payload = await response.json(); establecerTipificaciones((payload.data || []).map(item => item.name)); } catch {} title.textContent = 'Editar Campaña Operativa'; save.textContent = '✓ Actualizar Campaña'; modal.hidden = false; document.body.classList.add('modal-open'); };
+    open.addEventListener('click', () => { reiniciar(); modal.hidden = false; document.body.classList.add('modal-open'); document.getElementById('campaign-name').focus(); }); document.getElementById('close-campaign-modal').addEventListener('click', close); document.getElementById('cancel-campaign').addEventListener('click', close);
+    document.getElementById('add-typification').addEventListener('click', () => { const input = document.getElementById('custom-typification-input'); const value = input.value.trim(); const existe = [...document.querySelectorAll('.typification input')].some(entrada => entrada.value.trim().toLowerCase() === value.toLowerCase()); if (!value || existe) return; crearTipificacion(value); input.value = ''; });
+    document.querySelectorAll('.typification input').forEach(input => input.addEventListener('change', event => event.target.closest('.typification').classList.toggle('selected', event.target.checked))); file.addEventListener('change', event => { const selected = event.target.files[0]; if (selected && (selected.type !== 'application/pdf' || selected.size > 10 * 1024 * 1024)) { alert('Selecciona un PDF de máximo 10 MB.'); event.target.value = ''; return; } if (selected) document.getElementById('file-label').textContent = selected.name; });
+    form.addEventListener('submit', async event => { event.preventDefault(); const inicio = document.getElementById('campaign-start').value; const fin = document.getElementById('campaign-end').value; if (inicio < fechaActual() || !Validaciones.rangoFechasValido(inicio, fin)) return; const formData = new FormData(); formData.append('name', document.getElementById('campaign-name').value.trim()); formData.append('startDate', inicio); formData.append('endDate', fin); formData.append('status', document.getElementById('campaign-status').value); formData.append('typifications', JSON.stringify(tipificacionesSeleccionadas())); if (file.files[0]) formData.append('file', file.files[0]); try { const response = await fetch(editingId ? `/api/campanas/${editingId}` : '/api/campanas', { method: editingId ? 'PATCH' : 'POST', body: formData }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'No se pudo guardar la campaña'); close(); reiniciar(); await cargarCampanas(); } catch (error) { alert(error.message); } });
+    document.getElementById('campaign-start').min = fechaActual(); cargarCampanas().catch(error => console.error(error));
 });

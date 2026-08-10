@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}</script>
     <title>Registro de Tiempos | Contact SENA</title>
-    <script>
-        try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}
-    </script>
     <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../js/storage.js" defer></script>
+    <script src="../../js/app.js" defer></script>
+    <script src="../../js/validaciones.js" defer></script>
+    <script src="../../js/modules/tiempos.js" defer></script>
 </head>
 <body id="body-container">
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
@@ -221,7 +223,4 @@
 
 
 </body>
-<script src="../../js/app.js" defer></script>
-<script src="../../js/validaciones.js" defer></script>
-<script src="../../js/modules/tiempos.js" defer></script>
 </html>

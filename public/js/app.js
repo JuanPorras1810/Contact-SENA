@@ -1,56 +1,56 @@
 (() => {
     'use strict';
 
-    const $ = (selector, root = document) => root.querySelector(selector);
-    const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-    const getStoredUser = () => { try { return JSON.parse(localStorage.getItem('contact-sena-user') || 'null'); } catch { return null; } };
-    const token = () => localStorage.getItem('contact-sena-token');
+    const seleccionar = (selector, raiz = document) => raiz.querySelector(selector);
+    const seleccionarTodos = (selector, raiz = document) => [...raiz.querySelectorAll(selector)];
+    const $ = seleccionar;
+    const $$ = seleccionarTodos;
+    let usuarioEnMemoria = null;
+    const cargarSesion = async () => { try { const response = await fetch('/api/auth/session'); if (!response.ok) return null; const payload = await response.json(); usuarioEnMemoria = payload.user || null; return usuarioEnMemoria; } catch { return null; } };
+    const sesionLista = cargarSesion();
+    const obtenerUsuarioAlmacenado = () => usuarioEnMemoria;
     const nativeFetch = window.fetch.bind(window);
     window.fetch = (input, init = {}) => {
         const url = typeof input === 'string' ? input : input.url;
-        if (!url.startsWith('/api/auth/login')) {
-            const headers = new Headers(init.headers || (input instanceof Request ? input.headers : undefined));
-            if (token()) headers.set('Authorization', `Bearer ${token()}`);
-            init = { ...init, headers };
-        }
+        init = { ...init, credentials: init.credentials || 'same-origin' };
         return nativeFetch(input, init);
     };
-    const enforceModuleRole = () => {
-        const user = getStoredUser();
+    const enforceModuleRole = async () => {
+        const user = await sesionLista;
         const path = window.location.pathname.toLowerCase();
         const expectedRole = path.includes('/modulos/supervisor/') ? 'supervisor' : path.includes('/modulos/agente/') ? 'agente' : null;
-        if (expectedRole && (!user || user.role !== expectedRole || !token())) window.location.href = '../../Index.html';
+        if (expectedRole && (!user || user.role !== expectedRole)) window.location.href = '../../Index.html';
     };
-    const applyStoredProfile = () => {
-        const user = getStoredUser();
+    const aplicarPerfilAlmacenado = () => {
+        const user = obtenerUsuarioAlmacenado();
         if (!user) return;
-        $$('.user-info h4').forEach(element => { element.textContent = user.name || 'Usuario'; });
-        $$('.user-avatar').forEach(image => { if (user.photo) image.src = user.photo; image.alt = `Avatar de ${user.name || 'usuario'}`; });
-        $$('.avatar-preview-circle').forEach(image => { if (user.photo) image.src = user.photo; image.alt = `Foto de perfil de ${user.name || 'usuario'}`; });
+        seleccionarTodos('.user-info h4').forEach(elemento => { elemento.textContent = user.name || 'Usuario'; });
+        seleccionarTodos('.user-avatar').forEach(imagen => { if (user.photo) imagen.src = user.photo; imagen.alt = `Avatar de ${user.name || 'usuario'}`; });
+        seleccionarTodos('.avatar-preview-circle').forEach(imagen => { if (user.photo) imagen.src = user.photo; imagen.alt = `Foto de perfil de ${user.name || 'usuario'}`; });
     };
-    const refreshStoredProfile = async () => {
-        const user = getStoredUser();
+    const actualizarPerfilAlmacenado = async () => {
+        const user = await sesionLista;
         if (!user?.id || !user?.role) return;
         try {
             const response = await fetch(`/api/auth/profile?id=${encodeURIComponent(user.id)}&role=${encodeURIComponent(user.role)}`);
             if (!response.ok) return;
             const payload = await response.json();
-            localStorage.setItem('contact-sena-user', JSON.stringify(payload.user));
-            if (payload.token) localStorage.setItem('contact-sena-token', payload.token);
-            applyStoredProfile();
+            usuarioEnMemoria = payload.user || null;
+            aplicarPerfilAlmacenado();
         } catch { /* The cached profile remains available while the API is offline. */ }
     };
 
-    const closeVisibleModals = () => {
+    const cerrarModalesVisibles = () => {
         $$('.modal-overlay.show, .campaign-modal-overlay:not([hidden]), .client-modal-overlay:not([hidden])').forEach(modal => {
+            borrarBorradoresDelModal(modal);
             modal.classList.remove('show');
             modal.hidden = true;
         });
         document.body.classList.remove('modal-open');
     };
 
-    const initNavigation = () => {
-        applyStoredProfile();
+    const inicializarNavegacion = () => {
+        aplicarPerfilAlmacenado();
         const sidebar = $('#main-sidebar');
         const overlay = $('#sidebar-overlay');
         const hamburger = $('#btn-hamburger');
@@ -91,40 +91,51 @@
         }
     };
 
-    const initModalControls = () => {
+    const inicializarControlesModal = () => {
         $$('[data-modal-open]').forEach(button => button.addEventListener('click', () => {
             const modal = document.getElementById(button.dataset.modalOpen);
             if (modal) { modal.hidden = false; modal.classList.add('show'); document.body.classList.add('modal-open'); }
         }));
-        $$('[data-modal-close]').forEach(button => button.addEventListener('click', closeVisibleModals));
-        $$('.modal-overlay').forEach(modal => modal.addEventListener('click', event => { if (event.target === modal) closeVisibleModals(); }));
-        document.addEventListener('keydown', event => { if (event.key === 'Escape') closeVisibleModals(); });
+        $$('[data-modal-close]').forEach(button => button.addEventListener('click', cerrarModalesVisibles));
+        document.addEventListener('keydown', event => { if (event.key === 'Escape') cerrarModalesVisibles(); });
     };
 
-    const initUserModal = () => {
+    const inicializarModalUsuario = () => {
         const trigger = $('#item-actualizar-datos');
         const modal = $('#modal-actualizar-datos');
         if (!trigger || !modal) return;
         const close = () => modal.classList.remove('show');
         const profileForm = $('.dark-form', modal);
         const profileSelects = $$('select', profileForm || modal);
-        const loadGeography = async userData => {
+        const profileInputs = $$('input', profileForm || modal);
+        if (profileInputs.length >= 6) {
+            profileInputs[1].id = 'agente-nombre';
+            profileInputs[2].id = 'agente-correo';
+            profileInputs[3].id = 'agente-direccion';
+            profileInputs[4].id = 'agente-telefono';
+            profileInputs[5].id = 'agente-telefono-alt';
+            profileInputs[4].type = 'tel';
+            profileInputs[5].type = 'tel';
+            profileInputs[4].inputMode = 'numeric';
+            profileInputs[5].inputMode = 'numeric';
+        }
+        const cargarGeografia = async datosUsuario => {
             try {
                 const response = await fetch('/api/catalogos/geografia');
                 if (!response.ok) return;
                 const data = await response.json();
-                const setOptions = (select, items, selected) => { if (!select) return; select.replaceChildren(...items.map(item => new Option(item.name, item.id))); if (selected) select.value = String(selected); };
-                setOptions(profileSelects[0], data.departments, userData?.departmentId);
-                const municipalities = data.municipalities.filter(item => !userData?.departmentId || item.departmentId === Number(userData.departmentId));
-                setOptions(profileSelects[1], municipalities, userData?.municipalityId);
-                setOptions(profileSelects[2], data.neighborhoods.filter(item => !userData?.municipalityId || item.municipalityId === Number(userData.municipalityId)), userData?.neighborhoodId);
-                profileSelects[0]?.addEventListener('change', () => { setOptions(profileSelects[1], data.municipalities.filter(item => item.departmentId === Number(profileSelects[0].value))); setOptions(profileSelects[2], data.neighborhoods.filter(item => item.municipalityId === Number(profileSelects[1].value))); });
-                profileSelects[1]?.addEventListener('change', () => setOptions(profileSelects[2], data.neighborhoods.filter(item => item.municipalityId === Number(profileSelects[1].value))));
+                const establecerOpciones = (selector, elementos, seleccionado) => { if (!selector) return; selector.replaceChildren(...elementos.map(elemento => new Option(elemento.name, elemento.id))); if (seleccionado) selector.value = String(seleccionado); };
+                establecerOpciones(profileSelects[0], data.departments, datosUsuario?.departmentId);
+                const municipios = data.municipalities.filter(elemento => !datosUsuario?.departmentId || elemento.departmentId === Number(datosUsuario.departmentId));
+                establecerOpciones(profileSelects[1], municipios, datosUsuario?.municipalityId);
+                establecerOpciones(profileSelects[2], data.neighborhoods.filter(elemento => !datosUsuario?.municipalityId || elemento.municipalityId === Number(datosUsuario.municipalityId)), datosUsuario?.neighborhoodId);
+                profileSelects[0]?.addEventListener('change', () => { establecerOpciones(profileSelects[1], data.municipalities.filter(elemento => elemento.departmentId === Number(profileSelects[0].value))); establecerOpciones(profileSelects[2], data.neighborhoods.filter(elemento => elemento.municipalityId === Number(profileSelects[1].value))); });
+                profileSelects[1]?.addEventListener('change', () => establecerOpciones(profileSelects[2], data.neighborhoods.filter(elemento => elemento.municipalityId === Number(profileSelects[1].value))));
             } catch { /* The form keeps its local options if the API is unavailable. */ }
         };
         const open = () => {
-            const userData = getStoredUser();
-            const inputs = $$('input', profileForm || modal);
+            const userData = obtenerUsuarioAlmacenado();
+            const inputs = profileInputs;
             const selects = profileSelects;
             if (userData && inputs.length >= 3) {
                 inputs[0].value = userData.photo || '';
@@ -138,20 +149,20 @@
                 if (preview && userData.photo) preview.src = userData.photo;
             }
             if (profileForm) {
-                const requiredFields = $$('input', profileForm).slice(1).filter((input, index) => index < 4).concat($$('select', profileForm).slice(2, 3));
+                const requiredFields = profileInputs.slice(1, 5).concat(profileSelects.slice(2, 3));
                 requiredFields.forEach(field => field.required = true);
             }
-            loadGeography(userData);
+            cargarGeografia(userData);
             modal.classList.add('show'); const popover = $('#user-popover-menu'); if (popover) popover.classList.remove('show');
         };
         trigger.addEventListener('click', open);
         trigger.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
         $('#close-actualizar')?.addEventListener('click', close);
         $('#btn-cancelar-actualizar')?.addEventListener('click', close);
-        modal.addEventListener('click', event => { if (event.target === modal) close(); });
         profileForm?.addEventListener('submit', async event => {
             event.preventDefault();
-            const userData = getStoredUser();
+            if (window.Validaciones && !window.Validaciones.validarFormulario(profileForm)) return;
+            const userData = obtenerUsuarioAlmacenado();
             const inputs = $$('input', profileForm);
             const selects = $$('select', profileForm);
             const body = { id: userData?.id, role: userData?.role, photo: inputs[0]?.value.trim(), name: inputs[1]?.value.trim(), email: inputs[2]?.value.trim(), address: inputs[3]?.value.trim(), phone: inputs[4]?.value.trim(), phoneAlt: inputs[5]?.value.trim(), neighborhoodId: selects[2]?.selectedIndex + 1 };
@@ -159,16 +170,16 @@
                 const response = await fetch('/api/auth/profile', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
                 const payload = await response.json();
                 if (!response.ok) throw new Error(payload.error || 'No se pudieron actualizar los datos');
-                if (userData) { Object.assign(userData, { name: body.name, email: body.email, address: body.address, phone: body.phone, phoneAlt: body.phoneAlt, neighborhoodId: body.neighborhoodId, photo: body.photo }); localStorage.setItem('contact-sena-user', JSON.stringify(userData)); applyStoredProfile(); }
+                 if (userData) { Object.assign(userData, { name: body.name, email: body.email, address: body.address, phone: body.phone, phoneAlt: body.phoneAlt, neighborhoodId: body.neighborhoodId, photo: body.photo }); usuarioEnMemoria = userData; aplicarPerfilAlmacenado(); }
                 close();
                 alert(payload.message);
             } catch (error) { alert(error.message); }
         });
         const logout = $('.popover-item.logout');
-        if (logout) logout.addEventListener('click', async () => { const userData = getStoredUser(); try { if (userData) await fetch('/api/auth/logout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: userData.id, role: userData.role }) }); } finally { localStorage.removeItem('contact-sena-user'); localStorage.removeItem('contact-sena-token'); window.location.href = '../../Index.html'; } });
+        if (logout) logout.addEventListener('click', async () => { const userData = obtenerUsuarioAlmacenado(); try { if (userData) await fetch('/api/auth/logout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: userData.id, role: userData.role }) }); } finally { usuarioEnMemoria = null; window.location.href = '../../Index.html'; } });
     };
 
-    const initDateFields = () => {
+    const inicializarCamposFecha = () => {
         const calendarPath = 'M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z';
         $$('input[type="date"]').forEach(input => {
             if (input.closest('.input-date-wrapper')) return;
@@ -186,33 +197,44 @@
         });
     };
 
-    const initDatePickers = () => $$('.input-date-wrapper').forEach(wrapper => wrapper.addEventListener('click', () => {
+    const inicializarSelectoresFecha = () => $$('.input-date-wrapper').forEach(wrapper => wrapper.addEventListener('click', () => {
         const input = $('input[type="date"]', wrapper);
         if (input && typeof input.showPicker === 'function') input.showPicker();
     }));
 
-    const initFormAccessibility = () => {
-        const normaliseFields = (fields, formKey) => fields.forEach((field, fieldIndex) => {
-            if (!field.id) field.id = `${formKey}-field-${fieldIndex + 1}`;
-            if (!field.name) field.name = field.id;
-            const parent = field.closest('.form-group, .input-group, .client-form-field, .campaign-form-group, .filter-group, .filter-search-group, .indicator-filter, .indicator-search, .supervisor-date-filter, .supervisor-agent-filter, .supervisor-text-search');
-            const label = parent && $('label', parent);
-            if (label && !label.contains(field) && !label.htmlFor) label.htmlFor = field.id;
-            if (!label && !field.closest('label')) {
-                const hiddenLabel = document.createElement('label');
-                hiddenLabel.className = 'visually-hidden';
-                hiddenLabel.htmlFor = field.id;
-                hiddenLabel.textContent = field.getAttribute('aria-label') || field.placeholder || field.name;
-                field.parentNode.insertBefore(hiddenLabel, field);
+    const inicializarAccesibilidadFormularios = () => {
+        const instrucciones = {
+            'time-search': 'Buscar...',
+            'history-search': 'Buscar...',
+            'indicator-search-input': 'Buscar...',
+            'contact-observation': 'Describe el resultado de la gestión',
+            'contact-case-comment': 'Describe el caso y los detalles del escalamiento'
+        };
+        const normalizarCampos = (campos, claveFormulario) => campos.forEach((campo, indiceCampo) => {
+            campo.autocomplete = 'off';
+            if (!campo.id) campo.id = `${claveFormulario}-field-${indiceCampo + 1}`;
+            if (!campo.name) campo.name = campo.id;
+            if (instrucciones[campo.id]) campo.placeholder = instrucciones[campo.id];
+            if (campo.placeholder === 'Buscar en contactos...') campo.placeholder = 'Buscar...';
+            const contenedor = campo.closest('.form-group, .input-group, .client-form-field, .campaign-form-group, .filter-group, .filter-search-group, .indicator-filter, .indicator-search, .supervisor-date-filter, .supervisor-agent-filter, .supervisor-text-search');
+            const etiqueta = contenedor && $('label', contenedor);
+            if (etiqueta && !etiqueta.contains(campo) && !etiqueta.htmlFor) etiqueta.htmlFor = campo.id;
+            if (!etiqueta && !campo.closest('label')) {
+                const etiquetaOculta = document.createElement('label');
+                etiquetaOculta.className = 'visually-hidden';
+                etiquetaOculta.htmlFor = campo.id;
+                etiquetaOculta.textContent = campo.getAttribute('aria-label') || campo.placeholder || campo.name;
+                campo.parentNode.insertBefore(etiquetaOculta, campo);
             }
         });
-        $$('form').forEach((form, formIndex) => {
-            const formKey = (form.id || `form-${formIndex}`).replace(/[^a-zA-Z0-9_-]/g, '-');
-            normaliseFields($$('input, select, textarea', form), formKey);
+        $$('form').forEach((formulario, indiceFormulario) => {
+            formulario.autocomplete = 'off';
+            const claveFormulario = (formulario.id || `form-${indiceFormulario}`).replace(/[^a-zA-Z0-9_-]/g, '-');
+            normalizarCampos($$('input, select, textarea', formulario), claveFormulario);
         });
-        normaliseFields($$('input, select, textarea').filter(field => !field.form), 'page');
+        normalizarCampos($$('input, select, textarea').filter(campo => !campo.form), 'page');
     };
 
-    window.ContactSena = { $, $$, closeVisibleModals };
-    document.addEventListener('DOMContentLoaded', () => { enforceModuleRole(); initNavigation(); initModalControls(); initUserModal(); initDateFields(); initDatePickers(); initFormAccessibility(); refreshStoredProfile(); });
+    window.ContactSena = { $, $$, closeVisibleModals: cerrarModalesVisibles, get user() { return usuarioEnMemoria; }, ready: sesionLista };
+    document.addEventListener('DOMContentLoaded', () => { enforceModuleRole(); inicializarNavegacion(); inicializarControlesModal(); inicializarModalUsuario(); inicializarCamposFecha(); inicializarSelectoresFecha(); inicializarAccesibilidadFormularios(); actualizarPerfilAlmacenado(); });
 })();

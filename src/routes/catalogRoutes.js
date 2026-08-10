@@ -1,8 +1,9 @@
 const express = require('express');
-const { geography } = require('../controllers/catalogController');
-const { asyncHandler } = require('../utils/http');
-const { authenticate } = require('../middleware/auth');
+const { obtenerGeografia, obtenerOperativos } = require('../controllers/catalogController');
+const { manejadorAsincrono } = require('../utils/http');
+const { autenticar } = require('../middleware/auth');
 
 const router = express.Router();
-router.get('/geografia', authenticate, asyncHandler(geography));
+router.get('/geografia', autenticar, manejadorAsincrono(obtenerGeografia));
+router.get('/operativos', autenticar, manejadorAsincrono(obtenerOperativos));
 module.exports = router;

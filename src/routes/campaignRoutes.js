@@ -1,11 +1,12 @@
 const express = require('express');
-const { getCampaigns, getTypifications, postCampaign } = require('../controllers/campaignController');
-const { asyncHandler } = require('../utils/http');
+const { obtenerCampanas, obtenerTipificaciones, crearCampana, actualizarCampana } = require('../controllers/campaignController');
+const { manejadorAsincrono } = require('../utils/http');
 const { uploadCampaignPdf } = require('../middleware/campaignUpload');
-const { authenticate, requireRole } = require('../middleware/auth');
+const { autenticar, requerirRol } = require('../middleware/auth');
 
 const router = express.Router();
-router.get('/', authenticate, requireRole('supervisor'), asyncHandler(getCampaigns));
-router.post('/', authenticate, requireRole('supervisor'), uploadCampaignPdf.single('file'), asyncHandler(postCampaign));
-router.get('/:id/tipificaciones', authenticate, requireRole('agente'), asyncHandler(getTypifications));
+router.get('/', autenticar, requerirRol('supervisor'), manejadorAsincrono(obtenerCampanas));
+router.post('/', autenticar, requerirRol('supervisor'), uploadCampaignPdf.single('file'), manejadorAsincrono(crearCampana));
+router.patch('/:id', autenticar, requerirRol('supervisor'), uploadCampaignPdf.single('file'), manejadorAsincrono(actualizarCampana));
+router.get('/:id/tipificaciones', autenticar, requerirRol('agente', 'supervisor'), manejadorAsincrono(obtenerTipificaciones));
 module.exports = router;

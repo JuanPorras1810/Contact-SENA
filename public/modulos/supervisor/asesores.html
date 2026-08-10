@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact SENA</title>
-    <script>
-        try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}
-    </script>
+    <script>try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}</script>
+    <title>Asesores | Contact SENA</title>
     <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../js/storage.js" defer></script>
+    <script src="../../js/app.js" defer></script>
+    <script src="../../js/validaciones.js" defer></script>
+    <script src="../../js/modules/tabs.js" defer></script>
+    <script src="../../js/modules/asesores.js" defer></script>
 </head>
 
 <body id="body-container">
@@ -286,18 +289,18 @@
             <div class="client-modal-header"><div class="client-modal-title advisor-modal-title"><span aria-hidden="true">◎</span><h2 id="nuevo-agente-title">Registrar Nuevo Agente / Aprendiz</h2></div><button class="client-modal-close" type="button" data-close-advisor-modal aria-label="Cerrar">×</button></div>
             <form id="nuevo-agente-form">
                 <div class="client-modal-body client-form-grid advisor-form-grid">
-                    <div class="client-form-field"><label for="agente-tipo-documento">Tipo de documento *</label><select id="agente-tipo-documento" required><option value="1">Cedula de Ciudadania</option><option value="2">Cedula de Extranjeria</option><option value="3">Pasaporte</option></select></div>
-                    <div class="client-form-field"><label for="agente-documento">Número de identificación *</label><input id="agente-documento" type="text" placeholder="Ej. 1102345678" required></div>
-                    <div class="client-form-field advisor-form-full"><label for="agente-nombre">Nombre completo *</label><input id="agente-nombre" type="text" placeholder="Nombre y Apellidos del Aprendiz" required></div>
-                    <div class="client-form-field"><label for="agente-correo">Correo electrónico *</label><input id="agente-correo" type="email" placeholder="ejemplo@correo.com" required></div>
-                    <div class="client-form-field"><label for="agente-contrasena">Contraseña de acceso *</label><input id="agente-contrasena" type="password" placeholder="agente123" required></div>
-                    <div class="client-form-field"><label for="agente-telefono">Teléfono principal *</label><input id="agente-telefono" type="tel" placeholder="3001234567" required></div>
-                    <div class="client-form-field"><label for="agente-telefono-alt">Teléfono alternativo</label><input id="agente-telefono-alt" type="tel" placeholder="Opcional"></div>
-                    <div class="client-form-field advisor-form-full"><label for="agente-direccion">Dirección *</label><input id="agente-direccion" type="text" placeholder="Calle, Carrera, Barrio" required></div>
+                    <div class="client-form-field"><label for="agente-tipo-documento">Tipo de documento *</label><select id="agente-tipo-documento" required><option value="">Seleccione...</option></select></div>
+                    <div class="client-form-field"><label for="agente-documento">Número de identificación *</label><input id="agente-documento" type="text" placeholder="Ingresa el número de identificación" required></div>
+                    <div class="client-form-field advisor-form-full"><label for="agente-nombre">Nombre completo *</label><input id="agente-nombre" type="text" placeholder="Ingresa nombres y apellidos" required></div>
+                    <div class="client-form-field"><label for="agente-correo">Correo electrónico *</label><input id="agente-correo" type="email" placeholder="Ingresa el correo electrónico" required></div>
+                    <div class="client-form-field"><label for="agente-contrasena">Contraseña de acceso *</label><input id="agente-contrasena" type="password" placeholder="Crea una contraseña de acceso" required></div>
+                    <div class="client-form-field"><label for="agente-telefono">Teléfono principal *</label><input id="agente-telefono" type="tel" placeholder="Ingresa el teléfono principal" required></div>
+                    <div class="client-form-field"><label for="agente-telefono-alt">Teléfono alternativo</label><input id="agente-telefono-alt" type="tel" placeholder="Ingresa un teléfono alternativo (opcional)"></div>
+                    <div class="client-form-field advisor-form-full"><label for="agente-direccion">Dirección *</label><input id="agente-direccion" type="text" placeholder="Ingresa la dirección de residencia" required></div>
                     <div class="client-form-field"><label for="agente-departamento">Departamento *</label><select id="agente-departamento" required><option value="1">Santander</option><option value="2">Antioquia</option></select></div>
                     <div class="client-form-field"><label for="agente-municipio">Municipio *</label><select id="agente-municipio" required><option value="1">Municipio A</option><option value="2">Municipio B</option></select></div>
                     <div class="client-form-field"><label for="agente-barrio">Barrio *</label><select id="agente-barrio" required><option value="1">Barrio A</option><option value="2">Barrio B</option></select></div>
-                    <div class="client-form-field advisor-form-full"><label for="agente-avatar">URL de foto de perfil (avatar)</label><input id="agente-avatar" type="url" placeholder="https://images.unsplash.com/... (Opcional)"></div>
+                    <div class="client-form-field advisor-form-full"><label for="agente-avatar">URL de foto de perfil (avatar)</label><input id="agente-avatar" type="url" placeholder="Ingresa la URL de la foto (opcional)"></div>
                 </div>
                 <div class="client-modal-footer"><button class="client-cancel-button" type="button" data-close-advisor-modal>Cancelar</button><button class="advisor-save-button" type="submit">✓ Registrar Agente</button></div>
             </form>
@@ -308,7 +311,7 @@
     <div class="client-modal-overlay" id="modal-asignar-campana" role="dialog" aria-modal="true" aria-labelledby="asignar-campana-title" hidden>
         <div class="client-modal assignment-modal">
             <div class="client-modal-header"><div class="client-modal-title"><span aria-hidden="true">◎</span><h2 id="asignar-campana-title">Nueva Asignación a Campaña</h2></div><button class="client-modal-close" type="button" data-close-advisor-modal aria-label="Cerrar">×</button></div>
-            <form id="asignar-campana-form"><div class="client-modal-body assignment-form"><div class="client-form-field"><label for="asignacion-agente">Seleccionar agente *</label><select id="asignacion-agente" required><option>Juan Porras (Aprendiz Contact)</option><option>María Fernanda Ruiz</option><option>Andrés Felipe Torres</option></select></div><div class="client-form-field"><label for="asignacion-campana">Seleccionar campaña *</label><select id="asignacion-campana" required><option>Retención de Clientes 2026</option><option>Ventas Cruzadas Servicio Premium</option><option>Soporte Técnico Especializado</option></select></div></div><div class="client-modal-footer"><button class="client-cancel-button" type="button" data-close-advisor-modal>Cancelar</button><button class="assignment-save-button" type="submit">✓ Registrar Asignación</button></div></form>
+            <form id="asignar-campana-form"><div class="client-modal-body assignment-form"><div class="client-form-field"><label for="asignacion-agente">Seleccionar agente *</label><select id="asignacion-agente" required><option value="">Seleccione...</option></select></div><div class="client-form-field"><label for="asignacion-campana">Seleccionar campaña *</label><select id="asignacion-campana" required><option value="">Seleccione...</option></select></div></div><div class="client-modal-footer"><button class="client-cancel-button" type="button" data-close-advisor-modal>Cancelar</button><button class="assignment-save-button" type="submit">✓ Registrar Asignación</button></div></form>
         </div>
     </div>
 
@@ -473,9 +476,5 @@
 
 
 </body>
-<script src="../../js/app.js" defer></script>
-<script src="../../js/validaciones.js" defer></script>
-<script src="../../js/modules/tabs.js" defer></script>
-<script src="../../js/modules/asesores.js" defer></script>
 
 </html>

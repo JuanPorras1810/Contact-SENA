@@ -1,11 +1,13 @@
 const express = require('express');
-const { login, logout, profile, patchProfile } = require('../controllers/authController');
-const { asyncHandler } = require('../utils/http');
-const { authenticate } = require('../middleware/auth');
+const { iniciarSesion, cerrarSesion, obtenerPerfil, obtenerSesion, actualizarPerfil } = require('../controllers/authController');
+const { manejadorAsincrono } = require('../utils/http');
+const { autenticar } = require('../middleware/auth');
+const { limitarLogin } = require('../middleware/rateLimit');
 
 const router = express.Router();
-router.post('/login', asyncHandler(login));
-router.post('/logout', authenticate, asyncHandler(logout));
-router.get('/profile', authenticate, asyncHandler(profile));
-router.patch('/profile', authenticate, asyncHandler(patchProfile));
+router.post('/login', limitarLogin, manejadorAsincrono(iniciarSesion));
+router.post('/logout', autenticar, manejadorAsincrono(cerrarSesion));
+router.get('/session', autenticar, manejadorAsincrono(obtenerSesion));
+router.get('/profile', autenticar, manejadorAsincrono(obtenerPerfil));
+router.patch('/profile', autenticar, manejadorAsincrono(actualizarPerfil));
 module.exports = router;

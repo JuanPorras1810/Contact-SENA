@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact SENA</title>
-    <script>
-        try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}
-    </script>
+    <script>try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}</script>
+    <title>Campañas | Contact SENA</title>
     <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../js/storage.js" defer></script>
+    <script src="../../js/app.js" defer></script>
+    <script src="../../js/validaciones.js" defer></script>
+    <script src="../../js/modules/campanas.js" defer></script>
 </head>
 
 <body id="body-container">
@@ -207,13 +209,17 @@
                 <div class="campaign-modal-body">
                     <div class="campaign-form-group">
                         <label for="campaign-name">Nombre de la campaña</label>
-                        <input type="text" id="campaign-name" placeholder="Ej. Retención de clientes premium" required>
+                        <input type="text" id="campaign-name" placeholder="Escribe el nombre de la campaña" required>
                     </div>
 
                     <div class="campaign-form-grid">
                         <div class="campaign-form-group">
                             <label for="campaign-start">Fecha de inicio</label>
                             <input type="date" id="campaign-start" required>
+                        </div>
+                        <div class="campaign-form-group">
+                            <label for="campaign-status">Estado</label>
+                            <select id="campaign-status" required><option value="Activa">Activa</option><option value="Pausada">Pausada</option></select>
                         </div>
                         <div class="campaign-form-group">
                             <label for="campaign-end">Fecha de fin</label>
@@ -227,22 +233,21 @@
                         <p>Selecciona las tipificaciones disponibles para registrar las gestiones de esta campaña.</p>
                         <span class="field-caption">Seleccionadas</span>
                         <div class="typification-list">
-                            <label class="typification selected"><input type="checkbox" value="Retención exitosa"
-                                    checked>✓ Retención exitosa</label>
-                            <label class="typification selected"><input type="checkbox" value="Cancelación inminente"
-                                    checked>✓ Cancelación inminente</label>
-                            <label class="typification selected"><input type="checkbox" value="Información de precio"
-                                    checked>✓ Información de precio</label>
-                            <label class="typification"><input type="checkbox" value="Falla técnica">✓ Falla
-                                técnica</label>
-                            <label class="typification"><input type="checkbox" value="Actualización de datos">✓
-                                Actualización de datos</label>
+                            <label class="typification selected"><input type="checkbox" value="Contesto - Interesado" checked>✓ Contesto - Interesado</label>
+                            <label class="typification selected"><input type="checkbox" value="Contesto - No Interesado" checked>✓ Contesto - No Interesado</label>
+                            <label class="typification selected"><input type="checkbox" value="Agendado / Agendar Rellamada" checked>✓ Agendado / Agendar Rellamada</label>
+                            <label class="typification selected"><input type="checkbox" value="Tercero / No Titular" checked>✓ Tercero / No Titular</label>
+                            <label class="typification selected"><input type="checkbox" value="No Contesta" checked>✓ No Contesta</label>
+                            <label class="typification selected"><input type="checkbox" value="Ocupado" checked>✓ Ocupado</label>
+                            <label class="typification selected"><input type="checkbox" value="Buzón de Voz" checked>✓ Buzón de Voz</label>
+                            <label class="typification selected"><input type="checkbox" value="Número Equivocado" checked>✓ Número Equivocado</label>
+                            <label class="typification selected"><input type="checkbox" value="Llamada Cortada" checked>✓ Llamada Cortada</label>
                         </div>
 
                         <div class="custom-typification">
                             <span class="field-caption">Agregar otra tipificación</span>
                             <div>
-                                <input type="text" id="custom-typification-input" placeholder="Nueva tipificación">
+                                <input type="text" id="custom-typification-input" placeholder="Escribe una tipificación">
                                 <button type="button" id="add-typification">Agregar</button>
                             </div>
                         </div>
@@ -433,8 +438,5 @@
 
 
 </body>
-<script src="../../js/app.js" defer></script>
-<script src="../../js/validaciones.js" defer></script>
-<script src="../../js/modules/campanas.js" defer></script>
 
 </html>
