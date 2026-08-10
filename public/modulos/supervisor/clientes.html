@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}</script>
+    <script>try {if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open');} catch { }</script>
     <title>Clientes | Contact SENA</title>
     <link rel="stylesheet" href="../../css/style.css">
     <script src="../../js/storage.js" defer></script>
@@ -115,7 +115,9 @@
                     <p>USUARIO ACTUAL</p>
                     <h4>Juan Porras</h4>
                 </div>
-                <svg class="arrow-user-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m7.41 8.59 4.59 4.58 4.59-4.58L18 10l-6 6-6-6z"/></svg>
+                <svg class="arrow-user-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m7.41 8.59 4.59 4.58 4.59-4.58L18 10l-6 6-6-6z" />
+                </svg>
             </div>
         </div>
     </aside>
@@ -139,11 +141,11 @@
         <div class="module-container">
 
 
-            
+
             <div class="top-module-actions">
-                <!-- FILA SUPERIOR CON LOS 3 BOTONES -->
                 <div class="actions-row-top">
-                    <button class="btn-action btn-outline" id="download-csv-template" data-download-csv-template type="button">
+                    <button class="btn-action btn-outline" id="download-csv-template" data-download-csv-template
+                        type="button">
                         <svg viewBox="0 0 24 24">
                             <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
                         </svg>
@@ -177,7 +179,6 @@
                         <input type="text" placeholder="Buscar...">
                     </div>
 
-                    <!-- CAJA SELECT CORRECTAMENTE CERRADA -->
                     <div class="caja-select-camp">
                         <select class="select-camp-opciones">
                             <option value="">Todas las campañas</option>
@@ -189,9 +190,8 @@
                             <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
                         </svg>
                     </div>
-                </div> <!-- /search-action-bar -->
+                </div> 
 
-                <!-- TABLA SEPARADA -->
                 <div class="table-container">
                     <table>
                         <thead>
@@ -204,69 +204,100 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="clients-rows">
-                            <tr>
-                                <td><span class="col-campana">Retención de Clientes ...</span></td>
-                                <td>
-                                    3004444444
-                                    <div class="phone-subtext">OPCIONAL: 6076333333</div>
-                                </td>
-                                <td><strong>Carlos Ruiz García</strong></td>
-                                <td>carlos.ruiz@gmail.com</td>
-                                <td>
-                                    Calle 45 # 12-89, Cabecera
-                                    <div class="dir-subtext">Cabecera - Bucaramanga (Santander)</div>
-                                </td>
-                                <td>
-                                    <button class="btn-edit-action">
-                                        <svg viewBox="0 0 24 24">
-                                            <path
-                                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                                        </svg>
-                                    </button>
-                                </td>
-                            </tr>
-
-                        </tbody>
+                        <tbody id="clients-rows"></tbody>
                     </table>
                 </div>
 
-            </div> <!-- /module-section -->
-        </div> <!-- /module-container -->
+            </div> 
+        </div> 
     </main>
 
 
 
     <!-- MODAL: REGISTRAR NUEVO CLIENTE -->
-    <div class="client-modal-overlay" id="modal-nuevo-cliente" role="dialog" aria-modal="true" aria-labelledby="nuevo-cliente-title" hidden>
+    <div class="client-modal-overlay" id="modal-nuevo-cliente" role="dialog" aria-modal="true"
+        aria-labelledby="nuevo-cliente-title" hidden>
         <div class="client-modal client-modal-large">
-            <div class="client-modal-header"><div class="client-modal-title"><span aria-hidden="true">▣</span><h2 id="nuevo-cliente-title">Registrar Nuevo Cliente en Base de Datos</h2></div><button class="client-modal-close" type="button" data-close-client-modal aria-label="Cerrar">×</button></div>
+            <div class="client-modal-header">
+                <div class="client-modal-title"><span aria-hidden="true">▣</span>
+                    <h2 id="nuevo-cliente-title">Registrar Nuevo Cliente en Base de Datos</h2>
+                </div><button class="client-modal-close" type="button" data-close-client-modal
+                    aria-label="Cerrar">×</button>
+            </div>
             <form id="nuevo-cliente-form">
                 <div class="client-modal-body client-form-grid">
-                    <div class="client-form-field"><label for="cliente-campana">Campaña vinculada *</label><select id="cliente-campana" required><option value="">Seleccione...</option></select></div>
-                    <div class="client-form-field"><label for="cliente-tipo-documento">Tipo documento</label><select id="cliente-tipo-documento"><option value="">Seleccione...</option></select></div>
-                    <div class="client-form-field"><label for="cliente-documento">Número documento</label><input id="cliente-documento" type="text" placeholder="Ingresa el número de documento"></div>
-                    <div class="client-form-field"><label for="cliente-nombre">Nombre completo</label><input id="cliente-nombre" type="text" placeholder="Ingresa nombres y apellidos"></div>
-                    <div class="client-form-field"><label for="cliente-correo">Correo electrónico</label><input id="cliente-correo" type="email" placeholder="Ingresa el correo electrónico"></div>
-                    <div class="client-form-field"><label for="cliente-telefono">Teléfono celular *</label><input id="cliente-telefono" type="tel" placeholder="Ingresa el teléfono celular" required></div>
-                    <div class="client-form-field"><label for="cliente-telefono-alt">Teléfono alternativo</label><input id="cliente-telefono-alt" type="tel" placeholder="Ingresa un teléfono alternativo (opcional)"></div>
-                    <div class="client-form-field"><label for="cliente-direccion">Dirección física</label><input id="cliente-direccion" type="text" placeholder="Ingresa la dirección física"></div>
-                    <div class="client-form-field"><label for="cliente-departamento">Departamento</label><select id="cliente-departamento"><option value="1">Santander</option><option value="2">Antioquia</option></select></div>
-                    <div class="client-form-field"><label for="cliente-municipio">Municipio</label><select id="cliente-municipio"><option value="1">Municipio A</option><option value="2">Municipio B</option></select></div>
-                    <div class="client-form-field"><label for="cliente-barrio">Barrio</label><select id="cliente-barrio"><option value="1">Barrio A</option><option value="2">Barrio B</option></select></div>
-                    <div class="client-form-field client-form-full"><label for="cliente-observaciones">Observaciones</label><textarea id="cliente-observaciones" placeholder="Describe información adicional del cliente"></textarea></div>
+                    <div class="client-form-field"><label for="cliente-campana">Campaña vinculada *</label><select
+                            id="cliente-campana" required>
+                            <option value="">Seleccione...</option>
+                        </select></div>
+                    <div class="client-form-field"><label for="cliente-tipo-documento">Tipo documento</label><select
+                            id="cliente-tipo-documento">
+                            <option value="">Seleccione...</option>
+                        </select></div>
+                    <div class="client-form-field"><label for="cliente-documento">Número documento</label><input
+                            id="cliente-documento" type="text" placeholder="Ingresa el número de documento"></div>
+                    <div class="client-form-field"><label for="cliente-nombre">Nombre completo</label><input
+                            id="cliente-nombre" type="text" placeholder="Ingresa nombres y apellidos"></div>
+                    <div class="client-form-field"><label for="cliente-correo">Correo electrónico</label><input
+                            id="cliente-correo" type="email" placeholder="Ingresa el correo electrónico"></div>
+                    <div class="client-form-field"><label for="cliente-telefono">Teléfono celular *</label><input
+                            id="cliente-telefono" type="tel" placeholder="Ingresa el teléfono celular" required></div>
+                    <div class="client-form-field"><label for="cliente-telefono-alt">Teléfono alternativo</label><input
+                            id="cliente-telefono-alt" type="tel"
+                            placeholder="Ingresa un teléfono alternativo (opcional)"></div>
+                    <div class="client-form-field"><label for="cliente-direccion">Dirección física</label><input
+                            id="cliente-direccion" type="text" placeholder="Ingresa la dirección física"></div>
+                    <div class="client-form-field"><label for="cliente-departamento">Departamento</label><select
+                            id="cliente-departamento">
+                            <option value="1">Santander</option>
+                            <option value="2">Antioquia</option>
+                        </select></div>
+                    <div class="client-form-field"><label for="cliente-municipio">Municipio</label><select
+                            id="cliente-municipio">
+                            <option value="1">Municipio A</option>
+                            <option value="2">Municipio B</option>
+                        </select></div>
+                    <div class="client-form-field"><label for="cliente-barrio">Barrio</label><select
+                            id="cliente-barrio">
+                            <option value="1">Barrio A</option>
+                            <option value="2">Barrio B</option>
+                        </select></div>
+                    <div class="client-form-field client-form-full"><label
+                            for="cliente-observaciones">Observaciones</label><textarea id="cliente-observaciones"
+                            placeholder="Describe información adicional del cliente"></textarea></div>
                 </div>
-                <div class="client-modal-footer"><button class="client-cancel-button" type="button" data-close-client-modal>Cancelar</button><button class="client-save-button" type="submit">✓ Guardar Cliente</button></div>
+                <div class="client-modal-footer"><button class="client-cancel-button" type="button"
+                        data-close-client-modal>Cancelar</button><button class="client-save-button" type="submit">✓
+                        Guardar Cliente</button></div>
             </form>
         </div>
     </div>
 
     <!-- MODAL: CARGA MASIVA CSV -->
-    <div class="client-modal-overlay" id="modal-carga-csv" role="dialog" aria-modal="true" aria-labelledby="carga-csv-title" hidden>
+    <div class="client-modal-overlay" id="modal-carga-csv" role="dialog" aria-modal="true"
+        aria-labelledby="carga-csv-title" hidden>
         <div class="client-modal client-csv-modal">
-            <div class="client-modal-header"><div class="client-modal-title client-csv-title"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5M5 14v5h14v-5"/></svg></span><h2 id="carga-csv-title">Carga Masiva de Clientes (CSV)</h2></div><button class="client-modal-close" type="button" data-close-client-modal aria-label="Cerrar">×</button></div>
-             <div class="client-csv-body"><p>Sube tu base de datos de clientes en formato <strong>.csv</strong>. Asegúrate de que contenga las columnas correctas según nuestra plantilla.</p><label class="client-csv-dropzone" for="csv-file"><span class="client-upload-icon"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5M5 14v5h14v-5"/></svg></span><strong>Arrastra tu archivo CSV aquí o haz clic para buscar</strong><small>Formatos soportados: .csv</small><input id="csv-file" type="file" accept=".csv,text/csv"></label><a href="/templates/clientes/plantilla_clientes.csv" data-download-csv-template class="client-template-link">Descargar plantilla CSV</a></div>
-            <div class="client-modal-footer"><button class="client-cancel-button" type="button" data-close-client-modal>Cancelar</button><button class="client-process-button" id="process-csv" type="button" disabled>✓ Procesar e Importar</button></div>
+            <div class="client-modal-header">
+                <div class="client-modal-title client-csv-title"><span aria-hidden="true"><svg viewBox="0 0 24 24">
+                            <path d="M12 16V4m0 0L7 9m5-5 5 5M5 14v5h14v-5" />
+                        </svg></span>
+                    <h2 id="carga-csv-title">Carga Masiva de Clientes (CSV)</h2>
+                </div><button class="client-modal-close" type="button" data-close-client-modal
+                    aria-label="Cerrar">×</button>
+            </div>
+            <div class="client-csv-body">
+                <p>Sube tu base de datos de clientes en formato <strong>.csv</strong>. Asegúrate de que contenga las
+                    columnas correctas según nuestra plantilla.</p><label class="client-csv-dropzone"
+                    for="csv-file"><span class="client-upload-icon"><svg viewBox="0 0 24 24">
+                            <path d="M12 16V4m0 0L7 9m5-5 5 5M5 14v5h14v-5" />
+                        </svg></span><strong>Arrastra tu archivo CSV aquí o haz clic para buscar</strong><small>Formatos
+                        soportados: .csv</small><input id="csv-file" type="file" accept=".csv,text/csv"></label><a
+                    href="/templates/clientes/plantilla_clientes.csv" data-download-csv-template
+                    class="client-template-link">Descargar plantilla CSV</a>
+            </div>
+            <div class="client-modal-footer"><button class="client-cancel-button" type="button"
+                    data-close-client-modal>Cancelar</button><button class="client-process-button" id="process-csv"
+                    type="button" disabled>✓ Procesar e Importar</button></div>
         </div>
     </div>
 
@@ -419,17 +450,6 @@
             </div>
         </div>
     </div>
-
-
-    <!-- Los comportamientos se cargan desde js/app.js y js/modules/contactos.js. -->
-
-
-
-
-
-
-
-
 </body>
 
 </html>

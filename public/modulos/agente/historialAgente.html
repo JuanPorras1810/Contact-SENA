@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}</script>
+    <script>try {if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open');} catch { }</script>
     <title>Historial del agente | Contact SENA</title>
     <link rel="stylesheet" href="../../css/style.css">
     <script src="../../js/storage.js" defer></script>
@@ -38,18 +38,6 @@
                 </svg>
                 Contactos
             </a>
-            <!-- <a href="#" class="sidebar-link">
-                <svg viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
-
-                    <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" d="M13 5v2M13 17v2M13 11v2" />
-
-                </svg>
-                Mis Tickets
-            </a> -->
             <a href="tiempoAgente.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path
@@ -90,14 +78,17 @@
 
             <div class="sidebar-user" id="sidebar-user-trigger" role="button" tabindex="0" aria-expanded="false">
                 <div class="avatar-container">
-                    <img src="https://cdn-icons-png.flaticon.com/256/12225/12225881.png" class="user-avatar" alt="Avatar del usuario">
+                    <img src="https://cdn-icons-png.flaticon.com/256/12225/12225881.png" class="user-avatar"
+                        alt="Avatar del usuario">
                     <div class="status-dot"></div>
                 </div>
                 <div class="user-info">
                     <p>USUARIO ACTUAL</p>
                     <h4>(Nombre usuario)</h4>
                 </div>
-                <svg class="arrow-user-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m7.41 8.59 4.59 4.58 4.59-4.58L18 10l-6 6-6-6z"/></svg>
+                <svg class="arrow-user-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m7.41 8.59 4.59 4.58 4.59-4.58L18 10l-6 6-6-6z" />
+                </svg>
             </div>
         </div>
     </aside>
@@ -159,7 +150,7 @@
                     </div>
                 </div>
             </div>
-            <!-- TABLA DE CONTACTOS (Visible por defecto) -->
+            <!-- TABLA DE CONTACTOS-->
             <div class="table-container" id="table-contacts">
                 <table>
                     <thead>
@@ -173,19 +164,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><strong class="cod-blue">#105</strong></td>
-                            <td>2026-07-02</td>
-                            <td class="col-cliente">Gabriel Gómez Vargas</td>
-                            <td>
-                                <span class="col-campana">Campaña de Venta Cruzada Paquete de Fibra Óptica Simétrica
-                                    Premium</span>
-                            </td>
-                            <td class="comment-cell">Cliente se muestra interesado y acepta la oferta...</td>
-                            <td>
-                                <span class="col-estado estado-resuelto">Cerrado</span>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -202,13 +180,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><strong class="cod-blue">TK-5002</strong></td>
-                            <td>2026-06-28</td>
-                            <td>Abierto</td>
-                            <td>Enviar mensajero con equipo de repuesto a la dirección registrada en base de datos...
-                            </td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -363,14 +335,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
 </body>
 
 </html>

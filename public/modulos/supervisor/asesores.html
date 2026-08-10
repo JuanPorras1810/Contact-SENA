@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}</script>
+    <script>try {if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open');} catch { }</script>
     <title>Asesores | Contact SENA</title>
     <link rel="stylesheet" href="../../css/style.css">
     <script src="../../js/storage.js" defer></script>
@@ -115,7 +115,9 @@
                     <p>USUARIO ACTUAL</p>
                     <h4>Juan Porras</h4>
                 </div>
-                <svg class="arrow-user-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m7.41 8.59 4.59 4.58 4.59-4.58L18 10l-6 6-6-6z"/></svg>
+                <svg class="arrow-user-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m7.41 8.59 4.59 4.58 4.59-4.58L18 10l-6 6-6-6z" />
+                </svg>
             </div>
         </div>
     </aside>
@@ -138,19 +140,16 @@
         </header>
 
         <!-- Contenedor del Módulo -->
-        <!-- Contenedor del módulo con pestañas -->
         <div class="module-container">
 
             <!-- PESTAÑAS DE CONTROL -->
             <div class="module-tabs">
                 <button class="module-tab-btn active" data-module-tab="tab-directorio" type="button">Directorio de
                     Agentes</button>
-                <button class="module-tab-btn" data-module-tab="tab-campanas" type="button">Asignación de Campañas</button>
+                <button class="module-tab-btn" data-module-tab="tab-campanas" type="button">Asignación de
+                    Campañas</button>
             </div>
 
-            <!-- ========================================== -->
-            <!-- VISTA 1: DIRECTORIO DE AGENTES (FOTO 1)    -->
-            <!-- ========================================== -->
             <div id="tab-directorio" class="module-section active">
                 <!-- Buscador e inicio -->
                 <div class="search-action-bar">
@@ -185,33 +184,11 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="advisors-rows">
-                            <tr>
-                                <td><strong>Cédula de Ciudadanía</strong></td>
-                                <td><strong class="col-codigo">1102345678</strong></td>
-                                <td>
-                                    <div><span class="col-canal">Juan Porras</span></div>
-                                </td>
-                                <td>juanporras1810@gmail.com</td>
-                                <td>3001234567 <span class="phone-subtext">(3119998877)</span></td>
-                                <td>Carrera 27 # 45-12</td>
-                                <td>
-                                    <button class="btn-edit-action">
-                                        <svg viewBox="0 0 24 24">
-                                            <path
-                                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                                        </svg>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody id="advisors-rows"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- ========================================== -->
-            <!-- VISTA 2: ASIGNACIÓN DE CAMPAÑAS (FOTO 2)  -->
-            <!-- ========================================== -->
             <div id="tab-campanas" class="module-section">
                 <!-- Buscador, Selector de Campañas y Botón -->
                 <div class="search-action-bar">
@@ -257,23 +234,7 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="assignments-rows">
-                            <tr>
-                                <td>1</td>
-
-                                <td><span class="col-canal">Juan Porras</span></td>
-                                <td><span class="col-campana">Retención de Clientes 2026</span></td>
-                                <td>
-                                    <button class="btn-edit-action">
-                                        <svg viewBox="0 0 24 24">
-                                            <path
-                                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                                        </svg>
-                                    </button>
-                                </td>
-                            </tr>
-
-                        </tbody>
+                        <tbody id="assignments-rows"></tbody>
                     </table>
                 </div>
             </div>
@@ -284,34 +245,91 @@
 
 
     <!-- MODAL: REGISTRAR NUEVO AGENTE -->
-    <div class="client-modal-overlay" id="modal-nuevo-agente" role="dialog" aria-modal="true" aria-labelledby="nuevo-agente-title" hidden>
+    <div class="client-modal-overlay" id="modal-nuevo-agente" role="dialog" aria-modal="true"
+        aria-labelledby="nuevo-agente-title" hidden>
         <div class="client-modal advisor-modal">
-            <div class="client-modal-header"><div class="client-modal-title advisor-modal-title"><span aria-hidden="true">◎</span><h2 id="nuevo-agente-title">Registrar Nuevo Agente / Aprendiz</h2></div><button class="client-modal-close" type="button" data-close-advisor-modal aria-label="Cerrar">×</button></div>
+            <div class="client-modal-header">
+                <div class="client-modal-title advisor-modal-title"><span aria-hidden="true">◎</span>
+                    <h2 id="nuevo-agente-title">Registrar Nuevo Agente / Aprendiz</h2>
+                </div><button class="client-modal-close" type="button" data-close-advisor-modal
+                    aria-label="Cerrar">×</button>
+            </div>
             <form id="nuevo-agente-form">
                 <div class="client-modal-body client-form-grid advisor-form-grid">
-                    <div class="client-form-field"><label for="agente-tipo-documento">Tipo de documento *</label><select id="agente-tipo-documento" required><option value="">Seleccione...</option></select></div>
-                    <div class="client-form-field"><label for="agente-documento">Número de identificación *</label><input id="agente-documento" type="text" placeholder="Ingresa el número de identificación" required></div>
-                    <div class="client-form-field advisor-form-full"><label for="agente-nombre">Nombre completo *</label><input id="agente-nombre" type="text" placeholder="Ingresa nombres y apellidos" required></div>
-                    <div class="client-form-field"><label for="agente-correo">Correo electrónico *</label><input id="agente-correo" type="email" placeholder="Ingresa el correo electrónico" required></div>
-                    <div class="client-form-field"><label for="agente-contrasena">Contraseña de acceso *</label><input id="agente-contrasena" type="password" placeholder="Crea una contraseña de acceso" required></div>
-                    <div class="client-form-field"><label for="agente-telefono">Teléfono principal *</label><input id="agente-telefono" type="tel" placeholder="Ingresa el teléfono principal" required></div>
-                    <div class="client-form-field"><label for="agente-telefono-alt">Teléfono alternativo</label><input id="agente-telefono-alt" type="tel" placeholder="Ingresa un teléfono alternativo (opcional)"></div>
-                    <div class="client-form-field advisor-form-full"><label for="agente-direccion">Dirección *</label><input id="agente-direccion" type="text" placeholder="Ingresa la dirección de residencia" required></div>
-                    <div class="client-form-field"><label for="agente-departamento">Departamento *</label><select id="agente-departamento" required><option value="1">Santander</option><option value="2">Antioquia</option></select></div>
-                    <div class="client-form-field"><label for="agente-municipio">Municipio *</label><select id="agente-municipio" required><option value="1">Municipio A</option><option value="2">Municipio B</option></select></div>
-                    <div class="client-form-field"><label for="agente-barrio">Barrio *</label><select id="agente-barrio" required><option value="1">Barrio A</option><option value="2">Barrio B</option></select></div>
-                    <div class="client-form-field advisor-form-full"><label for="agente-avatar">URL de foto de perfil (avatar)</label><input id="agente-avatar" type="url" placeholder="Ingresa la URL de la foto (opcional)"></div>
+                    <div class="client-form-field"><label for="agente-tipo-documento">Tipo de documento *</label><select
+                            id="agente-tipo-documento" required>
+                            <option value="">Seleccione...</option>
+                        </select></div>
+                    <div class="client-form-field"><label for="agente-documento">Número de identificación
+                            *</label><input id="agente-documento" type="text"
+                            placeholder="Ingresa el número de identificación" required></div>
+                    <div class="client-form-field advisor-form-full"><label for="agente-nombre">Nombre completo
+                            *</label><input id="agente-nombre" type="text" placeholder="Ingresa nombres y apellidos"
+                            required></div>
+                    <div class="client-form-field"><label for="agente-correo">Correo electrónico *</label><input
+                            id="agente-correo" type="email" placeholder="Ingresa el correo electrónico" required></div>
+                    <div class="client-form-field"><label for="agente-contrasena">Contraseña de acceso *</label><input
+                            id="agente-contrasena" type="password" placeholder="Crea una contraseña de acceso" required>
+                    </div>
+                    <div class="client-form-field"><label for="agente-telefono">Teléfono principal *</label><input
+                            id="agente-telefono" type="tel" placeholder="Ingresa el teléfono principal" required></div>
+                    <div class="client-form-field"><label for="agente-telefono-alt">Teléfono alternativo</label><input
+                            id="agente-telefono-alt" type="tel"
+                            placeholder="Ingresa un teléfono alternativo (opcional)"></div>
+                    <div class="client-form-field advisor-form-full"><label for="agente-direccion">Dirección
+                            *</label><input id="agente-direccion" type="text"
+                            placeholder="Ingresa la dirección de residencia" required></div>
+                    <div class="client-form-field"><label for="agente-departamento">Departamento *</label><select
+                            id="agente-departamento" required>
+                            <option value="1">Santander</option>
+                            <option value="2">Antioquia</option>
+                        </select></div>
+                    <div class="client-form-field"><label for="agente-municipio">Municipio *</label><select
+                            id="agente-municipio" required>
+                            <option value="1">Municipio A</option>
+                            <option value="2">Municipio B</option>
+                        </select></div>
+                    <div class="client-form-field"><label for="agente-barrio">Barrio *</label><select id="agente-barrio"
+                            required>
+                            <option value="1">Barrio A</option>
+                            <option value="2">Barrio B</option>
+                        </select></div>
+                    <div class="client-form-field advisor-form-full"><label for="agente-avatar">URL de foto de perfil
+                            (avatar)</label><input id="agente-avatar" type="url"
+                            placeholder="Ingresa la URL de la foto (opcional)"></div>
                 </div>
-                <div class="client-modal-footer"><button class="client-cancel-button" type="button" data-close-advisor-modal>Cancelar</button><button class="advisor-save-button" type="submit">✓ Registrar Agente</button></div>
+                <div class="client-modal-footer"><button class="client-cancel-button" type="button"
+                        data-close-advisor-modal>Cancelar</button><button class="advisor-save-button" type="submit">✓
+                        Registrar Agente</button></div>
             </form>
         </div>
     </div>
 
     <!-- MODAL: ASIGNAR CAMPAÑA -->
-    <div class="client-modal-overlay" id="modal-asignar-campana" role="dialog" aria-modal="true" aria-labelledby="asignar-campana-title" hidden>
+    <div class="client-modal-overlay" id="modal-asignar-campana" role="dialog" aria-modal="true"
+        aria-labelledby="asignar-campana-title" hidden>
         <div class="client-modal assignment-modal">
-            <div class="client-modal-header"><div class="client-modal-title"><span aria-hidden="true">◎</span><h2 id="asignar-campana-title">Nueva Asignación a Campaña</h2></div><button class="client-modal-close" type="button" data-close-advisor-modal aria-label="Cerrar">×</button></div>
-            <form id="asignar-campana-form"><div class="client-modal-body assignment-form"><div class="client-form-field"><label for="asignacion-agente">Seleccionar agente *</label><select id="asignacion-agente" required><option value="">Seleccione...</option></select></div><div class="client-form-field"><label for="asignacion-campana">Seleccionar campaña *</label><select id="asignacion-campana" required><option value="">Seleccione...</option></select></div></div><div class="client-modal-footer"><button class="client-cancel-button" type="button" data-close-advisor-modal>Cancelar</button><button class="assignment-save-button" type="submit">✓ Registrar Asignación</button></div></form>
+            <div class="client-modal-header">
+                <div class="client-modal-title"><span aria-hidden="true">◎</span>
+                    <h2 id="asignar-campana-title">Nueva Asignación a Campaña</h2>
+                </div><button class="client-modal-close" type="button" data-close-advisor-modal
+                    aria-label="Cerrar">×</button>
+            </div>
+            <form id="asignar-campana-form">
+                <div class="client-modal-body assignment-form">
+                    <div class="client-form-field"><label for="asignacion-agente">Seleccionar agente *</label><select
+                            id="asignacion-agente" required>
+                            <option value="">Seleccione...</option>
+                        </select></div>
+                    <div class="client-form-field"><label for="asignacion-campana">Seleccionar campaña *</label><select
+                            id="asignacion-campana" required>
+                            <option value="">Seleccione...</option>
+                        </select></div>
+                </div>
+                <div class="client-modal-footer"><button class="client-cancel-button" type="button"
+                        data-close-advisor-modal>Cancelar</button><button class="assignment-save-button" type="submit">✓
+                        Registrar Asignación</button></div>
+            </form>
         </div>
     </div>
 
@@ -464,17 +482,6 @@
             </div>
         </div>
     </div>
-
-
-    <!-- Los comportamientos se cargan desde js/app.js y js/modules/contactos.js. -->
-
-
-
-
-
-
-
-
 </body>
 
 </html>

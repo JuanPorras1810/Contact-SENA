@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}</script>
+    <script>try {if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open');} catch { }</script>
     <title>Contactos | Contact SENA</title>
     <link rel="stylesheet" href="../../css/style.css">
     <script src="../../js/storage.js" defer></script>
@@ -38,18 +38,6 @@
                 </svg>
                 Contactos
             </a>
-            <!-- <a href="#" class="sidebar-link">
-                <svg viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
-
-                    <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" d="M13 5v2M13 17v2M13 11v2" />
-
-                </svg>
-                Mis Tickets
-            </a> -->
             <a href="tiempoAgente.html" class="sidebar-link">
                 <svg viewBox="0 0 24 24">
                     <path
@@ -91,14 +79,17 @@
 
             <div class="sidebar-user" id="sidebar-user-trigger" role="button" tabindex="0" aria-expanded="false">
                 <div class="avatar-container">
-                    <img src="https://cdn-icons-png.flaticon.com/256/12225/12225881.png" class="user-avatar" alt="Avatar del usuario">
+                    <img src="https://cdn-icons-png.flaticon.com/256/12225/12225881.png" class="user-avatar"
+                        alt="Avatar del usuario">
                     <div class="status-dot"></div>
                 </div>
                 <div class="user-info">
                     <p>USUARIO ACTUAL</p>
                     <h4>(Nombre usuario)</h4>
                 </div>
-                <svg class="arrow-user-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m7.41 8.59 4.59 4.58 4.59-4.58L18 10l-6 6-6-6z"/></svg>
+                <svg class="arrow-user-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m7.41 8.59 4.59 4.58 4.59-4.58L18 10l-6 6-6-6z" />
+                </svg>
             </div>
         </div>
     </aside>
@@ -149,26 +140,7 @@
                             <th>Estado</th>
                         </tr>
                     </thead>
-                    <tbody id="assigned-clients-rows">
-                        <tr>
-
-                            <td class="col-cliente">Gabriel Gómez Vargas</td>
-                            <td><span class="col-campana">Ventas Cruzadas</span></td>
-                            <td>Llamada</td>
-                            <td>Tipificación</td>
-                            <td>Contacto con Gabriel Gómez Vargas - Ventas Cruzadas...</td>
-                            <td>
-                                <div class="time-box">
-                                    <svg viewBox="0 0 24 24">
-                                        <path
-                                            d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
-                                    </svg>
-                                    <span>14m 45s</span>
-                                </div>
-                            </td>
-                            <td><span class="col-estado">Escalado</span></td>
-                        </tr>
-                    </tbody>
+                    <tbody id="assigned-clients-rows"></tbody>
                 </table>
             </div>
         </div>
@@ -193,34 +165,40 @@
                 <form class="operational-form" id="contact-form">
                     <div class="client-info-card">
                         <div class="col-left">
-                            <div class="info-field"><span class="label">Documento de Identidad</span><span
-                                    class="value" id="contact-client-document">-</span></div>
-                            <div class="info-field"><span class="label">Nombre del Cliente</span><span
-                                    class="value" id="contact-client-name">-</span></div>
-                            <div class="info-field"><span class="label">Teléfono de Contacto</span><span
-                                    class="value" id="contact-client-phone">-</span></div>
+                            <div class="info-field"><span class="label">Documento de Identidad</span><span class="value"
+                                    id="contact-client-document">-</span></div>
+                            <div class="info-field"><span class="label">Nombre del Cliente</span><span class="value"
+                                    id="contact-client-name">-</span></div>
+                            <div class="info-field"><span class="label">Teléfono de Contacto</span><span class="value"
+                                    id="contact-client-phone">-</span></div>
                         </div>
                         <div class="col-right">
-                            <div class="info-field"><span class="label">Teléfono Alternativo</span><span
-                                    class="value" id="contact-client-phone-alt">No registrado</span></div>
-                            <div class="info-field"><span class="label">Correo Electrónico</span><span
-                                    class="value" id="contact-client-email">-</span></div>
-                            <div class="info-field"><span class="label">Dirección Residencial</span><span
-                                    class="value" id="contact-client-address">-</span></div>
+                            <div class="info-field"><span class="label">Teléfono Alternativo</span><span class="value"
+                                    id="contact-client-phone-alt">No registrado</span></div>
+                            <div class="info-field"><span class="label">Correo Electrónico</span><span class="value"
+                                    id="contact-client-email">-</span></div>
+                            <div class="info-field"><span class="label">Dirección Residencial</span><span class="value"
+                                    id="contact-client-address">-</span></div>
                         </div>
                         <div class="observation-highlight-box">
                             <div class="info-field"><span class="label">Observación del Cliente</span></div>
-                            <div class="observation-highlight" id="contact-client-observation">Sin observaciones registradas.</div>
+                            <div class="observation-highlight" id="contact-client-observation">Sin observaciones
+                                registradas.</div>
                         </div>
                     </div>
-                    <div class="form-group full-width"><label for="contact-reason">Motivo del Contacto</label><input id="contact-reason" type="text"
-                            class="form-control" value="" readonly aria-readonly="true"></div>
+                    <div class="form-group full-width"><label for="contact-reason">Motivo del Contacto</label><input
+                            id="contact-reason" type="text" class="form-control" value="" readonly aria-readonly="true">
+                    </div>
 
                     <div class="contact-time-grid">
-                        <div class="form-group"><label for="contact-start-date">Fecha de inicio</label><input id="contact-start-date" type="date" readonly></div>
-                        <div class="form-group"><label for="contact-start-time">Hora de inicio</label><input id="contact-start-time" type="time" readonly></div>
-                        <div class="form-group"><label for="contact-end-date">Fecha de cierre</label><input id="contact-end-date" type="date" readonly></div>
-                        <div class="form-group"><label for="contact-end-time">Hora de cierre</label><input id="contact-end-time" type="time" readonly></div>
+                        <div class="form-group"><label for="contact-start-date">Fecha de inicio</label><input
+                                id="contact-start-date" type="date" readonly></div>
+                        <div class="form-group"><label for="contact-start-time">Hora de inicio</label><input
+                                id="contact-start-time" type="time" readonly></div>
+                        <div class="form-group"><label for="contact-end-date">Fecha de cierre</label><input
+                                id="contact-end-date" type="date" readonly></div>
+                        <div class="form-group"><label for="contact-end-time">Hora de cierre</label><input
+                                id="contact-end-time" type="time" readonly></div>
                     </div>
 
 
@@ -230,7 +208,7 @@
                         <div class="form-group">
                             <label>Canal de Contacto</label>
                             <div class="select-wrapper">
-                                    <select id="contact-channel" class="form-control" required>
+                                <select id="contact-channel" class="form-control" required>
                                     <option value="">Seleccione...</option>
                                 </select>
                                 <svg class="select-icon" viewBox="0 0 24 24">
@@ -242,7 +220,7 @@
                         <div class="form-group">
                             <label>Tipificación Operativa</label>
                             <div class="select-wrapper">
-                                    <select id="contact-typification" class="form-control" required>
+                                <select id="contact-typification" class="form-control" required>
                                     <option value="">Seleccione...</option>
                                 </select>
                                 <svg class="select-icon" viewBox="0 0 24 24">
@@ -269,13 +247,15 @@
 
 
 
-                    <div class="form-group full-width"><label for="contact-observation">Observaciones de la Gestión</label><textarea id="contact-observation"
-                            class="form-control" placeholder="Escriba aquí el resumen detallado..." required></textarea>
+                    <div class="form-group full-width"><label for="contact-observation">Observaciones de la
+                            Gestión</label><textarea id="contact-observation" class="form-control"
+                            placeholder="Escriba aquí el resumen detallado..." required></textarea>
                     </div>
                     <div class="form-group full-width contact-campaign-pdf-field">
                         <label for="open-contact-campaign-pdf">Protocolo</label>
                         <div class="contact-pdf-controls">
-                            <button type="button" id="open-contact-campaign-pdf" class="btn-action" disabled>Abrir PDF</button>
+                            <button type="button" id="open-contact-campaign-pdf" class="btn-action" disabled>Abrir
+                                PDF</button>
                         </div>
                     </div>
                     <div id="box-ticket-seguimiento" class="ticket-followup-card d-none">
@@ -463,17 +443,6 @@
             </div>
         </div>
     </div>
-
-
-    <!-- Los comportamientos se cargan desde js/app.js y js/modules/contactos.js. -->
-
-
-
-
-
-
-
-
 </body>
 
 </html>
