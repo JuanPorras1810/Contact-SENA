@@ -59,5 +59,5 @@ app.use(manejadorErrores);
 (async () => {
     await checkDatabase();
     await ensureOperationalSchema();
-    app.listen(port, () => console.log(`Contact SENA API ejecutándose en http://localhost:${port}`));
+    app.listen(port, () => console.log(`Contact SENA ejecutándose en http://localhost:${port}`));
 })().catch(error => { console.error('No se pudo inicializar la base de datos:', error.message); process.exitCode = 1; });
