@@ -1,22 +1,23 @@
 const { pool } = require('../config/database');
 
-const startSession = async (role, userId) => {
-    const table = role === 'supervisor' ? 'registroSupervisor' : 'registroAgente';
-    const userColumn = role === 'supervisor' ? 'idSupRegSup' : 'idAgeRegAge';
-    const startColumn = role === 'supervisor' ? 'fecHoraIniRegSup' : 'fecHoraIniRegAge';
-    const closeColumn = role === 'supervisor' ? 'fecHoraCieRegSup' : 'fecHoraCieRegAge';
-    const [openRows] = await pool.query(`SELECT 1 FROM ${table} WHERE ${userColumn} = ? AND ${closeColumn} IS NULL LIMIT 1`, [userId]);
-    if (openRows.length) return;
-    await pool.query(`INSERT INTO ${table} (${userColumn}, ${startColumn}) VALUES (?, NOW())`, [userId]);
+const iniciarSesionModelo = async (rol, idUsuario) => {
+    const tabla = rol === 'supervisor' ? 'registroSupervisor' : 'registroAgente';
+    const columnaUsuario = rol === 'supervisor' ? 'idSupRegSup' : 'idAgeRegAge';
+    const columnaInicio = rol === 'supervisor' ? 'fecHoraIniRegSup' : 'fecHoraIniRegAge';
+    const columnaCierre = rol === 'supervisor' ? 'fecHoraCieRegSup' : 'fecHoraCieRegAge';
+    const columnaTotal = rol === 'supervisor' ? 'tieTotRegSup' : 'tieTotRegAge';
+    // Cierra un registro abandonado antes de crear el nuevo intervalo de acceso.
+    await pool.query(`UPDATE ${tabla} SET ${columnaCierre} = NOW(), ${columnaTotal} = TIMEDIFF(NOW(), ${columnaInicio}) WHERE ${columnaUsuario} = ? AND ${columnaCierre} IS NULL`, [idUsuario]);
+    await pool.query(`INSERT INTO ${tabla} (${columnaUsuario}, ${columnaInicio}) VALUES (?, NOW())`, [idUsuario]);
 };
 
-const closeSession = async (role, userId) => {
-    const table = role === 'supervisor' ? 'registroSupervisor' : 'registroAgente';
-    const userColumn = role === 'supervisor' ? 'idSupRegSup' : 'idAgeRegAge';
-    const startColumn = role === 'supervisor' ? 'fecHoraIniRegSup' : 'fecHoraIniRegAge';
-    const closeColumn = role === 'supervisor' ? 'fecHoraCieRegSup' : 'fecHoraCieRegAge';
-    const totalColumn = role === 'supervisor' ? 'tieTotRegSup' : 'tieTotRegAge';
-    await pool.query(`UPDATE ${table} SET ${closeColumn} = NOW(), ${totalColumn} = TIMEDIFF(NOW(), ${startColumn}) WHERE ${userColumn} = ? AND ${closeColumn} IS NULL ORDER BY ${startColumn} DESC LIMIT 1`, [userId]);
+const cerrarSesionModelo = async (rol, idUsuario) => {
+    const tabla = rol === 'supervisor' ? 'registroSupervisor' : 'registroAgente';
+    const columnaUsuario = rol === 'supervisor' ? 'idSupRegSup' : 'idAgeRegAge';
+    const columnaInicio = rol === 'supervisor' ? 'fecHoraIniRegSup' : 'fecHoraIniRegAge';
+    const columnaCierre = rol === 'supervisor' ? 'fecHoraCieRegSup' : 'fecHoraCieRegAge';
+    const columnaTotal = rol === 'supervisor' ? 'tieTotRegSup' : 'tieTotRegAge';
+    await pool.query(`UPDATE ${tabla} SET ${columnaCierre} = NOW(), ${columnaTotal} = TIMEDIFF(NOW(), ${columnaInicio}) WHERE ${columnaUsuario} = ? AND ${columnaCierre} IS NULL ORDER BY ${columnaInicio} DESC LIMIT 1`, [idUsuario]);
 };
 
-module.exports = { startSession, closeSession };
+module.exports = { iniciarSesionModelo, cerrarSesionModelo };

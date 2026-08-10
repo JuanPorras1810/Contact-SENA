@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}</script>
     <title>Indicadores | Contact SENA</title>
-    <script>
-        try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}
-    </script>
     <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../js/storage.js" defer></script>
+    <script src="../../js/app.js" defer></script>
+    <script src="../../js/validaciones.js" defer></script>
+    <script src="../../js/modules/indicadores.js" defer></script>
 </head>
 
 <body id="body-container">
@@ -65,7 +67,6 @@
             <section class="indicator-metrics" aria-label="Resumen de indicadores">
                 <article class="indicator-metric metric-blue"><div><span>CANTIDAD DE CONTACTOS</span><strong id="metric-contacts">0</strong><small>Llamadas y chats de hoy</small></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" /></svg></article>
                 <article class="indicator-metric metric-green"><div><span>CASOS CERRADOS / RESUELTOS</span><strong id="metric-resolved">0</strong><small>Soluciones de hoy</small></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg></article>
-                <article class="indicator-metric metric-orange"><div><span>TIEMPO PROMEDIO ATENCIÓN</span><strong id="metric-time">0m 00s</strong><small>AHT del día de hoy</small></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.07 1.01 13.65 2.43A8.962 8.962 0 0 0 12 2a8.99 8.99 0 1 0 8.94 10h2.01A10.996 10.996 0 1 1 12 0c1.05 0 2.06.15 3.07.43zM12.5 6H11v7l5.25 3.15.75-1.23-4.5-2.67V6z" /></svg></article>
                 <article class="indicator-metric metric-purple"><div><span>TICKETS EN GESTIÓN</span><strong id="metric-tickets">0</strong><small>Abiertos (0) | Escalados (0)</small></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h3v-9l-1-2zM6 18.5c-.83 0-1.5-.67-1.5-1.5S5.17 15.5 6 15.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM18 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM17 12V9.5h2.5L20.96 12H17z" /></svg></article>
             </section>
 
@@ -78,9 +79,9 @@
 
             <section class="indicator-table-card" aria-labelledby="indicator-table-title">
                 <div class="indicator-table-heading"><h3 id="indicator-table-title">Rendimiento por agente</h3><span id="indicator-results">2 resultados</span></div>
-                <div class="indicator-table-scroll"><table class="indicator-table"><thead><tr><th>Fecha</th><th>Agente</th><th>Llamadas o contactos realizados</th><th>Tiempo de conexión</th><th>Casos resueltos</th><th>En proceso</th><th>Sin gestión</th><th>Tiempo promedio atención</th></tr></thead><tbody id="indicator-rows">
-                    <tr data-agent="juan" data-search="Juan Porras Aprendiz Contact 122345678"><td>2026-06-28</td><td><div class="indicator-agent-name"><i></i><div><strong>Juan Porras <small>(Aprendiz Contact)</small></strong><em>ID: 1182345678</em></div></div></td><td class="indicator-number">2</td><td>0m 00s</td><td><span class="indicator-badge badge-resolved">1 Resueltos</span></td><td><span class="indicator-badge badge-process">0 En proceso</span></td><td><span class="indicator-badge badge-unmanaged">1 Sin gestión</span></td><td>0m 00s</td></tr>
-                    <tr data-agent="maria" data-search="Maria Fernanda Ruiz 1098112233"><td>2026-06-28</td><td><div class="indicator-agent-name"><i></i><div><strong>María Fernanda Ruiz</strong><em>ID: 1098112233</em></div></div></td><td class="indicator-number">1</td><td>0m 00s</td><td><span class="indicator-badge badge-resolved">0 Resueltos</span></td><td><span class="indicator-badge badge-process">1 En proceso</span></td><td><span class="indicator-badge badge-unmanaged">0 Sin gestión</span></td><td>0m 00s</td></tr>
+                <div class="indicator-table-scroll"><table class="indicator-table"><thead><tr><th>Fecha</th><th>Agente</th><th>Llamadas o contactos realizados</th><th>Tiempo de conexión</th><th>Casos resueltos</th><th>En proceso</th><th>Sin gestión</th><th>Tiempo promedio de interacción</th></tr></thead><tbody id="indicator-rows">
+                    <tr data-agent="juan" data-search="Juan Porras Aprendiz Contact 122345678"><td>2026-06-28</td><td><div class="indicator-agent-name"><i></i><div><strong>Juan Porras <small>(Aprendiz Contact)</small></strong><em>ID: 1182345678</em></div></div></td><td class="indicator-number">2</td><td>0m 00s</td><td><span class="indicator-badge badge-resolved">1 Cerrado</span></td><td><span class="indicator-badge badge-process">0 Abierto</span></td><td><span class="indicator-badge badge-unmanaged">1 Escalado</span></td><td>00h 00m 00s</td></tr>
+                    <tr data-agent="maria" data-search="Maria Fernanda Ruiz 1098112233"><td>2026-06-28</td><td><div class="indicator-agent-name"><i></i><div><strong>María Fernanda Ruiz</strong><em>ID: 1098112233</em></div></div></td><td class="indicator-number">1</td><td>0m 00s</td><td><span class="indicator-badge badge-resolved">0 Cerrado</span></td><td><span class="indicator-badge badge-process">1 Abierto</span></td><td><span class="indicator-badge badge-unmanaged">0 Escalado</span></td><td>00h 00m 00s</td></tr>
                 </tbody></table></div>
             </section>
         </div>
@@ -247,7 +248,4 @@
 
 
 </body>
-<script src="../../js/app.js" defer></script>
-<script src="../../js/validaciones.js" defer></script>
-<script src="../../js/modules/indicadores.js" defer></script>
 </html>

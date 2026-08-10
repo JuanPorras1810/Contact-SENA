@@ -1,0 +1,6 @@
+﻿sep=;
+campaña;tipo_documento;numero_documento;nombre_completo;correo;telefono;telefono_alternativo;direccion;observaciones
+Campaña Ventas 1;Cédula de Ciudadanía;1001001001;Laura Méndez;laura.mendez@example.com;3001001001;6015551001;Carrera 10 # 20-30;Cliente de prueba 1
+Campaña Ventas 1;Cédula de Ciudadanía;1001001002;Diego Ramírez;diego.ramirez@example.com;3001001002;6015551002;Calle 15 # 8-22;Cliente de prueba 2
+Campaña Ventas 2;Cédula de Ciudadanía;1001001003;Sofía Torres;sofia.torres@example.com;3001001003;6015551003;Carrera 25 # 12-45;Cliente de prueba 3
+Campaña Ventas 2;Cédula de Ciudadanía;1001001004;Mateo González;mateo.gonzalez@example.com;3001001004;6015551004;Calle 30 # 14-18;Cliente de prueba 4

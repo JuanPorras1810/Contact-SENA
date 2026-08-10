@@ -1,6 +1,6 @@
 const { pool } = require('../config/database');
 
-const getSupervisorTimes = async ({ start, end, agentId, search }) => {
+const obtenerTiemposSupervisor = async ({ start, end, agentId, search }) => {
     const conditions = [];
     const params = [];
     if (start) { conditions.push('DATE(r.fecHoraIniRegAge) >= ?'); params.push(start); }
@@ -18,7 +18,7 @@ const getSupervisorTimes = async ({ start, end, agentId, search }) => {
     return rows;
 };
 
-const getAgentTimes = async ({ start, end, agentId, search }) => {
+const obtenerTiemposAgente = async ({ start, end, agentId, search }) => {
     const conditions = [];
     const params = [];
     if (start) { conditions.push('DATE(r.fecHoraIniRegAge) >= ?'); params.push(start); }
@@ -36,4 +36,4 @@ const getAgentTimes = async ({ start, end, agentId, search }) => {
     return rows;
 };
 
-module.exports = { getSupervisorTimes, getAgentTimes };
+module.exports = { obtenerTiemposSupervisor, obtenerTiemposAgente };

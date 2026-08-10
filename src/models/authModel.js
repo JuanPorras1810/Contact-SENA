@@ -1,57 +1,70 @@
 const { pool } = require('../config/database');
+const crypto = require('crypto');
+const { promisify } = require('util');
+const scrypt = promisify(crypto.scrypt);
 
-const findUser = async (id, password, role) => {
-    const table = role === 'supervisor' ? 'supervisor' : 'agente';
-    const idColumn = role === 'supervisor' ? 'idSup' : 'idAge';
-    const nameColumn = role === 'supervisor' ? 'nomSup' : 'nomAge';
-    const emailColumn = role === 'supervisor' ? 'emaSup' : 'emaAge';
-    const passwordColumn = role === 'supervisor' ? 'conSup' : 'conAge';
-    const documentColumn = role === 'supervisor' ? 'idTipDocSup' : 'idTipDocAge';
-    const neighborhoodColumn = role === 'supervisor' ? 'idBarSup' : 'idBarAge';
-    const addressColumn = role === 'supervisor' ? 'dirSup' : 'dirAge';
-    const phoneColumn = role === 'supervisor' ? 'telSup' : 'telAge';
-    const alternatePhoneColumn = role === 'supervisor' ? 'telAltSup' : 'telAltAge';
-    const photoColumn = role === 'supervisor' ? 'fotSup' : 'fotAge';
+const hashPassword = async password => { const salt = crypto.randomBytes(16).toString('hex'); const derived = await scrypt(password, salt, 64); return `scrypt$${salt}$${derived.toString('hex')}`; };
+const verifyPassword = async (password, stored) => {
+    if (!stored?.startsWith('scrypt$')) return stored === password;
+    const [, salt, expected] = stored.split('$'); const derived = await scrypt(password, salt, 64); const expectedBuffer = Buffer.from(expected, 'hex'); return expectedBuffer.length === derived.length && crypto.timingSafeEqual(expectedBuffer, derived);
+};
+
+const buscarUsuario = async (id, password, rol) => {
+    const table = rol === 'supervisor' ? 'supervisor' : 'agente';
+    const idColumn = rol === 'supervisor' ? 'idSup' : 'idAge';
+    const nameColumn = rol === 'supervisor' ? 'nomSup' : 'nomAge';
+    const emailColumn = rol === 'supervisor' ? 'emaSup' : 'emaAge';
+    const passwordColumn = rol === 'supervisor' ? 'conSup' : 'conAge';
+    const documentColumn = rol === 'supervisor' ? 'idTipDocSup' : 'idTipDocAge';
+    const neighborhoodColumn = rol === 'supervisor' ? 'idBarSup' : 'idBarAge';
+    const addressColumn = rol === 'supervisor' ? 'dirSup' : 'dirAge';
+    const phoneColumn = rol === 'supervisor' ? 'telSup' : 'telAge';
+    const alternatePhoneColumn = rol === 'supervisor' ? 'telAltSup' : 'telAltAge';
+    const photoColumn = rol === 'supervisor' ? 'fotSup' : 'fotAge';
     const [rows] = await pool.query(
         `SELECT ${idColumn} AS id, ${documentColumn} AS documentTypeId, ${neighborhoodColumn} AS neighborhoodId,
                 ${nameColumn} AS name, ${emailColumn} AS email, ${addressColumn} AS address,
                 ${phoneColumn} AS phone, ${alternatePhoneColumn} AS phoneAlt, ${photoColumn} AS photo,
-                b.idMunBar AS municipalityId, m.idDepMun AS departmentId
+                b.idMunBar AS municipalityId, m.idDepMun AS departmentId, ${passwordColumn} AS password
          FROM ${table}
          INNER JOIN barrio b ON b.idBar = ${table}.${neighborhoodColumn}
          INNER JOIN municipio m ON m.idMun = b.idMunBar
-         WHERE ${idColumn} = ? AND ${passwordColumn} = ? LIMIT 1`,
-        [id, password]
+         WHERE ${idColumn} = ? LIMIT 1`,
+        [id]
     );
-    return rows[0] || null;
+    const usuario = rows[0];
+    if (!usuario || !(await verifyPassword(password, usuario.password))) return null;
+    if (!usuario.password.startsWith('scrypt$')) await pool.query(`UPDATE ${table} SET ${passwordColumn} = ? WHERE ${idColumn} = ?`, [await hashPassword(password), id]);
+    delete usuario.password;
+    return usuario;
 };
 
-const updateProfile = async (role, profile) => {
-    const isSupervisor = role === 'supervisor';
-    const table = isSupervisor ? 'supervisor' : 'agente';
-    const idColumn = isSupervisor ? 'idSup' : 'idAge';
-    const fields = isSupervisor ? {
+const actualizarPerfilModelo = async (rol, perfil) => {
+    const esSupervisor = rol === 'supervisor';
+    const table = esSupervisor ? 'supervisor' : 'agente';
+    const idColumn = esSupervisor ? 'idSup' : 'idAge';
+    const fields = esSupervisor ? {
         name: 'nomSup', email: 'emaSup', address: 'dirSup', phone: 'telSup', phoneAlt: 'telAltSup', neighborhoodId: 'idBarSup', photo: 'fotSup'
     } : {
         name: 'nomAge', email: 'emaAge', address: 'dirAge', phone: 'telAge', phoneAlt: 'telAltAge', neighborhoodId: 'idBarAge', photo: 'fotAge'
     };
     const updates = [];
     const values = [];
-    Object.entries(fields).forEach(([key, column]) => { if (profile[key] !== undefined) { updates.push(`${column} = ?`); values.push(profile[key] || null); } });
+    Object.entries(fields).forEach(([key, column]) => { if (perfil[key] !== undefined) { updates.push(`${column} = ?`); values.push(perfil[key] || null); } });
     if (!updates.length) return;
-    values.push(profile.id);
+    values.push(perfil.id);
     await pool.query(`UPDATE ${table} SET ${updates.join(', ')} WHERE ${idColumn} = ?`, values);
 };
 
-const getProfile = async (role, id) => {
-    const isSupervisor = role === 'supervisor';
-    const table = isSupervisor ? 'supervisor' : 'agente';
-    const idColumn = isSupervisor ? 'idSup' : 'idAge';
-    const documentColumn = isSupervisor ? 'idTipDocSup' : 'idTipDocAge';
-    const neighborhoodColumn = isSupervisor ? 'idBarSup' : 'idBarAge';
-    const fields = isSupervisor ? ['nomSup AS name', 'emaSup AS email', 'dirSup AS address', 'telSup AS phone', 'telAltSup AS phoneAlt', 'fotSup AS photo'] : ['nomAge AS name', 'emaAge AS email', 'dirAge AS address', 'telAge AS phone', 'telAltAge AS phoneAlt', 'fotAge AS photo'];
+const obtenerPerfilModelo = async (rol, id) => {
+    const esSupervisor = rol === 'supervisor';
+    const table = esSupervisor ? 'supervisor' : 'agente';
+    const idColumn = esSupervisor ? 'idSup' : 'idAge';
+    const documentColumn = esSupervisor ? 'idTipDocSup' : 'idTipDocAge';
+    const neighborhoodColumn = esSupervisor ? 'idBarSup' : 'idBarAge';
+    const fields = esSupervisor ? ['nomSup AS name', 'emaSup AS email', 'dirSup AS address', 'telSup AS phone', 'telAltSup AS phoneAlt', 'fotSup AS photo'] : ['nomAge AS name', 'emaAge AS email', 'dirAge AS address', 'telAge AS phone', 'telAltAge AS phoneAlt', 'fotAge AS photo'];
     const [rows] = await pool.query(`SELECT ${idColumn} AS id, ${documentColumn} AS documentTypeId, ${neighborhoodColumn} AS neighborhoodId, b.idMunBar AS municipalityId, m.idDepMun AS departmentId, ${fields.join(', ')} FROM ${table} INNER JOIN barrio b ON b.idBar = ${table}.${neighborhoodColumn} INNER JOIN municipio m ON m.idMun = b.idMunBar WHERE ${idColumn} = ? LIMIT 1`, [id]);
     return rows[0] || null;
 };
 
-module.exports = { findUser, updateProfile, getProfile };
+module.exports = { buscarUsuario, actualizarPerfilModelo, obtenerPerfilModelo };

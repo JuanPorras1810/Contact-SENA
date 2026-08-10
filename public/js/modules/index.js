@@ -18,8 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const payload = await response.json();
             if (!response.ok) throw new Error(payload.error || 'No fue posible iniciar sesión');
-            localStorage.setItem('contact-sena-user', JSON.stringify(payload.user));
-            localStorage.setItem('contact-sena-token', payload.token);
             window.location.href = role === 'supervisor' ? 'modulos/supervisor/panelSupervisor.html' : 'modulos/agente/contactos.html';
         } catch (error) {
             alert(error.message);

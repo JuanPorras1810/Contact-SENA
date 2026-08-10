@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}</script>
     <title>Historial de Gestiones | Contact SENA</title>
-    <script>
-        try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}
-    </script>
     <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../js/storage.js" defer></script>
+    <script src="../../js/app.js" defer></script>
+    <script src="../../js/validaciones.js" defer></script>
+    <script src="../../js/modules/historial.js" defer></script>
 </head>
 <body id="body-container">
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
@@ -40,12 +42,12 @@
         <header class="header-container supervisor-history-header"><div class="text-box"><div class="module-title"><h2>Historial de Gestiones</h2></div><p>Consulta el histórico de contactos y tickets gestionados por todos los agentes.</p></div><button class="menu-hamburger" id="btn-hamburger" aria-label="Abrir menú"><svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></button></header>
         <div class="module-container supervisor-data-module">
             <section class="supervisor-history-filters" aria-label="Filtros del historial"><div class="supervisor-date-filter"><label for="history-start">Fecha Inicio</label><input id="history-start" type="date" value="2026-06-01"></div><div class="supervisor-date-filter"><label for="history-end">Fecha Fin</label><input id="history-end" type="date" value="2026-07-31"></div><div class="supervisor-agent-filter"><label for="history-agent">Buscar por Agente</label><select id="history-agent"><option value="all">-- Todos los Agentes --</option><option value="juan">Juan Porras (Aprendiz Contact)</option><option value="maria">María Fernanda Ruiz</option><option value="andres">Andrés Felipe Torres</option></select></div><div class="supervisor-tabs"><button class="active" id="contacts-tab" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>Contactos</span></button><button id="tickets-tab" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg><span>Tickets</span></button></div><div class="supervisor-text-search"><label for="history-search">Buscar</label><div><svg viewBox="0 0 24 24"><path d="M9.5 3a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm5 9.59 4.45 4.45-1.42 1.42-4.45-4.45z"/></svg><input id="history-search" type="search" placeholder="Buscar en contactos..."></div></div></section>
-            <section class="table-container" aria-labelledby="history-table-title"><div class="supervisor-table-heading"><h3 id="history-table-title">Contactos gestionados</h3><span id="history-results">4 resultados</span></div><div class="supervisor-table-scroll"><table id="contacts-table"><thead><tr><th>Código</th><th>Fecha</th><th>Cliente contactado</th><th>Campaña / Motivo</th><th>Observaciones</th><th>Estado</th></tr></thead><tbody id="contacts-rows">
+            <section class="table-container" aria-labelledby="history-table-title"><div class="supervisor-table-heading"><h3 id="history-table-title">Contactos gestionados</h3><span id="history-results">4 resultados</span></div><div class="supervisor-table-scroll"><table id="contacts-table"><thead><tr><th>Código</th><th>Fecha</th><th>Agente</th><th>Cliente contactado</th><th>Campaña / Motivo</th><th>Observaciones</th><th>Estado</th></tr></thead><tbody id="contacts-rows">
                 <tr data-agent="juan" data-search="101 Juan Porras Carlos Ruiz García cancelación voluntaria precio"><td><strong class="cod-blue">#101</strong></td><td>2026-06-28</td><td class="col-cliente">Carlos Ruiz García</td><td><span class="col-campana">Solicitud de cancelación voluntaria por precio</span></td><td>Se aplicó descuento del 30% por 6 meses...</td><td><span class="col-estado estado-resuelto">Resuelto</span></td></tr>
                 <tr data-agent="maria" data-search="102 María Fernanda Ruiz Ana Sofía Torres fallas técnicas reiteradas internet hogar"><td><strong class="cod-blue">#102</strong></td><td>2026-06-28</td><td class="col-cliente">Ana Sofía Torres</td><td><span class="col-campana">Fallas técnicas reiteradas en internet hogar</span></td><td>Cliente fue revisado y visita técnica urgente...</td><td><span class="col-estado estado-pendiente">Caso Abierto</span></td></tr>
                 <tr data-agent="andres" data-search="103 Andrés Felipe Torres John Smith módem no enciende tormenta eléctrica"><td><strong class="cod-blue">#103</strong></td><td>2026-06-28</td><td class="col-cliente">John Smith Anderson</td><td><span class="col-campana">Módem no enciende tras tormenta eléctrica</span></td><td>Se valida con el cliente que no llega voltaje...</td><td><span class="col-estado estado-pendiente">Escalado</span></td></tr>
                 <tr data-agent="juan" data-search="104 Juan Porras John Smith configuración IP fija corporativa"><td><strong class="cod-blue">#104</strong></td><td>2026-07-01</td><td class="col-cliente">John Smith Anderson</td><td><span class="col-campana">Configuración de IP fija corporativa</span></td><td>Se guía al cliente paso a paso en la asignación...</td><td><span class="col-estado estado-resuelto">Resuelto</span></td></tr>
-            </tbody></table><table class="hidden" id="tickets-table"><thead><tr><th>Código</th><th>Fecha inicio</th><th>Fecha cierre</th><th>Comentario / Bitácora</th></tr></thead><tbody id="tickets-rows"><tr data-agent="juan" data-search="TK-5001 Juan Porras Ana Torres fibra óptica"><td><strong class="cod-blue">#TK-5001</strong></td><td>2026-06-28</td><td>Abierto</td><td>Enviar mensajero con equipo de repuesto a la dirección registrada en base de datos...</td></tr><tr data-agent="maria" data-search="TK-5002 María Fernanda Ruiz Carlos Ruiz equipo reemplazo"><td><strong class="cod-blue">#TK-5002</strong></td><td>2026-07-02</td><td>Abierto</td><td>Solicitud de equipo de reemplazo enviada al área de soporte.</td></tr></tbody></table></div></section>
+            </tbody></table><table class="hidden" id="tickets-table"><thead><tr><th>Código</th><th>Agente</th><th>Fecha inicio</th><th>Fecha cierre</th><th>Comentario / Bitácora</th></tr></thead><tbody id="tickets-rows"><tr data-agent="juan" data-search="TK-5001 Juan Porras Ana Torres fibra óptica"><td><strong class="cod-blue">#TK-5001</strong></td><td>Juan Porras</td><td>2026-06-28</td><td>Abierto</td><td>Enviar mensajero con equipo de repuesto a la dirección registrada en base de datos...</td></tr><tr data-agent="maria" data-search="TK-5002 María Fernanda Ruiz Carlos Ruiz equipo reemplazo"><td><strong class="cod-blue">#TK-5002</strong></td><td>María Fernanda Ruiz</td><td>2026-07-02</td><td>Abierto</td><td>Solicitud de equipo de reemplazo enviada al área de soporte.</td></tr></tbody></table></div></section>
         </div>
     </main>
 
@@ -210,7 +212,4 @@
 
 
 </body>
-<script src="../../js/app.js" defer></script>
-<script src="../../js/validaciones.js" defer></script>
-<script src="../../js/modules/historial.js" defer></script>
 </html>

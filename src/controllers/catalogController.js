@@ -1,5 +1,6 @@
-const { getGeography } = require('../models/catalogModel');
+const { obtenerGeografiaModelo, obtenerCatalogosOperativos } = require('../models/catalogModel');
 
-const geography = async (req, res) => res.json(await getGeography());
+const obtenerGeografia = async (req, res) => res.json(await obtenerGeografiaModelo());
+const obtenerOperativos = async (req, res) => res.json(await obtenerCatalogosOperativos());
 
-module.exports = { geography };
+module.exports = { obtenerGeografia, obtenerOperativos };

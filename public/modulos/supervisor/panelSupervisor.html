@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact SENA</title>
-    <script>
-        try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}
-    </script>
+    <script>try { if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open'); } catch {}</script>
+    <title>Panel Supervisor | Contact SENA</title>
     <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../js/storage.js" defer></script>
+    <script src="../../js/app.js" defer></script>
+    <script src="../../js/validaciones.js" defer></script>
+    <script src="../../js/modules/panel.js" defer></script>
 </head>
 
 <body id="body-container">
@@ -153,7 +155,7 @@
             <div class="cards-container">
 
                 <!-- Tarjeta 1: Agentes Conectados (Agregado data-target) -->
-                <div class="card" id="card-agentes" data-target="seccion-tabla-agentes">
+                <div class="card active-card-init" id="card-agentes" data-target="seccion-tabla-agentes">
                     <div class="card-header">
                         <span class="card-title">AGENTES CONECTADOS</span>
                         <div class="card-icon icon-blue">
@@ -170,7 +172,7 @@
                 </div>
 
                 <!-- Tarjeta 2: Seguimiento de Casos (Agregado data-target) -->
-                <div class="card active-card-init" id="card-casos" data-target="seccion-tabla-casos">
+                <div class="card" id="card-casos" data-target="seccion-tabla-casos">
                     <div class="card-header">
                         <span class="card-title">SEGUIMIENTO DE CASOS</span>
                         <div class="card-icon icon-amber">
@@ -484,8 +486,5 @@
 
 
 </body>
-<script src="../../js/app.js" defer></script>
-<script src="../../js/validaciones.js" defer></script>
-<script src="../../js/modules/panel.js" defer></script>
 
 </html>

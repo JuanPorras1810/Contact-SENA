@@ -1,5 +1,5 @@
-const { getPanelData } = require('../models/panelModel');
+const { obtenerDatosPanel } = require('../models/panelModel');
 
-const getPanel = async (req, res) => res.json(await getPanelData());
+const obtenerPanel = async (req, res) => res.json(await obtenerDatosPanel());
 
-module.exports = { getPanel };
+module.exports = { obtenerPanel };

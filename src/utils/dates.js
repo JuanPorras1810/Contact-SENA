@@ -1,9 +1,9 @@
-const formatDate = value => {
-    if (!value) return null;
-    const [year, month, day] = String(value).slice(0, 10).split('-');
-    return year && month && day ? `${day}/${month}/${year}` : value;
+const formatearFecha = valor => {
+    if (!valor) return null;
+    const [anio, mes, dia] = String(valor).slice(0, 10).split('-');
+    return anio && mes && dia ? `${dia}/${mes}/${anio}` : valor;
 };
 
-const formatTime = value => value ? String(value).slice(0, 5) : null;
+const formatearHora = valor => valor ? String(valor).slice(0, 5) : null;
 
-module.exports = { formatDate, formatTime };
+module.exports = { formatearFecha, formatearHora };

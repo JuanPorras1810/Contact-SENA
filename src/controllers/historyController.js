@@ -1,9 +1,9 @@
-const { listInteractions, listCases } = require('../models/historyModel');
+const { listarInteracciones, listarCasos } = require('../models/historyModel');
 
-const getHistory = async (req, res) => res.json({ contacts: await listInteractions(), tickets: await listCases() });
-const getAgentHistory = async (req, res) => {
+const obtenerHistorial = async (req, res) => res.json({ contacts: await listarInteracciones(req.query.agentId, req.query), tickets: await listarCasos(req.query.agentId, req.query) });
+const obtenerHistorialAgente = async (req, res) => {
     if (!req.query.agentId || String(req.query.agentId) !== String(req.auth.id)) return res.status(403).json({ error: 'Solo puedes consultar tu propio historial' });
-    res.json({ contacts: await listInteractions(req.query.agentId), tickets: await listCases(req.query.agentId) });
+    res.json({ contacts: await listarInteracciones(req.query.agentId, req.query), tickets: await listarCasos(req.query.agentId, req.query) });
 };
 
-module.exports = { getHistory, getAgentHistory };
+module.exports = { obtenerHistorial, obtenerHistorialAgente };
