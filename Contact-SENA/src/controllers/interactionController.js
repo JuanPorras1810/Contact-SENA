@@ -10,7 +10,9 @@ const crearInteraccion = async (req, res) => {
     const completar = valor => String(valor).padStart(2, '0');
     const fechaLocal = `${now.getFullYear()}-${completar(now.getMonth() + 1)}-${completar(now.getDate())}`;
     const horaActual = now.toTimeString().slice(0, 8);
-    const crearCaso = Number(req.body.statusId) !== 1;
+    const statusId = Number(req.body.statusId);
+    if (![1, 2, 3].includes(statusId)) return res.status(400).json({ error: 'Selecciona un resultado válido para la gestión' });
+    const crearCaso = statusId === 2 || statusId === 3;
     if (crearCaso && !String(req.body.caseComment || '').trim()) return res.status(400).json({ error: 'El comentario del caso es obligatorio para estados en proceso o sin gestión' });
     const data = await crearInteraccionModelo({ ...req.body, date: req.body.date || fechaLocal, startTime: req.body.startTime || horaActual, endTime: req.body.endTime || horaActual, duration: req.body.duration || '00:00:00', createCase: crearCaso });
     res.status(201).json({ data });

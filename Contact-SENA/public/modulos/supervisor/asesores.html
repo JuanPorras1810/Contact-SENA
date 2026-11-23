@@ -200,19 +200,6 @@
                         <input type="text" placeholder="Buscar...">
                     </div>
 
-                    <div class="caja-select-camp">
-                        <select class="select-camp-opciones">
-                            <option value="">Todas las campañas</option>
-                            <option value="retencion">Retención de Clientes 2026</option>
-                            <option value="ventas">Ventas Cruzadas Servicio Premium</option>
-                            <option value="soporte">Soporte Técnico Especializado</option>
-                        </select>
-                        <svg viewBox="0 0 24 24">
-                            <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
-                        </svg>
-                    </div>
-
-
                     <button class="btn-add-green" id="btn-asignar-campana" type="button">
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
                             stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -317,18 +304,24 @@
             </div>
             <form id="asignar-campana-form">
                 <div class="client-modal-body assignment-form">
-                    <div class="client-form-field"><label for="asignacion-agente">Seleccionar agente</label><select
-                            id="asignacion-agente">
-                            <option value="">Seleccione...</option>
-                        </select></div>
-                    <div class="client-form-field"><label for="asignacion-agente-documento">O escribir documento del agente</label><input
-                            id="asignacion-agente-documento" type="search" placeholder="Ej. 0003" autocomplete="off"></div>
-                    <div class="client-form-field"><label for="asignacion-campana">Seleccionar campaña</label><select
-                            id="asignacion-campana">
-                            <option value="">Seleccione...</option>
-                        </select></div>
-                    <div class="client-form-field"><label for="asignacion-campana-nombre">O escribir nombre o código de campaña</label><input
-                            id="asignacion-campana-nombre" type="search" placeholder="Ej. Campaña Ventas 1" autocomplete="off"></div>
+                    <div class="client-form-field autocomplete-field">
+                        <label for="asignacion-agente-busqueda">Buscar agente por documento o nombre</label>
+                        <input id="asignacion-agente-busqueda" type="search"
+                            placeholder="Ej. 0003 o María López" autocomplete="off"
+                            role="combobox" aria-autocomplete="list" aria-controls="asignacion-agente-sugerencias"
+                            aria-expanded="false">
+                        <input id="asignacion-agente" type="hidden">
+                        <div id="asignacion-agente-sugerencias" class="autocomplete-suggestions" role="listbox" hidden></div>
+                    </div>
+                    <div class="client-form-field autocomplete-field">
+                        <label for="asignacion-campana-busqueda">Buscar campaña por nombre o código</label>
+                        <input id="asignacion-campana-busqueda" type="search"
+                            placeholder="Ej. Ventas o CAM-001" autocomplete="off"
+                            role="combobox" aria-autocomplete="list" aria-controls="asignacion-campana-sugerencias"
+                            aria-expanded="false">
+                        <input id="asignacion-campana" type="hidden">
+                        <div id="asignacion-campana-sugerencias" class="autocomplete-suggestions" role="listbox" hidden></div>
+                    </div>
                 </div>
                 <div class="client-modal-footer"><button class="client-cancel-button" type="button"
                         data-close-advisor-modal>Cancelar</button><button class="assignment-save-button" type="submit">✓

@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const table = document.querySelector('.time-table, .time-table-agent');
     const body = document.getElementById('time-rows') || table?.tBodies[0];
-    const agent = document.getElementById('time-agent') || { value: 'all', addEventListener: () => {} };
-    const busqueda = document.getElementById('time-search') || document.querySelector('.filter-search-group input') || { value: '', addEventListener: () => {} };
+    const agent = document.getElementById('time-agent') || { value: 'all' };
+    const busqueda = { value: '', addEventListener: () => {} };
     const result = document.getElementById('time-results');
     const startDate = document.getElementById('time-start') || document.getElementById('fecha-inicio');
     const endDate = document.getElementById('time-end') || document.getElementById('fecha-fin');
@@ -10,9 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const localDate = value => { const month = String(value.getMonth() + 1).padStart(2, '0'); const day = String(value.getDate()).padStart(2, '0'); return `${value.getFullYear()}-${month}-${day}`; };
     if (startDate) startDate.value = localDate(new Date(today.getFullYear(), today.getMonth(), 1));
     if (endDate) endDate.value = localDate(today);
-    if (!table || !body || !agent || !busqueda) return;
+    if (!table || !body) return;
     const timeTabs = [...document.querySelectorAll('[data-time-view]')];
     let timeView = 'agents';
+    let agentesDisponibles = [];
 
     const formatearHora = valor => {
         if (!valor) return '';
@@ -100,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const filtrar = () => {
         let count = 0;
         rows.forEach(row => {
-            const visible = (agent.value === 'all' || row.dataset.agent === agent.value) && (!busqueda.value.trim() || row.dataset.search.toLowerCase().includes(busqueda.value.trim().toLowerCase()));
+            const visible = timeView !== 'agents' || agent.value === 'all' || row.dataset.agent === agent.value;
             row.hidden = !visible;
             if (visible) count++;
         });
@@ -118,9 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams();
             if (startDate?.value) params.set('start', startDate.value);
             if (endDate?.value) params.set('end', endDate.value);
-            if (isSupervisor && timeView === 'agents' && /^\d+$/.test(agent.value || '')) params.set('agentId', agent.value);
+            if (isSupervisor && timeView === 'agents' && agent.value !== 'all') params.set('agentId', agent.value);
             if (!isSupervisor) params.set('agentId', currentUser.id);
-            if (busqueda.value.trim()) params.set('search', busqueda.value.trim());
             const response = await fetch(`${endpoint}?${params}`);
             if (!response.ok) return;
             const payload = await response.json();
@@ -134,15 +134,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (document.querySelector('.supervisor-time-header')) {
         fetch('/api/asesores').then(response => response.json()).then(payload => {
-            const agentes = [...new Map((payload.data || []).map(item => [String(item.id), item])).values()];
-            agent.replaceChildren(new Option('Todos los agentes', 'all'), ...agentes.map(item => new Option(item.name, item.id)));
+            agentesDisponibles = [...new Map((payload.data || []).map(item => [String(item.id), item])).values()];
         }).catch(() => {});
     }
+    window.ContactSena?.autocomplete?.({
+        input: document.getElementById('time-agent-search'),
+        hidden: agent,
+        list: document.getElementById('time-agent-suggestions'),
+        items: () => agentesDisponibles,
+        text: item => `${item.id} - ${item.name}`,
+        value: item => item.id,
+        onSelect: item => { if (!item) agent.value = 'all'; filtrar(); }
+    });
 
     const actualizarVista = () => {
         const vistaPropia = timeView === 'mine';
         const filtroAgente = document.querySelector('.supervisor-agent-filter');
-        if (filtroAgente) filtroAgente.hidden = vistaPropia;
+        if (filtroAgente) {
+            filtroAgente.hidden = vistaPropia;
+            if (vistaPropia) {
+                agent.value = 'all';
+                const input = document.getElementById('time-agent-search');
+                if (input) input.value = '';
+            }
+        }
         const titulo = document.getElementById('time-table-title');
         if (titulo) titulo.textContent = vistaPropia ? 'Mi registro de tiempo' : 'Registro de asistencia de agentes';
     };
@@ -152,8 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
         actualizarVista();
         cargar();
     }));
-    agent.addEventListener('change', filtrar);
-    busqueda.addEventListener('input', filtrar);
     startDate?.addEventListener('change', cargar);
     endDate?.addEventListener('change', cargar);
     actualizarVista();

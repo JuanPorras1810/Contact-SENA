@@ -209,6 +209,120 @@ body {
     font-weight: 600;
 }
 
+.forgot-password-link {
+    border: 0;
+    background: transparent;
+    color: #3399ff;
+    font: 600 11px 'Poppins', sans-serif;
+    cursor: pointer;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
+}
+
+.recovery-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(3, 8, 18, .78);
+}
+
+.recovery-overlay[hidden] {
+    display: none;
+}
+
+.recovery-card {
+    position: relative;
+    width: min(100%, 410px);
+    padding: 32px;
+    border: 1px solid #2d4160;
+    border-radius: 18px;
+    background: #162031;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, .45);
+    text-align: left;
+}
+
+.recovery-card h2 {
+    margin: 12px 0 6px;
+    color: #fff;
+    font-size: 21px;
+}
+
+.recovery-subtitle,
+.recovery-notice,
+.recovery-feedback {
+    color: #8fa0ba;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.recovery-step {
+    margin-top: 20px;
+}
+
+.recovery-step[hidden] {
+    display: none;
+}
+
+.recovery-step label {
+    display: block;
+    margin: 12px 0 7px;
+    color: #c7d3e5;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.recovery-step input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #2d4160;
+    border-radius: 8px;
+    outline: none;
+    background: #0e1624;
+    color: #fff;
+}
+
+.recovery-step input:focus {
+    border-color: #1e90ff;
+}
+
+.recovery-step .btn-submit {
+    margin-top: 18px;
+}
+
+.recovery-icon {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border-radius: 50%;
+    background: #1e69ff;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.recovery-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    border: 0;
+    background: transparent;
+    color: #8fa0ba;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.recovery-feedback {
+    min-height: 18px;
+    margin-top: 14px;
+    color: #65d39a;
+}
+
 .text-sena {
     color: #00cc66;
     font-weight: 600;
@@ -1944,6 +2058,31 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     pointer-events: none;
 }
 
+.campaign-filter-autocomplete {
+    position: relative;
+    flex: 0 1 560px;
+    min-width: 0;
+}
+
+.campaign-filter-autocomplete .search-wrapper-full {
+    width: 100%;
+    max-width: none;
+}
+
+.campaign-filter-autocomplete .autocomplete-suggestions {
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+}
+
+.campaign-search-bar .campaign-new-button {
+    flex: 0 0 auto;
+}
+
+.campaign-card[hidden] {
+    display: none !important;
+}
+
 .btn-add-green {
     background-color: #00a86b;
     color: white;
@@ -2123,6 +2262,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     gap: 12px;
     width: 100%;
     margin-bottom: 16px;
+}
+
+.top-module-actions .actions-row-top {
+    justify-content: flex-start !important;
 }
 
 .actions-row-top .btn-action {
@@ -3008,7 +3151,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .indicator-filters {
     display: grid;
-    grid-template-columns: minmax(180px, .8fr) minmax(180px, .8fr) minmax(260px, 1.1fr) minmax(180px, .7fr);
+    grid-template-columns: minmax(180px, .8fr) minmax(180px, .8fr) minmax(260px, 1.1fr);
     align-items: end;
     gap: 12px;
     padding: 14px;
@@ -3245,11 +3388,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .supervisor-filter-panel {
-    grid-template-columns: minmax(170px, .78fr) minmax(170px, .78fr) minmax(250px, 1.05fr) minmax(170px, .7fr);
+    grid-template-columns: minmax(170px, .78fr) minmax(170px, .78fr) minmax(250px, 1.05fr);
 }
 
 .supervisor-history-filters {
-    grid-template-columns: minmax(150px, .68fr) minmax(150px, .68fr) minmax(230px, .95fr) minmax(145px, .65fr) minmax(180px, .85fr);
+    grid-template-columns: minmax(150px, .68fr) minmax(150px, .68fr) minmax(230px, .95fr);
 }
 
 .supervisor-date-filter,
@@ -3274,7 +3417,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .supervisor-date-filter input,
-.supervisor-agent-filter select,
+.supervisor-agent-filter input[type="search"],
 .supervisor-text-search input {
     width: 100%;
     height: 36px;
@@ -3288,14 +3431,212 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .supervisor-date-filter input:focus,
-.supervisor-agent-filter select:focus,
+.supervisor-agent-filter input[type="search"]:focus,
 .supervisor-text-search input:focus {
     border-color: #1e69ff;
     box-shadow: 0 0 0 3px rgba(30, 105, 255, .1);
 }
 
-.supervisor-agent-filter select {
+.supervisor-agent-filter input[type="search"] {
+    cursor: text;
+}
+
+.autocomplete-search-box {
+    position: relative;
+}
+
+.autocomplete-search-box svg {
+    position: absolute;
+    top: 50%;
+    left: 11px;
+    z-index: 1;
+    width: 14px;
+    height: 14px;
+    transform: translateY(-50%);
+    fill: #91a1b4;
+    pointer-events: none;
+}
+
+.supervisor-agent-filter .autocomplete-search-box input[type="search"],
+.indicator-filter .autocomplete-search-box input[type="search"] {
+    padding-left: 32px;
+}
+
+.autocomplete-field {
+    position: relative;
+}
+
+.autocomplete-suggestions {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    left: 0;
+    z-index: 30;
+    max-height: 190px;
+    overflow-y: auto;
+    border: 1px solid #d6e0ec;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, .14);
+}
+
+.autocomplete-suggestions[hidden] {
+    display: none;
+}
+
+.autocomplete-suggestion {
+    display: block;
+    width: 100%;
+    padding: 9px 11px;
+    border: 0;
+    border-bottom: 1px solid #edf1f5;
+    background: #fff;
+    color: #334155;
+    font: 500 11px 'Poppins', sans-serif;
+    text-align: left;
     cursor: pointer;
+}
+
+.autocomplete-suggestion:hover,
+.autocomplete-suggestion:focus {
+    background: #eef5ff;
+    color: #1557c0;
+    outline: none;
+}
+
+/* Filtros compactos: fechas juntas y un único buscador al final. */
+.supervisor-filter-panel,
+.supervisor-history-filters,
+.indicator-filters {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.date-range-group {
+    display: flex;
+    flex: 0 1 650px;
+    gap: 12px;
+    min-width: 0;
+}
+
+.date-range-group > .supervisor-date-filter,
+.date-range-group > .indicator-filter {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 320px;
+}
+
+.supervisor-filter-panel > .supervisor-agent-filter,
+.supervisor-history-filters > .supervisor-agent-filter,
+.indicator-filters > .supervisor-agent-filter,
+.indicator-filters > .indicator-filter.agent-filter {
+    flex: 1 1 380px !important;
+    max-width: 380px !important;
+    order: 3;
+}
+
+.supervisor-history-filters > .supervisor-tabs {
+    order: 2;
+}
+
+.autocomplete-search-box {
+    position: relative;
+    width: 100%;
+}
+
+.autocomplete-search-box svg {
+    top: 50%;
+    left: 10px;
+    width: 14px;
+    height: 14px;
+}
+
+.autocomplete-search-box input[type="search"] {
+    padding-left: 31px !important;
+}
+
+body .autocomplete-suggestion {
+    padding: 12px 14px;
+    font-size: 11px;
+    line-height: 1.35;
+}
+
+/* Igualar exactamente el buscador del módulo Clientes. */
+.supervisor-agent-filter .search-wrapper-full {
+    position: relative;
+    display: flex;
+    width: 100%;
+    max-width: 800px;
+    align-items: center;
+}
+
+.supervisor-agent-filter .search-wrapper-full input[type="search"] {
+    width: 100%;
+    height: 46px;
+    padding: 12px 16px 12px 45px !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: #f8fafc;
+    color: #334155;
+    font-size: 14px;
+}
+
+.indicator-filter.agent-filter .search-wrapper-full input[type="search"] {
+    width: 100%;
+    height: 46px;
+    padding: 12px 16px 12px 45px !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: #f8fafc;
+    color: #334155;
+    font-size: 14px;
+}
+
+.supervisor-agent-filter .search-wrapper-full svg {
+    position: absolute;
+    left: 15px;
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    fill: #94a3b8;
+    pointer-events: none;
+}
+
+.indicator-filter.agent-filter .search-wrapper-full svg {
+    position: absolute;
+    left: 15px;
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    fill: #94a3b8;
+    pointer-events: none;
+}
+
+@media (max-width: 900px) {
+    .supervisor-filter-panel,
+    .supervisor-history-filters,
+    .indicator-filters {
+        flex-wrap: wrap;
+    }
+
+    .date-range-group {
+        flex: 1 1 100%;
+        min-width: 100%;
+    }
+
+    .date-range-group > .supervisor-date-filter,
+    .date-range-group > .indicator-filter {
+        max-width: none;
+    }
+
+    .supervisor-filter-panel > .supervisor-agent-filter,
+    .supervisor-history-filters > .supervisor-agent-filter,
+    .indicator-filters > .indicator-filter.agent-filter {
+        flex: 1 1 100% !important;
+        max-width: none !important;
+    }
 }
 
 .supervisor-text-search>div {
@@ -4094,6 +4435,67 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-color: #1e69ff;
 }
 
+.autocomplete-field {
+    position: relative;
+}
+
+.assignment-form .autocomplete-field input[type="search"] {
+    width: 100%;
+    height: 35px;
+    padding: 0 10px;
+    border: 1px solid #1e69ff;
+    border-radius: 7px;
+    outline: none;
+    color: #334155;
+    font: 500 9px 'Poppins', sans-serif;
+}
+
+.assignment-form .autocomplete-field input[type="search"]:focus {
+    box-shadow: 0 0 0 3px rgba(30, 105, 255, .12);
+}
+
+.autocomplete-suggestions {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    left: 0;
+    z-index: 20;
+    max-height: 170px;
+    overflow-y: auto;
+    border: 1px solid #d6e0ec;
+    border-radius: 7px;
+    background: #fff;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, .14);
+}
+
+.autocomplete-suggestions[hidden] {
+    display: none;
+}
+
+.autocomplete-suggestion {
+    display: block;
+    width: 100%;
+    padding: 9px 10px;
+    border: 0;
+    border-bottom: 1px solid #edf1f5;
+    background: #fff;
+    color: #334155;
+    font: 600 9px 'Poppins', sans-serif;
+    text-align: left;
+    cursor: pointer;
+}
+
+.autocomplete-suggestion:last-child {
+    border-bottom: 0;
+}
+
+.autocomplete-suggestion:hover,
+.autocomplete-suggestion:focus {
+    background: #eef5ff;
+    color: #1557c0;
+    outline: none;
+}
+
 .assignment-modal .client-modal-footer {
     padding: 11px 14px 14px;
 }
@@ -4175,7 +4577,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #modal-nuevo-contacto .contact-pdf-controls {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 
 #modal-nuevo-contacto .contact-pdf-controls button {
@@ -4731,6 +5133,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         padding: 12px;
     }
 
+    .campaign-filter-autocomplete {
+        width: 100%;
+        flex: 1 1 auto;
+    }
+
     .search-wrapper-full,
     .caja-select-camp {
         width: 100%;
@@ -5061,8 +5468,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .contact-campaign-pdf-field .contact-pdf-controls { display: flex; justify-content: center; }
 .indicator-detail-modal { width: min(1100px, 94vw); max-height: 88vh; overflow: hidden; }
 .indicator-detail-modal .modal-body { overflow: auto; }
+.indicator-detail-section { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid #e5eaf2; }
+.indicator-detail-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: 0; }
+.indicator-detail-section-title { margin: 0 0 14px; color: #1557c0; font-size: 16px; font-weight: 800; letter-spacing: .1px; }
 .indicator-detail-meta { display: grid; gap: 6px; margin-bottom: 18px; color: #6b7890; }
-.indicator-detail-meta strong { color: #17243a; font-size: 17px; }
+.indicator-detail-meta strong { color: #17243a; font-size: 14px; font-weight: 700; }
 .indicator-detail-times { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 18px 0 24px; }
 .indicator-detail-times div { display: grid; gap: 5px; padding: 14px; border: 1px solid #dbe5f4; border-radius: 10px; background: #f7faff; text-align: center; }
 .indicator-detail-times strong { color: #1768e5; font-size: 18px; }

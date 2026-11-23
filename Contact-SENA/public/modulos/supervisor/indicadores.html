@@ -128,21 +128,19 @@
             </section>
 
             <section class="indicator-filters" aria-label="Filtros de indicadores">
-                <div class="indicator-filter"><label for="indicator-start">Fecha Inicio</label><input
-                        id="indicator-start" type="date" value="2026-05-30"></div>
-                <div class="indicator-filter"><label for="indicator-end">Fecha Fin</label><input id="indicator-end"
-                        type="date" value="2026-06-29"></div>
-                <div class="indicator-filter agent-filter"><label for="indicator-agent">Buscar por Agente</label><select
-                        id="indicator-agent">
-                        <option value="all">-- Todos los Agentes --</option>
-                        <option value="juan">Juan Porras (Aprendiz Contact)</option>
-                        <option value="maria">María Fernanda Ruiz</option>
-                    </select></div>
-                <div class="indicator-search"><label for="indicator-search-input">Buscar</label>
-                    <div><svg viewBox="0 0 24 24" aria-hidden="true">
-                            <path
-                                d="M9.5 3a6.5 6.5 0 0 1 5.23 10.36l4.45 4.45-1.42 1.42-4.45-4.45A6.5 6.5 0 1 1 9.5 3zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
-                        </svg><input id="indicator-search-input" type="search" placeholder="Buscar..."></div>
+                <div class="date-range-group">
+                    <div class="indicator-filter"><label for="indicator-start">Fecha Inicio</label><input
+                            id="indicator-start" type="date" value="2026-05-30"></div>
+                    <div class="indicator-filter"><label for="indicator-end">Fecha Fin</label><input id="indicator-end"
+                            type="date" value="2026-06-29"></div>
+                </div>
+                <div class="indicator-filter agent-filter autocomplete-field">
+                    <div class="search-wrapper-full"><svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                        </svg><input id="indicator-agent-search" type="search" placeholder="Buscar..."
+                            autocomplete="off" aria-controls="indicator-agent-suggestions" aria-expanded="false"></div>
+                    <input id="indicator-agent" type="hidden" value="all">
+                    <div id="indicator-agent-suggestions" class="autocomplete-suggestions" role="listbox" hidden></div>
                 </div>
             </section>
 
@@ -173,11 +171,22 @@
             <div class="modal-container indicator-detail-modal">
                 <div class="modal-header"><div class="modal-title-box"><h3>Detalle del agente</h3></div><button class="close-modal-btn" id="close-detalle-indicador">&times;</button></div>
                 <div class="modal-body">
-                    <div class="indicator-detail-meta" id="indicator-detail-meta"></div>
-                    <div class="indicator-detail-summary" id="indicator-detail-summary"></div>
-                    <div class="indicator-detail-times" id="indicator-detail-times"></div>
-                    <h4 class="indicator-detail-subtitle">Tipificaciones utilizadas</h4>
+                    <section class="indicator-detail-section">
+                        <h4 class="indicator-detail-section-title">Información del agente</h4>
+                        <div class="indicator-detail-meta" id="indicator-detail-meta"></div>
+                    </section>
+                    <section class="indicator-detail-section">
+                        <h4 class="indicator-detail-section-title">Resumen de gestiones</h4>
+                        <div class="indicator-detail-summary" id="indicator-detail-summary"></div>
+                    </section>
+                    <section class="indicator-detail-section">
+                        <h4 class="indicator-detail-section-title">Tiempos del turno</h4>
+                        <div class="indicator-detail-times" id="indicator-detail-times"></div>
+                    </section>
+                    <section class="indicator-detail-section">
+                        <h4 class="indicator-detail-section-title">Tipificaciones utilizadas</h4>
                     <div class="indicator-detail-table-wrap"><table><thead><tr><th>Tipificación</th><th>Efectivos</th><th>En proceso</th><th>Sin gestión</th></tr></thead><tbody id="indicator-detail-rows"></tbody></table></div>
+                    </section>
                 </div>
             </div>
         </div>

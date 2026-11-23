@@ -72,6 +72,10 @@ Las tipificaciones base de campaña son:
 
 Las asignaciones permiten seleccionar o informar el documento del agente y la
 campaña (nombre o código), según los controles disponibles en el módulo.
+En el modal de asignación se usa autocompletado, no cuatro controles separados:
+una caja busca agentes por documento o nombre y muestra sugerencias con el
+formato `documento - nombre`; otra caja busca campañas por código o nombre.
+La selección guarda los identificadores ocultos requeridos por la API.
 
 ### Estados y casos
 
@@ -137,6 +141,25 @@ En `tiempoSupervisor.html` existen dos pestañas separadas:
 La tabla de tiempos incluye fecha, agente, documento, inicio, cierre, tiempo
 total y tiempo de pausas. Deben conservarse los filtros de fechas y búsqueda
 libre, y no mezclar la consulta global con la consulta propia.
+El filtro de agente de indicadores y el filtro de **Tiempo de agentes** del
+supervisor deben ser cajas de autocompletado: buscar por documento o nombre
+mientras se escribe y mostrar sugerencias con el formato `documento - nombre`.
+El historial usa un buscador de texto normal. La vista **Mi tiempo** del
+supervisor y el tiempo propio del agente solo filtran por fecha.
+
+En **Asignación de Campañas**, la tabla usa un único buscador de texto sin
+sugerencias: filtra por documento o nombre del agente, y por nombre o código
+de campaña. En **Clientes**, existe un único buscador de texto que filtra por
+nombre del cliente/campaña cuando se escribe texto, y por IDs/códigos de base
+de datos cuando se escriben números; no debe buscar por documento personal,
+teléfono o correo. El botón `Nuevo Cliente` queda al final de la barra de
+filtros. En **Campañas**,
+el buscador con sugerencias por código o nombre y el botón `Nueva Campaña`
+están dentro de la misma barra blanca.
+
+En los buscadores de historial y asesores se aplica la misma regla: texto
+busca nombres y números buscan códigos o IDs internos de base de datos, no
+documentos personales ni otros datos no identificadores.
 
 ### Indicadores
 
@@ -188,8 +211,18 @@ todos los consumidores.
   10 MB, y se guardan en `public/uploads/campaigns`.
 - Los CSV de clientes usan el campo `file`, se procesan en memoria y tienen
   máximo 5 MB.
+- `database/datosPrueba20.sql` contiene 20 agentes, clientes, asignaciones y
+  registros de sesión adicionales para probar búsquedas y tablas sin borrar los
+  datos base. También genera 20 interacciones demo del día actual y 10 llamadas
+  adicionales para indicadores, con tipificaciones variadas y casos para los
+  estados `En proceso` y `Sin gestión`. Las fechas de estas gestiones usan
+  `CURDATE()`. Se ejecuta después de `database/contactSena.sql`.
 - Nunca guardar contraseñas, JWT secrets ni credenciales de MySQL en
   `AGENTS.md`, Git o archivos públicos.
+- La recuperación de contraseña en la pantalla de login es actualmente solo
+  una vista: solicita documento, muestra la etapa de código único y luego la
+  nueva contraseña, pero no envía correos, no valida códigos contra el backend
+  ni cambia la contraseña en la base de datos.
 
 ### Criterios para cambios futuros
 

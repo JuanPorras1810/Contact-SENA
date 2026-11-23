@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const cuerpoFilas = document.getElementById('indicator-rows');
     const agente = document.getElementById('indicator-agent');
-    const busqueda = document.getElementById('indicator-search-input');
+    const busqueda = document.getElementById('indicator-agent-search');
     const resultado = document.getElementById('indicator-results');
     if (!cuerpoFilas || !agente || !busqueda) return;
     const hoy = new Date();
@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const escapar = valor => String(valor ?? '').replace(/[&<>"']/g, caracter => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[caracter]));
     const indicatorStart = document.getElementById('indicator-start');
     const indicatorEnd = document.getElementById('indicator-end');
+    let agentesDisponibles = [];
     indicatorStart && (indicatorStart.value = fechaLocal(hoy));
     indicatorEnd && (indicatorEnd.value = fechaLocal(hoy));
 
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tiempos = document.getElementById('indicator-detail-times');
         const cuerpo = document.getElementById('indicator-detail-rows');
         if (!modal || !meta || !resumen || !tiempos || !cuerpo) return;
-        meta.innerHTML = `<span>Fecha: ${formatearFecha(row.date)}</span><strong>Documento: ${escapar(row.agentId)} · ${escapar(row.agent)}</strong>`;
+        meta.innerHTML = `<span>Fecha: ${formatearFecha(row.date)}</span><strong>${escapar(row.agentId)} · ${escapar(row.agent)}</strong>`;
         resumen.innerHTML = `<div><b>${row.effective}</b><small>Efectivos</small></div><div><b>${row.inProgress}</b><small>En proceso</small></div><div><b>${row.unmanaged}</b><small>Sin gestión</small></div><div><b>${row.calls}</b><small>Total llamadas</small></div>`;
         tiempos.innerHTML = `<div><strong>${formatearDuracion(row.adherenceSeconds)}</strong><small>Adherencia al turno</small></div><div><strong>${formatearDuracion(row.conversationSeconds / Math.max(1, row.contacts))}</strong><small>Tiempo de conexión</small></div><div><strong>${formatearDuracion(row.tmoSeconds)}</strong><small>TMO</small></div>`;
         cuerpo.innerHTML = (row.typifications || []).map(item => `<tr><td>${escapar(item.name)}</td><td>${item.effective || 0}</td><td>${item.inProgress || 0}</td><td>${item.unmanaged || 0}</td></tr>`).join('') || '<tr><td colspan="4">No hay tipificaciones para mostrar.</td></tr>';
@@ -53,8 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const filtrar = () => {
         let conteo = 0;
+        const texto = agente.value !== 'all' ? '' : busqueda.value.trim().toLowerCase();
         [...cuerpoFilas.querySelectorAll('tr')].forEach(fila => {
-            const visible = (agente.value === 'all' || fila.dataset.agent === agente.value) && (!busqueda.value.trim() || fila.dataset.search.includes(busqueda.value.trim().toLowerCase()));
+            const visible = (agente.value === 'all' || fila.dataset.agent === agente.value) && (!texto || fila.dataset.search.includes(texto));
             fila.hidden = !visible;
             if (visible) conteo++;
         });
@@ -77,12 +79,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const response = await fetch('/api/asesores');
         if (!response.ok) throw new Error('No se pudieron cargar los agentes');
         const payload = await response.json();
-        const agents = [...new Map((payload.data || []).map(item => [String(item.id), item])).values()];
-        agente.replaceChildren(new Option('-- Todos los Agentes --', 'all'), ...agents.map(item => new Option(item.name, item.id)));
+        agentesDisponibles = [...new Map((payload.data || []).map(item => [String(item.id), item])).values()];
     };
+    window.ContactSena?.autocomplete?.({
+        input: document.getElementById('indicator-agent-search'),
+        hidden: agente,
+        list: document.getElementById('indicator-agent-suggestions'),
+        items: () => agentesDisponibles,
+        text: item => `${item.id} - ${item.name}`,
+        value: item => item.id,
+        onSelect: item => { if (!item) agente.value = 'all'; filtrar(); }
+    });
     indicatorStart?.addEventListener('change', cargar);
     indicatorEnd?.addEventListener('change', cargar);
-    agente.addEventListener('change', filtrar);
     busqueda.addEventListener('input', filtrar);
     cargar();
     cargarAgentes().catch(console.error);

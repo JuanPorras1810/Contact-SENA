@@ -235,6 +235,41 @@
         normalizarCampos($$('input, select, textarea').filter(campo => !campo.form), 'page');
     };
 
+    const inicializarAutocompletado = ({ input, hidden, list, items, text, value, onSelect }) => {
+        if (!input || !hidden || !list) return;
+        const cerrar = () => { list.hidden = true; input.setAttribute('aria-expanded', 'false'); };
+        const mostrar = () => {
+            const seleccionado = input.dataset.selectedValue === hidden.value;
+            const termino = seleccionado ? '' : input.value.trim().toLowerCase();
+            const coincidencias = (items() || []).filter(item => text(item).toLowerCase().includes(termino));
+            list.replaceChildren();
+            coincidencias.forEach(item => {
+                const opcion = document.createElement('button');
+                opcion.type = 'button';
+                opcion.className = 'autocomplete-suggestion';
+                opcion.setAttribute('role', 'option');
+                opcion.textContent = text(item);
+                opcion.addEventListener('mousedown', event => event.preventDefault());
+                opcion.addEventListener('click', () => {
+                    hidden.value = value(item);
+                    input.value = text(item);
+                    input.dataset.selectedValue = hidden.value;
+                    onSelect?.(item);
+                    cerrar();
+                });
+                list.appendChild(opcion);
+            });
+            list.hidden = !coincidencias.length;
+            input.setAttribute('aria-expanded', String(Boolean(coincidencias.length)));
+        };
+        input.setAttribute('role', 'combobox');
+        input.setAttribute('aria-autocomplete', 'list');
+        input.addEventListener('focus', mostrar);
+        input.addEventListener('input', () => { hidden.value = ''; delete input.dataset.selectedValue; mostrar(); onSelect?.(null); });
+        input.addEventListener('keydown', event => { if (event.key === 'Escape') cerrar(); });
+        document.addEventListener('click', event => { if (!input.closest('.autocomplete-field')?.contains(event.target)) cerrar(); });
+    };
+
     const inicializarPausaSesion = () => {
         const popover = $('#user-popover-menu');
         const logout = popover?.querySelector('.logout');
@@ -279,6 +314,6 @@
         });
     };
 
-    window.ContactSena = { $, $$, closeVisibleModals: cerrarModalesVisibles, get user() { return usuarioEnMemoria; }, ready: sesionLista };
+    window.ContactSena = { $, $$, autocomplete: inicializarAutocompletado, closeVisibleModals: cerrarModalesVisibles, get user() { return usuarioEnMemoria; }, ready: sesionLista };
     document.addEventListener('DOMContentLoaded', () => { enforceModuleRole(); inicializarNavegacion(); inicializarControlesModal(); inicializarModalUsuario(); inicializarPausaSesion(); inicializarCamposFecha(); inicializarSelectoresFecha(); inicializarAccesibilidadFormularios(); actualizarPerfilAlmacenado(); });
 })();

@@ -127,7 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const evaluate = () => { if (!select) return; select.classList.toggle('select-dinamico-status', Boolean(select.value)); };
     select?.addEventListener('change', evaluate); evaluate();
     const ticketBox = document.getElementById('box-ticket-seguimiento');
-    const updateTicketBox = () => { if (!select || !ticketBox) return; const status = select.options[select.selectedIndex].text.toLowerCase().trim(); ticketBox.classList.toggle('d-none', status === 'efectivo' || !status); };
+     const updateTicketBox = () => {
+         if (!select || !ticketBox) return;
+         const status = select.options[select.selectedIndex]?.text.toLowerCase().trim();
+         const requiresCase = status === 'en proceso' || status === 'sin gestión';
+         ticketBox.classList.toggle('d-none', !requiresCase);
+     };
     select?.addEventListener('change', updateTicketBox); updateTicketBox();
     document.querySelectorAll('.col-estado').forEach(status => { const value = status.textContent.trim().toLowerCase(); status.classList.toggle('estado-pendiente', value === 'en proceso' || value === 'sin gestión'); status.classList.toggle('estado-resuelto', value === 'efectivo'); });
     document.getElementById('contact-form')?.addEventListener('submit', async event => {
@@ -141,8 +146,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const partesInicio = localParts(gestionIniciadaEn || contactEndedAt);
         const partesFin = localParts(contactEndedAt);
          const cuerpo = { assignmentId: clienteActual?.assignmentId, agentId: user?.id, typificationId: document.getElementById('contact-typification')?.value, statusId: document.getElementById('select-cierre-caso')?.value, reason: document.getElementById('contact-reason')?.value.trim(), observation: document.getElementById('contact-observation')?.value.trim(), caseComment: document.getElementById('contact-case-comment')?.value.trim(), date: partesInicio.date, startTime: partesInicio.time, endTime: partesFin.time, duration: elapsedTime(gestionIniciadaEn, contactEndedAt) };
-        const selectedStatus = select?.options[select.selectedIndex]?.text.toLowerCase().trim();
-         if (selectedStatus !== 'efectivo' && !cuerpo.caseComment) { alert('El comentario del caso es obligatorio para estados en proceso o sin gestión.'); return; }
+         const selectedStatus = select?.options[select.selectedIndex]?.text.toLowerCase().trim();
+         if (!['efectivo', 'en proceso', 'sin gestión'].includes(selectedStatus)) {
+             alert('Selecciona un resultado válido para la gestión.');
+             return;
+         }
+         if (['en proceso', 'sin gestión'].includes(selectedStatus) && !cuerpo.caseComment) {
+             alert('El comentario del caso es obligatorio para estados en proceso o sin gestión.');
+             return;
+         }
         try {
             const respuesta = await fetch('/api/interacciones', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) });
             const datosRespuesta = await respuesta.json();

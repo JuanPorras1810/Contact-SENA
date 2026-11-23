@@ -109,22 +109,19 @@
                 <button class="module-tab-btn" type="button" data-time-view="mine">Mi tiempo</button>
             </div>
             <section class="supervisor-filter-panel" aria-label="Filtros de asistencia">
-                <div class="supervisor-date-filter"><label for="time-start">Fecha Inicio</label><input id="time-start"
-                        type="date" value="2026-06-01"></div>
-                <div class="supervisor-date-filter"><label for="time-end">Fecha Fin</label><input id="time-end"
-                        type="date" value="2026-07-31"></div>
-                <div class="supervisor-agent-filter"><label for="time-agent">Buscar por Agente</label><select
-                        id="time-agent">
-                        <option value="all">-- Todos los Agentes --</option>
-                        <option value="juan">Juan Porras (Aprendiz Contact)</option>
-                        <option value="maria">María Fernanda Ruiz</option>
-                        <option value="andres">Andrés Felipe Torres</option>
-                    </select></div>
-                <div class="supervisor-text-search"><label for="time-search">Buscar</label>
-                    <div><svg viewBox="0 0 24 24">
-                            <path
-                                d="M9.5 3a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm5 9.59 4.45 4.45-1.42 1.42-4.45-4.45z" />
-                        </svg><input id="time-search" type="search" placeholder="Buscar..."></div>
+                <div class="date-range-group">
+                    <div class="supervisor-date-filter"><label for="time-start">Fecha Inicio</label><input id="time-start"
+                            type="date" value="2026-06-01"></div>
+                    <div class="supervisor-date-filter"><label for="time-end">Fecha Fin</label><input id="time-end"
+                            type="date" value="2026-07-31"></div>
+                </div>
+                <div class="supervisor-agent-filter autocomplete-field">
+                    <div class="search-wrapper-full"><svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                        </svg><input id="time-agent-search" type="search" placeholder="Buscar..." autocomplete="off"
+                            aria-controls="time-agent-suggestions" aria-expanded="false"></div>
+                    <input id="time-agent" type="hidden" value="all">
+                    <div id="time-agent-suggestions" class="autocomplete-suggestions" role="listbox" hidden></div>
                 </div>
             </section>
             <section class="table-container" aria-labelledby="time-table-title">

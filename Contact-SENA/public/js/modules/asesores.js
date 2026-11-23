@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalAsesor = document.getElementById('modal-nuevo-agente');
     const modalAsignacion = document.getElementById('modal-asignar-campana');
     const busquedas = document.querySelectorAll('.search-action-bar input');
-    const filtrosCampana = document.querySelectorAll('.select-camp-opciones');
     let asesores = [];
     let idEdicion = null;
     let idEdicionAsignacion = null;
@@ -16,6 +15,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const escaparHtml = valor => String(valor ?? '').replace(/[&<>"']/g, caracter => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[caracter]));
     const establecerOpciones = (selector, elementos, etiqueta = 'Seleccione...') => {
         if (selector) selector.replaceChildren(new Option(etiqueta, ''), ...(elementos || []).map(elemento => new Option(elemento.name, elemento.id)));
+    };
+    const configurarAutocompletado = ({ inputId, hiddenId, listId, obtenerTexto, obtenerValor, obtenerElementos }) => {
+        const input = document.getElementById(inputId);
+        const hidden = document.getElementById(hiddenId);
+        const lista = document.getElementById(listId);
+        if (!input || !hidden || !lista) return;
+        const cerrar = () => { lista.hidden = true; input.setAttribute('aria-expanded', 'false'); };
+        const mostrar = () => {
+            const textoSeleccionado = input.dataset.selectedValue === hidden.value;
+            const termino = textoSeleccionado ? '' : input.value.trim().toLowerCase();
+            const coincidencias = obtenerElementos().filter(elemento => obtenerTexto(elemento).toLowerCase().includes(termino));
+            lista.replaceChildren();
+            coincidencias.forEach(elemento => {
+                const opcion = document.createElement('button');
+                opcion.type = 'button';
+                opcion.className = 'autocomplete-suggestion';
+                opcion.setAttribute('role', 'option');
+                opcion.textContent = obtenerTexto(elemento);
+                opcion.addEventListener('mousedown', event => event.preventDefault());
+                opcion.addEventListener('click', () => {
+                    hidden.value = obtenerValor(elemento);
+                    input.value = obtenerTexto(elemento);
+                    input.dataset.selectedValue = hidden.value;
+                    cerrar();
+                });
+                lista.appendChild(opcion);
+            });
+            lista.hidden = !coincidencias.length;
+            input.setAttribute('aria-expanded', String(Boolean(coincidencias.length)));
+        };
+        input.addEventListener('focus', mostrar);
+        input.addEventListener('input', () => { hidden.value = ''; delete input.dataset.selectedValue; mostrar(); });
+        input.addEventListener('keydown', event => { if (event.key === 'Escape') cerrar(); });
+        document.addEventListener('click', event => { if (!input.closest('.autocomplete-field')?.contains(event.target)) cerrar(); });
     };
     const abrirModal = modal => { if (modal) { modal.hidden = false; document.body.classList.add('modal-open'); } };
     const cerrarModales = () => { if (modalAsesor) modalAsesor.hidden = true; if (modalAsignacion) modalAsignacion.hidden = true; document.body.classList.remove('modal-open'); };
@@ -38,18 +71,23 @@ document.addEventListener('DOMContentLoaded', () => {
         barrio.value = String(asesor.neighborhoodId || '');
     };
     const renderizar = () => {
-        const termino = (busquedas[0]?.value || '').toLowerCase().trim();
-        const terminoCampana = filtrosCampana[0]?.value || '';
+        const terminoDirectorio = (busquedas[0]?.value || '').toLowerCase().trim();
+        const terminoAsignaciones = (busquedas[1]?.value || '').toLowerCase().trim();
+        const coincide = (termino, ids, nombres) => {
+            if (!termino) return true;
+            const valores = /^\d+$/.test(termino) ? ids : nombres;
+            return valores.some(valor => /^\d+$/.test(termino) ? String(valor ?? '') === termino : String(valor ?? '').toLowerCase().includes(termino));
+        };
         const asesoresUnicos = [...new Map(asesores.map(asesor => [asesor.id, asesor])).values()];
         filasDirectorio?.replaceChildren();
         filasAsignaciones?.replaceChildren();
-        asesoresUnicos.filter(asesor => !termino || `${asesor.name} ${asesor.id} ${asesor.email}`.toLowerCase().includes(termino)).forEach(asesor => {
+        asesoresUnicos.filter(asesor => coincide(terminoDirectorio, [asesor.id], [asesor.name])).forEach(asesor => {
             const fila = document.createElement('tr');
             fila.innerHTML = `<td><strong>Cédula de Ciudadanía</strong></td><td>${escaparHtml(asesor.id)}</td><td>${escaparHtml(asesor.name)}</td><td>${escaparHtml(asesor.email)}</td><td>${escaparHtml(asesor.phone)}</td><td>${escaparHtml(asesor.address)}</td><td><button class="btn-edit-action" type="button" aria-label="Editar agente">✎</button></td>`;
             fila.querySelector('button')?.addEventListener('click', () => abrirEdicion(asesor));
             filasDirectorio?.appendChild(fila);
         });
-        asesores.filter(asesor => asesor.campaign && (!terminoCampana || String(asesor.campaignId) === terminoCampana)).sort((primero, segundo) => Number(primero.assignmentId) - Number(segundo.assignmentId)).forEach((asesor, indice) => {
+        asesores.filter(asesor => asesor.campaign && coincide(terminoAsignaciones, [asesor.assignmentId], [asesor.name, asesor.campaign])).sort((primero, segundo) => Number(primero.assignmentId) - Number(segundo.assignmentId)).forEach((asesor, indice) => {
             const fila = document.createElement('tr');
             fila.innerHTML = `<td>${escaparHtml(asesor.assignmentId || indice + 1)}</td><td>${escaparHtml(asesor.name)}</td><td>${escaparHtml(asesor.campaign)}</td><td><button class="btn-edit-action" type="button" aria-label="Editar asignación">✎</button></td>`;
             fila.querySelector('button')?.addEventListener('click', () => abrirEdicionAsignacion(asesor));
@@ -66,11 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const respuestaCampanas = await fetch('/api/campanas');
         const cargaCampanas = respuestaCampanas.ok ? await respuestaCampanas.json() : { data: [] };
         campanasDisponibles = cargaCampanas.data || [];
-        establecerOpciones(document.getElementById('asignacion-agente'), [...new Map(asesores.map(asesor => [asesor.id, asesor])).values()], 'Seleccione un agente...');
-        establecerOpciones(document.getElementById('asignacion-campana'), cargaCampanas.data, 'Seleccione una campaña...');
         const respuestaCatalogos = await fetch('/api/catalogos/operativos');
         if (respuestaCatalogos.ok) { const catalogos = await respuestaCatalogos.json(); establecerOpciones(document.getElementById('agente-tipo-documento'), catalogos.documentTypes); }
-        filtrosCampana.forEach(selector => establecerOpciones(selector, cargaCampanas.data, 'Todas las campañas'));
         renderizar();
     };
     const cargarGeografia = async () => {
@@ -101,15 +136,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#asignar-campana-form .assignment-save-button').textContent = '✓ Actualizar Asignación';
         document.getElementById('asignacion-agente').value = String(asignacion.id || '');
         document.getElementById('asignacion-campana').value = String(asignacion.campaignId || '');
-        document.getElementById('asignacion-agente-documento').value = String(asignacion.id || '');
-        document.getElementById('asignacion-campana-nombre').value = String(asignacion.campaign || '');
+        document.getElementById('asignacion-agente-busqueda').value = `${asignacion.id || ''} - ${asignacion.name || ''}`;
+        document.getElementById('asignacion-campana-busqueda').value = String(asignacion.campaign || '');
+        document.getElementById('asignacion-agente-busqueda').dataset.selectedValue = String(asignacion.id || '');
+        document.getElementById('asignacion-campana-busqueda').dataset.selectedValue = String(asignacion.campaignId || '');
         abrirModal(modalAsignacion);
     };
     document.getElementById('btn-nuevo-agente')?.addEventListener('click', () => { idEdicion = null; formularioAsesor?.reset(); const campoDocumento = document.getElementById('agente-documento'); if (campoDocumento) { campoDocumento.readOnly = false; campoDocumento.title = ''; } const campoContrasena = document.getElementById('agente-contrasena'); if (campoContrasena) { campoContrasena.required = true; campoContrasena.placeholder = 'Crea una contraseña de acceso'; document.querySelector('label[for="agente-contrasena"]').textContent = 'Contraseña de acceso *'; } document.getElementById('nuevo-agente-title').textContent = 'Registrar Nuevo Agente / Aprendiz'; document.querySelector('#nuevo-agente-form .advisor-save-button').textContent = '✓ Registrar Agente'; abrirModal(modalAsesor); });
-    document.getElementById('btn-asignar-campana')?.addEventListener('click', () => { idEdicionAsignacion = null; document.getElementById('asignar-campana-title').textContent = 'Nueva Asignación a Campaña'; document.querySelector('#asignar-campana-form .assignment-save-button').textContent = '✓ Registrar Asignación'; formularioAsignacion?.reset(); abrirModal(modalAsignacion); });
+    document.getElementById('btn-asignar-campana')?.addEventListener('click', () => { idEdicionAsignacion = null; document.getElementById('asignar-campana-title').textContent = 'Nueva Asignación a Campaña'; document.querySelector('#asignar-campana-form .assignment-save-button').textContent = '✓ Registrar Asignación'; formularioAsignacion?.reset(); document.getElementById('asignacion-agente').value = ''; document.getElementById('asignacion-campana').value = ''; abrirModal(modalAsignacion); });
     document.querySelectorAll('[data-close-advisor-modal]').forEach(boton => boton.addEventListener('click', cerrarModales));
     busquedas.forEach(entrada => entrada.addEventListener('input', renderizar));
-    filtrosCampana.forEach(entrada => entrada.addEventListener('change', renderizar));
     formularioAsesor?.addEventListener('submit', async evento => {
         evento.preventDefault();
         const cuerpo = { id: document.getElementById('agente-documento').value.trim(), documentTypeId: document.getElementById('agente-tipo-documento').value, neighborhoodId: document.getElementById('agente-barrio').value, name: document.getElementById('agente-nombre').value.trim(), email: document.getElementById('agente-correo').value.trim(), password: document.getElementById('agente-contrasena').value, phone: document.getElementById('agente-telefono').value.trim(), phoneAlt: document.getElementById('agente-telefono-alt').value.trim(), address: document.getElementById('agente-direccion').value.trim(), photo: document.getElementById('agente-avatar').value.trim() };
@@ -117,12 +153,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     formularioAsignacion?.addEventListener('submit', async evento => {
         evento.preventDefault();
-        const textoAgente = document.getElementById('asignacion-agente-documento').value.trim();
-        const textoCampana = document.getElementById('asignacion-campana-nombre').value.trim().toLowerCase();
-        const agenteSeleccionado = textoAgente ? asesores.find(item => String(item.id) === textoAgente)?.id : document.getElementById('asignacion-agente').value;
-        const campanaSeleccionada = textoCampana ? campanasDisponibles.find(item => String(item.id) === textoCampana || String(item.name).toLowerCase() === textoCampana || String(item.name).toLowerCase().includes(textoCampana))?.id : document.getElementById('asignacion-campana').value;
+        const agenteSeleccionado = document.getElementById('asignacion-agente').value;
+        const campanaSeleccionada = document.getElementById('asignacion-campana').value;
         if (!agenteSeleccionado || !campanaSeleccionada) { alert('Selecciona o escribe un agente válido y una campaña válida.'); return; }
         try { const ruta = idEdicionAsignacion ? `/api/panel/asignaciones/${idEdicionAsignacion}` : '/api/panel/asignaciones'; const respuesta = await fetch(ruta, { method: idEdicionAsignacion ? 'PATCH' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ agentId: agenteSeleccionado, campaignId: campanaSeleccionada }) }); const carga = await respuesta.json(); if (!respuesta.ok) throw new Error(carga.error || 'No se pudo guardar la asignación'); cerrarModales(); await cargar(); } catch (error) { alert(error.message); }
+    });
+    configurarAutocompletado({
+        inputId: 'asignacion-agente-busqueda',
+        hiddenId: 'asignacion-agente',
+        listId: 'asignacion-agente-sugerencias',
+        obtenerElementos: () => [...new Map(asesores.map(asesor => [asesor.id, asesor])).values()],
+        obtenerTexto: asesor => `${asesor.id} - ${asesor.name}`,
+        obtenerValor: asesor => asesor.id
+    });
+    configurarAutocompletado({
+        inputId: 'asignacion-campana-busqueda',
+        hiddenId: 'asignacion-campana',
+        listId: 'asignacion-campana-sugerencias',
+        obtenerElementos: () => campanasDisponibles,
+        obtenerTexto: campana => `${campana.id} - ${campana.name}`,
+        obtenerValor: campana => campana.id
     });
     cargarGeografia().catch(error => console.error(error));
     cargar().catch(error => console.error(error));

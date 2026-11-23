@@ -59,12 +59,38 @@
                 Iniciar Sesión
             </button>
         </form>
-        <div class="footer-text">
-           <span class="text-contact"> ¿Olvidaste la contraseña?</span>
-        </div>
+         <div class="footer-text">
+            <button type="button" class="forgot-password-link" id="open-recovery">¿Olvidaste la contraseña?</button>
+         </div>
+    </div>
+    <div class="recovery-overlay" id="recovery-modal" hidden>
+        <section class="recovery-card" role="dialog" aria-modal="true" aria-labelledby="recovery-title">
+            <button type="button" class="recovery-close" id="close-recovery" aria-label="Cerrar">×</button>
+            <div class="recovery-icon">?</div>
+            <h2 id="recovery-title">Recuperar contraseña</h2>
+            <p class="recovery-subtitle">Ingresa tu número de documento para solicitar un código de recuperación.</p>
+            <form id="recovery-document-form" class="recovery-step">
+                <label for="recovery-document">Número de documento</label>
+                <input id="recovery-document" type="text" inputmode="numeric" placeholder="Ej. 0003" required>
+                <button type="submit" class="btn-submit">Continuar</button>
+            </form>
+            <form id="recovery-code-form" class="recovery-step" hidden>
+                <p class="recovery-notice">Vista previa: se enviará un código único al correo registrado.</p>
+                <label for="recovery-code">Código único</label>
+                <input id="recovery-code" type="text" inputmode="numeric" maxlength="6" placeholder="Ingresa el código" required>
+                <button type="submit" class="btn-submit">Validar código</button>
+            </form>
+            <form id="recovery-password-form" class="recovery-step" hidden>
+                <label for="recovery-new-password">Nueva contraseña</label>
+                <input id="recovery-new-password" type="password" placeholder="Crea una nueva contraseña" required>
+                <label for="recovery-confirm-password">Confirmar contraseña</label>
+                <input id="recovery-confirm-password" type="password" placeholder="Repite la nueva contraseña" required>
+                <button type="submit" class="btn-submit">Guardar contraseña</button>
+            </form>
+            <p class="recovery-feedback" id="recovery-feedback" role="status"></p>
+        </section>
     </div>
 </body>
 </html>
-
 
 
