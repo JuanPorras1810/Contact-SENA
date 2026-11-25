@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>try {if (sessionStorage.getItem('contact-sena-sidebar-open') === 'true' && window.matchMedia('(max-width: 992px)').matches) document.documentElement.classList.add('sidebar-should-open');} catch { }</script>
+    <title>Contactos | Contact SENA</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../js/storage.js" defer></script>
+    <script src="../../js/app.js" defer></script>
+    <script src="../../js/validaciones.js" defer></script>
+    <script src="../../js/modules/contactos.js" defer></script>
+</head>
+
+<body id="body-container">
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <aside id="main-sidebar">
+        <div class="sidebar">
+            <div class="sidebar-icon">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12v7c0 1.1.9 2 2 2h3v-8H4v-1c0-4.41 3.59-8 8-8s8 3.59 8 8v1h-3v8h3c1.1 0 2-.9 2-2v-7c0-5.52-4.42-10-10-10z" />
+                </svg>
+            </div>
+            <div class="sidebar-text">
+                <h2>Contact SENA</h2>
+                <p>Panel Agente</p>
+            </div>
+        </div>
+
+        <div class="sidebar-nav">
+            <p class="sidebar-title">MÓDULOS OPERATIVOS</p>
+            <a href="contactos.html" class="sidebar-link active">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.01-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.34.03.74-.25 1.02l-2.2 2.2z" />
+                </svg>
+                Contactos
+            </a>
+            <a href="tiempoAgente.html" class="sidebar-link">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                </svg>
+                Mi Tiempo
+            </a>
+            <a href="historialAgente.html" class="sidebar-link">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" />
+                </svg>
+                Mi Historial
+            </a>
+        </div>
+
+
+        <div class="sidebar-user-container">
+            <div class="user-popover" id="user-popover-menu">
+                <div class="popover-item" id="item-actualizar-datos">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l-.38 2.65c-.03.24.17.42.42.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z" />
+                    </svg>
+                    <div class="text-box">
+                        <span>Actualizar Datos</span>
+                    </div>
+                </div>
+                <div class="popover-item logout">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
+                    </svg>
+                    <div class="text-box">
+                        <span>Cerrar Sesión</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-user" id="sidebar-user-trigger" role="button" tabindex="0" aria-expanded="false">
+                <div class="avatar-container">
+                    <img src="https://cdn-icons-png.flaticon.com/256/12225/12225881.png" class="user-avatar"
+                        alt="Avatar del usuario">
+                    <div class="status-dot"></div>
+                </div>
+                <div class="user-info">
+                    <p>USUARIO ACTUAL</p>
+                    <h4>(Nombre usuario)</h4>
+                </div>
+                <svg class="arrow-user-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m7.41 8.59 4.59 4.58 4.59-4.58L18 10l-6 6-6-6z" />
+                </svg>
+            </div>
+        </div>
+    </aside>
+
+
+    <main>
+        <header class="header-container">
+            <div class="text-box">
+                <div class="module-title">
+                    <h2>Módulo de Contactos</h2>
+                </div>
+                <p>Gestiona las interacciones con clientes, atención de llamadas y registro de tiempos</p>
+            </div>
+
+            <!-- Botón de Hamburguesa -->
+            <button class="menu-hamburger" id="btn-hamburger">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </button>
+        </header>
+
+        <div class="module-container">
+            <div class="contact-tabs-row">
+                <div class="module-tabs" role="tablist" aria-label="Gestión de contactos">
+                    <button class="module-tab-btn active" id="tab-contactos-asignados" type="button" role="tab" aria-selected="true">Contactos Asignados</button>
+                    <button class="module-tab-btn" id="tab-seguimiento-casos" type="button" role="tab" aria-selected="false">Seguimiento de casos</button>
+                </div>
+                <div class="contact-notifications">
+                    <button type="button" class="contact-notification-button" id="contact-notification-button" aria-label="Notificaciones de rellamadas" aria-expanded="false" aria-controls="contact-notification-list">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3a1.5 1.5 0 0 0-3 0v1.16A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg>
+                    </button>
+                    <span class="contact-notification-count" id="contact-notification-count" hidden></span>
+                    <div class="contact-notification-dropdown" id="contact-notification-list" hidden>
+                        <p class="contact-notification-title">Casos listos para rellamar</p>
+                        <div class="contact-notification-items"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="assigned-contact-panel">
+                <div class="search-action-bar assigned-contact-search-bar">
+                    <div class="client-search-control assigned-contact-search-control" id="assigned-contact-search-control">
+                        <label class="visually-hidden" for="assigned-contact-search-type">Buscar contactos por</label>
+                        <div class="client-search-capsule">
+                            <select id="assigned-contact-search-type" class="client-search-type" aria-label="Criterio de búsqueda">
+                                <option value="code">Código</option>
+                                <option value="client">Cliente</option>
+                                <option value="campaign">Campaña</option>
+                            </select>
+                            <span class="client-search-separator" aria-hidden="true"></span>
+                            <span class="client-search-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg></span>
+                            <input id="assigned-contact-search-input" class="client-search-input" type="text" placeholder="Buscar por código..." autocomplete="off" aria-label="Buscar contactos asignados" aria-controls="assigned-contact-search-suggestions" aria-expanded="false">
+                            <button id="assigned-contact-search-clear" class="client-search-clear" type="button" aria-label="Limpiar búsqueda" hidden>✕</button>
+                        </div>
+                        <div id="assigned-contact-search-suggestions" class="client-search-suggestions" role="listbox" hidden></div>
+                    </div>
+                    <button class="btn-primary" id="btn-nuevo-contacto" type="button">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Nuevo Contacto
+                    </button>
+                </div>
+                <div class="assigned-session-row" id="assigned-session-row">
+                    <div class="session-badge">
+                        <span class="dot"></span>
+                        <span id="assigned-session-date">Gestión de Hoy</span>
+                    </div>
+                </div>
+                <div class="table-container" id="assigned-table-container">
+                <table id="assigned-table">
+                    <thead>
+                        <tr>
+
+                            <th>Código</th>
+                            <th>Cliente</th>
+                            <th>Campaña</th>
+                            <th>Tipificación</th>
+                            <th>Observaciones</th>
+                            <th>Tiempo</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assigned-clients-rows"></tbody>
+                </table>
+                </div>
+            </div>
+            <section id="cases-panel" class="cases-panel d-none" aria-labelledby="cases-panel-title">
+                <header class="cases-panel-header">
+                    <h3 id="cases-panel-title">Casos en seguimiento</h3>
+                    <span id="cases-current-clock">Hora actual del sistema</span>
+                </header>
+                <div class="cases-search-row">
+                    <div class="client-search-control cases-search-control" id="cases-search-control">
+                        <label class="visually-hidden" for="cases-search-type">Buscar casos por</label>
+                        <div class="client-search-capsule">
+                            <select id="cases-search-type" class="client-search-type" aria-label="Criterio de búsqueda de casos">
+                                <option value="code">Código</option>
+                                <option value="client">Cliente</option>
+                                <option value="campaign">Campaña</option>
+                            </select>
+                            <span class="client-search-separator" aria-hidden="true"></span>
+                            <span class="client-search-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg></span>
+                            <input id="cases-search-input" class="client-search-input" type="text" placeholder="Buscar caso por código..." autocomplete="off" aria-label="Buscar casos" aria-controls="cases-search-suggestions" aria-expanded="false">
+                            <button id="cases-search-clear" class="client-search-clear" type="button" aria-label="Limpiar búsqueda" hidden>✕</button>
+                        </div>
+                        <div id="cases-search-suggestions" class="client-search-suggestions" role="listbox" hidden></div>
+                    </div>
+                </div>
+                <div id="case-rows" class="contact-case-grid"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- MODAL: NUEVO CONTACTO-->
+    <div class="modal-overlay" id="modalPrimerContacto">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title-box">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                    </svg>
+                    <h3>Registrar Gestión de Contacto</h3>
+                </div>
+                <button class="close-modal-btn" id="close-contacto-x" aria-label="Cerrar">✕</button>
+            </div>
+
+
+            <div class="modal-body">
+                <form class="operational-form" id="contact-form">
+                    <div class="client-info-card">
+                        <div class="client-card-heading"><span class="client-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20v-1.5a7 7 0 0 1 14 0V20z"></path></svg></span><div><span>FICHA DEL CLIENTE</span><strong>Información de contacto</strong></div></div>
+                        <div class="client-card-grid">
+                            <div class="info-field"><span class="label">ID de Cliente</span><span class="value" id="contact-client-id">Sin ID</span></div>
+                            <div class="info-field"><span class="label">Teléfono Principal</span><span class="value" id="contact-client-phone">-</span></div>
+                            <div class="info-field"><span class="label">Teléfono Secundario</span><span class="value" id="contact-client-phone-alt">No registrado</span></div>
+                            <div class="info-field"><span class="label">Nombre Completo</span><span class="value" id="contact-client-name">-</span></div>
+                            <div class="info-field"><span class="label">Correo Electrónico</span><span class="value" id="contact-client-email">No registrado</span></div>
+                            <div class="info-field"><span class="label">Ubicación</span><span class="value" id="contact-client-address">Sin ubicación registrada</span></div>
+                        </div>
+                        <div class="observation-highlight-box"><span class="label"><svg class="observation-warning-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 2.2 18a2 2 0 0 0 1.7 3h16.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path><path d="M12 9v5"></path><circle cx="12" cy="17.5" r=".8"></circle></svg>Observación del Cliente</span><div class="observation-highlight" id="contact-client-observation">Sin observaciones registradas.</div></div>
+                    </div>
+                    <div class="campaign-reason-card" id="contact-campaign-card" data-campaign="">
+                        <span class="campaign-reason-icon" aria-hidden="true">▣</span>
+                        <div class="campaign-reason-copy"><span>CAMPAÑA / MOTIVO DE CONTACTO</span><strong id="contact-campaign-name">-</strong></div>
+                        <button type="button" id="open-contact-campaign-pdf" class="btn-action" hidden>Abrir protocolo PDF</button>
+                    </div>
+                    <div class="call-simulator-controls">
+                        <div class="phone-line-grid" aria-label="Seleccionar línea para llamar">
+                            <button type="button" class="phone-line-card selected" data-phone-select="contact-phone-choice" data-phone-value="primary"><span><span class="phone-line-title">Línea principal</span><strong class="phone-line-number">-</strong></span><span class="phone-line-radio"><span></span></span></button>
+                            <button type="button" class="phone-line-card" data-phone-select="contact-phone-choice" data-phone-value="secondary"><span><span class="phone-line-title">Línea secundaria</span><strong class="phone-line-number">No registrado</strong></span><span class="phone-line-radio"><span></span></span></button>
+                            <select id="contact-phone-choice" class="phone-line-native-select" aria-hidden="true" tabindex="-1"><option value="primary">Principal: -</option><option value="secondary" disabled>Secundario: No registrado</option></select>
+                        </div>
+                        <div class="call-action-row">
+                            <button type="button" class="btn-primary" id="btn-hacer-llamada">☎ Hacer llamada</button>
+                            <span class="call-status-wrap"><span class="call-status-dot"></span><span id="call-simulator-status">Listo para marcar al -</span></span>
+                            <strong id="call-simulator-timer">00:00:00</strong>
+                        </div>
+                    </div>
+
+                    <div class="contact-time-grid">
+                        <div class="form-group"><label for="contact-start-date">Fecha de inicio</label><input
+                                id="contact-start-date" type="date" readonly></div>
+                        <div class="form-group"><label for="contact-start-time">Hora de inicio</label><input
+                                id="contact-start-time" type="time" step="1" readonly></div>
+                        <div class="form-group"><label for="contact-end-date">Fecha de cierre</label><input
+                                id="contact-end-date" type="date" readonly></div>
+                        <div class="form-group"><label for="contact-end-time">Hora de cierre</label><input
+                                id="contact-end-time" type="time" step="1" readonly></div>
+                    </div>
+
+
+
+                    <div class="operational-selectors-card">
+
+                        <div class="form-group">
+                            <label>Tipificación Operativa</label>
+                            <div class="select-wrapper">
+                                <select id="contact-typification" class="form-control" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <svg class="select-icon" viewBox="0 0 24 24">
+                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                                </svg>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Resultado de la gestión</label>
+                            <div class="select-wrapper">
+                                <select id="select-cierre-caso" class="form-control select-dinamico-status" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <svg class="select-icon" viewBox="0 0 24 24">
+                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="form-group full-width"><label for="contact-observation">Observaciones de la
+                            Gestión</label><textarea id="contact-observation" class="form-control" rows="4"
+                            placeholder="Escriba aquí el resumen detallado..." required></textarea>
+                    </div>
+                    <div id="box-ticket-seguimiento" class="ticket-followup-card d-none">
+                        <div class="ticket-card-header">
+
+                            <svg class="ticket-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <line x1="4" y1="2" x2="20" y2="2" />
+                                <line x1="4" y1="22" x2="20" y2="22" />
+                                <path d="M5 2C5 9, 10 12, 10 12C10 12, 5 15, 5 22" />
+                                <path d="M19 2C19 9, 14 12, 14 12C14 12, 19 15, 19 22" />
+                                <path d="M12 11L12 13" class="sand-stream" />
+                                <polygon points="7,21 17,21 12,18" class="sand-bottom" />
+                            </svg>
+                        <h5 class="ticket-title">Crear caso de seguimiento</h5>
+                        </div>
+                            <p class="ticket-subtitle">Este resultado creará un caso de seguimiento utilizando las observaciones de la gestión.</p>
+                        <div class="case-followup-schedule" id="case-followup-schedule" hidden>
+                            <div class="form-group"><label for="contact-followup-date">Fecha de rellamada</label><input id="contact-followup-date" type="date"></div>
+                            <div class="form-group"><label for="contact-followup-time">Hora de rellamada</label><input id="contact-followup-time" type="time"></div>
+                        </div>
+                    </div>
+                    <!-- Botones de guardar y cerrar -->
+                    <div class="operational-footer">
+                        <button type="button" class="btn-discard" id="btn-descartar-contacto">Descartar
+                            Contacto</button>
+                        <button type="submit" class="btn-save-final" id="btn-guardar-contacto">Guardar y Finalizar
+                            Contacto</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalSeguimientoCaso">
+        <div class="modal-container">
+            <div class="modal-header"><div class="modal-title-box"><h3>Seguimiento de Caso</h3></div><button class="close-modal-btn" id="close-seguimiento-x" aria-label="Cerrar">✕</button></div>
+            <div class="modal-body">
+                <form class="operational-form" id="followup-form">
+                    <div class="client-info-card">
+                        <div class="client-card-heading"><span class="client-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20v-1.5a7 7 0 0 1 14 0V20z"></path></svg></span><div><span>FICHA DEL CLIENTE</span><strong>Información de contacto</strong></div></div>
+                        <div class="client-card-grid">
+                            <div class="info-field"><span class="label">ID de Cliente</span><span class="value" id="followup-client-id">Sin ID</span></div>
+                            <div class="info-field"><span class="label">Teléfono Principal</span><span class="value" id="followup-client-phone">-</span></div>
+                            <div class="info-field"><span class="label">Teléfono Secundario</span><span class="value" id="followup-client-phone-alt">No registrado</span></div>
+                            <div class="info-field"><span class="label">Nombre Completo</span><span class="value" id="followup-client-name">-</span></div>
+                            <div class="info-field"><span class="label">Correo Electrónico</span><span class="value" id="followup-client-email">No registrado</span></div>
+                            <div class="info-field"><span class="label">Ubicación</span><span class="value" id="followup-client-address">Sin ubicación registrada</span></div>
+                            <div class="info-field"><span class="label">Caso activo</span><span class="value" id="followup-case-id">-</span></div>
+                            <div class="info-field"><span class="label">Alarma</span><span class="value" id="followup-alarm">-</span></div>
+                        </div>
+                        <div class="observation-highlight-box"><span class="label"><svg class="observation-warning-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 2.2 18a2 2 0 0 0 1.7 3h16.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path><path d="M12 9v5"></path><circle cx="12" cy="17.5" r=".8"></circle></svg>Observación del Cliente</span><div class="observation-highlight" id="followup-client-observation">Sin observaciones registradas.</div></div>
+                    </div>
+                    <div class="campaign-reason-card" id="followup-campaign-card" data-campaign="">
+                        <span class="campaign-reason-icon" aria-hidden="true">▣</span>
+                        <div class="campaign-reason-copy"><span>CAMPAÑA / MOTIVO DE CONTACTO</span><strong id="followup-campaign">-</strong></div>
+                        <button type="button" id="open-followup-campaign-pdf" class="btn-action" hidden>Abrir protocolo PDF</button>
+                    </div>
+                    <section class="followup-trace-section trace-modal-section" aria-labelledby="followup-trace-title">
+                        <h5 class="ticket-title" id="followup-trace-title">Trazabilidad del contacto</h5>
+                        <div id="followup-trace" class="followup-trace-list trace-modal-list" aria-live="polite">Cargando...</div>
+                    </section>
+                    <div class="call-simulator-controls">
+                        <div class="phone-line-grid" aria-label="Seleccionar línea para llamar">
+                            <button type="button" class="phone-line-card selected" data-phone-select="followup-phone-choice" data-phone-value="primary"><span><span class="phone-line-title">Línea principal</span><strong class="phone-line-number">-</strong></span><span class="phone-line-radio"><span></span></span></button>
+                            <button type="button" class="phone-line-card" data-phone-select="followup-phone-choice" data-phone-value="secondary"><span><span class="phone-line-title">Línea secundaria</span><strong class="phone-line-number">No registrado</strong></span><span class="phone-line-radio"><span></span></span></button>
+                            <select id="followup-phone-choice" class="phone-line-native-select" aria-hidden="true" tabindex="-1"><option value="primary">Principal: -</option><option value="secondary" disabled>Secundario: No registrado</option></select>
+                        </div>
+                        <div class="call-action-row">
+                            <button type="button" class="btn-primary" id="btn-hacer-llamada-seguimiento">☎ Hacer llamada</button><span class="call-status-wrap"><span class="call-status-dot"></span><span id="followup-call-status">Listo para marcar al -</span></span><strong id="followup-timer">00:00:00</strong>
+                        </div>
+                    </div>
+                    <div class="contact-time-grid followup-time-grid">
+                        <div class="form-group"><label>Fecha de inicio</label><input id="followup-start-date" type="date" readonly></div>
+                        <div class="form-group"><label>Hora de inicio</label><input id="followup-start-time" type="time" step="1" readonly></div>
+                        <div class="form-group"><label>Fecha de cierre</label><input id="followup-end-date" type="date" readonly></div>
+                        <div class="form-group"><label>Hora de cierre</label><input id="followup-end-time" type="time" step="1" readonly></div>
+                    </div>
+                    <div class="operational-selectors-card">
+                        <div class="form-group"><label>Tipificación Operativa</label><div class="select-wrapper"><select id="followup-typification" class="form-control" required><option value="">Seleccione...</option></select></div></div>
+                        <div class="form-group"><label>Resultado de la gestión</label><div class="select-wrapper"><select id="followup-status" class="form-control" required><option value="">Seleccione...</option></select></div></div>
+                    </div>
+                    <div class="form-group full-width"><label for="followup-observation">Observaciones de la Gestión</label><textarea id="followup-observation" class="form-control" rows="4" required></textarea></div>
+                    <section class="followup-schedule-card" id="followup-schedule" hidden aria-live="polite">
+                        <div class="followup-schedule-heading">
+                            <span class="followup-schedule-icon" aria-hidden="true">◷</span>
+                            <div><h5 id="followup-schedule-title">Programar próximo contacto</h5><p id="followup-schedule-description">Selecciona la fecha y la hora para volver a contactar.</p></div>
+                        </div>
+                        <div class="followup-schedule-fields">
+                            <div class="form-group"><label for="followup-date">Nueva fecha de rellamada</label><input id="followup-date" type="date"></div>
+                            <div class="form-group"><label for="followup-time">Nueva hora de rellamada</label><input id="followup-time" type="time"></div>
+                        </div>
+                    </section>
+                    <div class="operational-footer"><button type="button" class="btn-discard" id="btn-descartar-seguimiento">Cancelar</button><button type="submit" class="btn-save-final" id="btn-save-followup" disabled>Guardar seguimiento</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: ACTUALIZAR DATOS-->
+    <div class="modal-overlay" id="modal-actualizar-datos">
+        <div class="modal-container-dark">
+            <div class="modal-header-dark">
+                <div class="modal-title-box">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z" />
+                    </svg>
+                    <h3>Actualizar Datos de Agente</h3>
+                </div>
+                <button class="close-modal-btn" id="close-actualizar">&times;</button>
+            </div>
+
+            <div class="modal-body-dark">
+                <div class="avatar-preview-wrapper">
+                    <img src="https://cdn-icons-png.flaticon.com/256/12225/12225881.png" class="avatar-preview-circle">
+                    <p>Vista previa de tu foto de perfil</p>
+                </div>
+
+                <form class="dark-form">
+                    <div class="form-group full-width">
+                        <label>Foto de Perfil</label>
+                        <div class="input-icon-group">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                            </svg>
+                            <input type="text" class="form-control-dark" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nombre Completo</label>
+                        <div class="input-icon-group">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z" />
+                            </svg>
+                            <input type="text" class="form-control-dark" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Correo Electrónico</label>
+                        <div class="input-icon-group">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                            </svg>
+                            <input type="email" class="form-control-dark" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Departamento</label>
+                        <div class="input-icon-group">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                            <select class="form-control-dark">
+                                <option>Seleccione...</option>
+                            </select>
+                            <svg class="icon-right-arrow" viewBox="0 0 24 24">
+                                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Municipio</label>
+                        <div class="input-icon-group">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                            <select class="form-control-dark">
+                                <option>Seleccione...</option>
+                            </select>
+                            <svg class="icon-right-arrow" viewBox="0 0 24 24">
+                                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Barrio Residencial</label>
+                        <div class="input-icon-group">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                            <select class="form-control-dark">
+                                <option>Seleccione...</option>
+                            </select>
+                            <svg class="icon-right-arrow" viewBox="0 0 24 24">
+                                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dirección Residencial</label>
+                        <div class="input-icon-group">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                            </svg>
+                            <input type="text" class="form-control-dark" value="">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Teléfono Principal</label>
+                        <div class="input-icon-group">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.01-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.34.03.74-.25 1.02l-2.2 2.2z" />
+                            </svg>
+                            <input type="text" class="form-control-dark" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teléfono Alternativo (Opcional)</label>
+                        <div class="input-icon-group">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.01-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.34.03.74-.25 1.02l-2.2 2.2z" />
+                            </svg>
+                            <input type="text" class="form-control-dark" value="">
+                        </div>
+                    </div>
+
+                    <div class="dark-modal-footer">
+                        <button type="button" class="btn-cancel-dark" id="btn-cancelar-actualizar">Cancelar</button>
+                        <button type="submit" class="btn-save-dark">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z" />
+                            </svg>
+                            Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
